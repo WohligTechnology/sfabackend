@@ -1376,4 +1376,10 @@ $id=$this->input->get_post("id");
 $data["message"]=$this->medalwon_model->getsinglemedalwon($id);
 $this->load->view("json",$data);
 }
+ public function getbannersliders()
+ {
+ $data["message"]=$this->restapi_model->getbannersliders($id);
+ $this->load->view("json",$data);
+ 
+ }
 } ?>
