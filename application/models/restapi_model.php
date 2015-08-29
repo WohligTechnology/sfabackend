@@ -22,8 +22,16 @@ public function getbannersliders()
         {
             foreach($sports as $key=>$value)
             {
-                $insert=$this->db->query("");
+                $insert=$this->db->query("INSERT INTO `schoolregistrationsports`(`schoolregistration`, `registrationsports`) VALUES ('$id','$value')");
             }
+        }
+        if(!query)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
         }
     }
 }
