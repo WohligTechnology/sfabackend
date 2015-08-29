@@ -1402,5 +1402,60 @@ $this->load->view("json",$data);
 		$landline=$data['landline'];
 		$sports=$data['sports'];
         $data['message']=$this->restapi_model->registerschool($name,$address,$establishdate,$contactperson,$type,$email,$mobile,$landline,$sports);
+        $this->load->view("json",$data);
     }
+ 
+    public function getsponsors()
+    {
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`sponsor`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+            
+	$elements[1]=new stdClass();
+	$elements[1]->field="`sponsor`.`name`";
+	$elements[1]->sort="1";
+	$elements[1]->header="Name";
+	$elements[1]->alias="name";
+            
+	$elements[2]=new stdClass();
+	$elements[2]->field="`sponsor`.`description`";
+	$elements[2]->sort="1";
+	$elements[2]->header="description";
+	$elements[2]->alias="description";
+	$elements[3]=new stdClass();
+	$elements[3]->field="`sponsor`.`image`";
+	$elements[3]->sort="1";
+	$elements[3]->header="Image";
+	$elements[3]->alias="image";
+	$elements[4]=new stdClass();
+	$elements[4]->field="`sponsor`.`status`";
+	$elements[4]->sort="1";
+	$elements[4]->header="status";
+	$elements[4]->alias="status";
+	$elements[5]=new stdClass();
+	$elements[5]->field="`sponsor`.`order`";
+	$elements[5]->sort="1";
+	$elements[5]->header="order";
+	$elements[5]->alias="order";
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+			if($maxrow=="")
+		{
+			$maxrow=20;
+		}
+			if($orderby=="")
+		{
+			$orderby="id";
+			$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sponsor`");
+	$this->load->view("json",$data);
+    }
+ 
 } ?>
