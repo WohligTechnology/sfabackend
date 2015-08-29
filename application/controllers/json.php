@@ -1382,4 +1382,11 @@ $this->load->view("json",$data);
  $this->load->view("json",$data);
  
  }
+ 
+    public function getregistrationsports()
+    {
+        $data['message']=$this->restapi_model->getgetregistrationsports();
+        $this->load->view("json",$data);
+        
+    }
 } ?>

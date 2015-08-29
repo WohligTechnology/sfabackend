@@ -9,5 +9,9 @@ public function getbannersliders()
     return $query;
 }
 
+    public function getgetregistrationsports()
+    {
+        
+    }
 }
 ?>
