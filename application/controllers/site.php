@@ -583,30 +583,6 @@ public function createbannerslidessubmit()
 						{
 							$uploaddata = $this->upload->data();
 							$image=$uploaddata['file_name'];
-
-							$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
-							$config_r['maintain_ratio'] = TRUE;
-							$config_t['create_thumb'] = FALSE;///add this
-							$config_r['width']   = 800;
-							$config_r['height'] = 800;
-							$config_r['quality']    = 100;
-							//end of configs
-
-							$this->load->library('image_lib', $config_r); 
-							$this->image_lib->initialize($config_r);
-							if(!$this->image_lib->resize())
-							{
-								echo "Failed." . $this->image_lib->display_errors();
-								//return false;
-							}  
-							else
-							{
-								//print_r($this->image_lib->dest_image);
-								//dest_image
-								$image=$this->image_lib->dest_image;
-								//return false;
-							}
-
 						}
 					 //ICON
 						$config['upload_path'] = './uploads/';
@@ -618,30 +594,6 @@ public function createbannerslidessubmit()
 						{
 							$uploaddata = $this->upload->data();
 							$icon=$uploaddata['file_name'];
-
-							$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
-							$config_r['maintain_ratio'] = TRUE;
-							$config_t['create_thumb'] = FALSE;///add this
-							$config_r['width']   = 800;
-							$config_r['height'] = 800;
-							$config_r['quality']    = 100;
-							//end of configs
-
-							$this->load->library('image_lib', $config_r); 
-							$this->image_lib->initialize($config_r);
-							if(!$this->image_lib->resize())
-							{
-								echo "Failed." . $this->image_lib->display_errors();
-								//return false;
-							}  
-							else
-							{
-								//print_r($this->image_lib->dest_image);
-								//dest_image
-								$icon=$this->image_lib->dest_image;
-								//return false;
-							}
-
 						}
 
 
@@ -707,30 +659,6 @@ public function editbannerslidessubmit()
 						{
 							$uploaddata = $this->upload->data();
 							$image=$uploaddata['file_name'];
-
-							$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
-							$config_r['maintain_ratio'] = TRUE;
-							$config_t['create_thumb'] = FALSE;///add this
-							$config_r['width']   = 800;
-							$config_r['height'] = 800;
-							$config_r['quality']    = 100;
-							//end of configs
-
-							$this->load->library('image_lib', $config_r); 
-							$this->image_lib->initialize($config_r);
-							if(!$this->image_lib->resize())
-							{
-								echo "Failed." . $this->image_lib->display_errors();
-								//return false;
-							}  
-							else
-							{
-								//print_r($this->image_lib->dest_image);
-								//dest_image
-								$image=$this->image_lib->dest_image;
-								//return false;
-							}
-
 						}
 
 						if($image=="")
@@ -750,30 +678,6 @@ public function editbannerslidessubmit()
 						{
 							$uploaddata = $this->upload->data();
 							$icon=$uploaddata['file_name'];
-
-							$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
-							$config_r['maintain_ratio'] = TRUE;
-							$config_t['create_thumb'] = FALSE;///add this
-							$config_r['width']   = 800;
-							$config_r['height'] = 800;
-							$config_r['quality']    = 100;
-							//end of configs
-
-							$this->load->library('image_lib', $config_r); 
-							$this->image_lib->initialize($config_r);
-							if(!$this->image_lib->resize())
-							{
-								echo "Failed." . $this->image_lib->display_errors();
-								//return false;
-							}  
-							else
-							{
-								//print_r($this->image_lib->dest_image);
-								//dest_image
-								$icon=$this->image_lib->dest_image;
-								//return false;
-							}
-
 						}
 
 						if($icon=="")

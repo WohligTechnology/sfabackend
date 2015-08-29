@@ -1387,6 +1387,20 @@ $this->load->view("json",$data);
     {
         $data['message']=$this->restapi_model->getgetregistrationsports();
         $this->load->view("json",$data);
-        
+    }
+ 
+    public function registerschool()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+		$name=$data['name'];
+		$address=$data['address'];
+		$establishdate=$data['establishdate'];
+		$contactperson=$data['contactperson'];
+		$type=$data['type'];
+		$email=$data['email'];
+		$mobile=$data['mobile'];
+		$landline=$data['landline'];
+		$sports=$data['sports'];
+        $data['message']=$this->restapi_model->registerschool($name,$address,$establishdate,$contactperson,$type,$email,$mobile,$landline,$sports);
     }
 } ?>
