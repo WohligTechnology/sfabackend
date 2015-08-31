@@ -4368,6 +4368,591 @@ public function deletemedalwon()
 	$data["redirect"]="site/viewmedalwon";
 	$this->load->view("redirect",$data);
 }
+    
+    // registration sports
+    
+  public function viewregistrationsports()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="viewregistrationsports";
+	$data["base_url"]=site_url("site/viewregistrationsportsjson");
+	$data["title"]="View registrationsports";
+	$this->load->view("template",$data);
+}
+function viewregistrationsportsjson()
+{
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`registrationsports`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+	$elements[1]=new stdClass();
+	$elements[1]->field="`registrationsports`.`name`";
+	$elements[1]->sort="1";
+	$elements[1]->header="Name";
+	$elements[1]->alias="name";
+	
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+			if($maxrow=="")
+		{
+			$maxrow=20;
+		}
+			if($orderby=="")
+		{
+			$orderby="id";
+			$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `registrationsports`");
+	$this->load->view("json",$data);
+}
+
+public function createregistrationsports()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="createregistrationsports";
+	$data["title"]="Create registrationsports";
+	$this->load->view("template",$data);
+}
+public function createregistrationsportssubmit() 
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->form_validation->set_rules("name","Name","trim");
+			if($this->form_validation->run()==FALSE)
+		{
+			$data["alerterror"]=validation_errors();
+			$data["page"]="createregistrationsports";
+			$data["title"]="Create registrationsports";
+			$this->load->view("template",$data);
+		}
+			else
+		{
+			$name=$this->input->get_post("name");
+			if($this->registrationsports_model->create($name)==0)
+			$data["alerterror"]="New registrationsports could not be created.";
+			else
+			$data["alertsuccess"]="registrationsports created Successfully.";
+			$data["redirect"]="site/viewregistrationsports";
+			$this->load->view("redirect",$data);
+		}
+}
+public function editregistrationsports()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="editregistrationsports";
+	$data["title"]="Edit registrationsports";
+	$data["before"]=$this->registrationsports_model->beforeedit($this->input->get("id"));
+	$this->load->view("template",$data);
+}
+public function editregistrationsportssubmit()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->form_validation->set_rules("id","ID","trim");
+	$this->form_validation->set_rules("name","Name","trim");
+		if($this->form_validation->run()==FALSE)
+	{
+		$data["alerterror"]=validation_errors();
+		$data["page"]="editregistrationsports";
+		$data["title"]="Edit registrationsports";
+		$data["before"]=$this->registrationsports_model->beforeedit($this->input->get("id"));
+		$this->load->view("template",$data);
+	}
+		else
+	{
+		$id=$this->input->get_post("id");
+		$name=$this->input->get_post("name");
+		if($this->registrationsports_model->edit($id,$name)==0)
+		$data["alerterror"]="New registrationsports could not be Updated.";
+		else
+		$data["alertsuccess"]="registrationsports Updated Successfully.";
+		$data["redirect"]="site/viewregistrationsports";
+		$this->load->view("redirect",$data);
+	}
+}
+public function deleteregistrationsports()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->registrationsports_model->delete($this->input->get("id"));
+	$data["redirect"]="site/viewregistrationsports";
+	$this->load->view("redirect",$data);
+}   
+    
+    
+    // registration sports end
+    
+    //sponsor
+    
+    
+    public function viewsponsor()
+{
+        $access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="viewsponsor";
+	$data["base_url"]=site_url("site/viewsponsorjson");
+	$data["title"]="View sponsor";
+	$this->load->view("template",$data);
+}
+function viewsponsorjson()
+{
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`sponsor`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+    
+	$elements[1]=new stdClass();
+	$elements[1]->field="`sponsor`.`name`";
+	$elements[1]->sort="1";
+	$elements[1]->header="Name";
+	$elements[1]->alias="name";
+    
+	$elements[2]=new stdClass();
+	$elements[2]->field="`sponsor`.`order`";
+	$elements[2]->sort="1";
+	$elements[2]->header="Order";
+	$elements[2]->alias="order";
+    
+	$elements[3]=new stdClass();
+	$elements[3]->field="`sponsor`.`status`";
+	$elements[3]->sort="1";
+	$elements[3]->header="Status";
+	$elements[3]->alias="status";
+    
+	$elements[4]=new stdClass();
+	$elements[4]->field="`sponsor`.`image`";
+	$elements[4]->sort="1";
+	$elements[4]->header="Image";
+	$elements[4]->alias="image";
+	
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+			if($maxrow=="")
+		{
+			$maxrow=20;
+		}
+			if($orderby=="")
+		{
+			$orderby="id";
+			$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sponsor`");
+	$this->load->view("json",$data);
+}
+	public function createsponsor()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="createsponsor";
+	$data["status"]=$this->user_model->getstatusdropdown();
+	$data["title"]="Create sponsor";
+	$this->load->view("template",$data);
+}
+public function createsponsorsubmit() 
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$name=$this->input->get_post("name");
+	$description=$this->input->get_post("description");
+	$order=$this->input->get_post("order");
+	$status=$this->input->get_post("status");
+	//$image=$this->input->get_post("image");
+	$config['upload_path'] = './uploads/';
+				$config['allowed_types'] = 'gif|jpg|png|jpeg';
+				$this->load->library('upload', $config);
+				$filename="image";
+				$image="";
+				if (  $this->upload->do_upload($filename))
+				{
+					$uploaddata = $this->upload->data();
+					$image=$uploaddata['file_name'];
+
+					$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+					$config_r['maintain_ratio'] = TRUE;
+					$config_t['create_thumb'] = FALSE;///add this
+					$config_r['width']   = 800;
+					$config_r['height'] = 800;
+					$config_r['quality']    = 100;
+					//end of configs
+
+					$this->load->library('image_lib', $config_r); 
+					$this->image_lib->initialize($config_r);
+					if(!$this->image_lib->resize())
+					{
+						echo "Failed." . $this->image_lib->display_errors();
+						//return false;
+					}  
+					else
+					{
+						//print_r($this->image_lib->dest_image);
+						//dest_image
+						$image=$this->image_lib->dest_image;
+						//return false;
+					}
+
+				}
+            
+	if($this->sponsor_model->create($name,$description,$order,$status,$image)==0)
+	$data["alerterror"]="New sponsor could not be created.";
+	else
+	$data["alertsuccess"]="sponsor created Successfully.";
+	$data["redirect"]="site/viewsponsor";
+	$this->load->view("redirect",$data);
+
+}
+
+
+public function editsponsor()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="editsponsor";
+	$data["status"]=$this->user_model->getstatusdropdown();
+	$data["title"]="Edit sponsor";
+	$data["before"]=$this->sponsor_model->beforeedit($this->input->get("id"));
+	$this->load->view("template",$data);
+}
+public function editsponsorsubmit()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	
+	$id=$this->input->get_post("id");
+	$name=$this->input->get_post("name");
+	$description=$this->input->get_post("description");
+	$order=$this->input->get_post("order");
+	$status=$this->input->get_post("status");
+	//$image=$this->input->get_post("image");
+	$title=$this->input->get_post("title");
+		 $config['upload_path'] = './uploads/';
+				$config['allowed_types'] = 'gif|jpg|png|jpeg';
+				$this->load->library('upload', $config);
+				$filename="image";
+				$image="";
+				if (  $this->upload->do_upload($filename))
+				{
+					$uploaddata = $this->upload->data();
+					$image=$uploaddata['file_name'];
+
+					$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+					$config_r['maintain_ratio'] = TRUE;
+					$config_t['create_thumb'] = FALSE;///add this
+					$config_r['width']   = 800;
+					$config_r['height'] = 800;
+					$config_r['quality']    = 100;
+					//end of configs
+
+					$this->load->library('image_lib', $config_r); 
+					$this->image_lib->initialize($config_r);
+					if(!$this->image_lib->resize())
+					{
+						echo "Failed." . $this->image_lib->display_errors();
+						//return false;
+					}  
+					else
+					{
+						//print_r($this->image_lib->dest_image);
+						//dest_image
+						$image=$this->image_lib->dest_image;
+						//return false;
+					}
+
+				}
+
+				if($image=="")
+				{
+				$image=$this->sponsor_model->getimagebyid($id);
+				   // print_r($image);
+					$image=$image->image;
+				}
+
+	if($this->sponsor_model->edit($id,$name,$description,$order,$status,$image)==0)
+	$data["alerterror"]="New sponsor could not be Updated.";
+	else
+	$data["alertsuccess"]="sponsor Updated Successfully.";
+		$data["redirect"]="site/viewsponsor";
+	$this->load->view("redirect",$data);
+	
+}
+public function deletesponsor()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->sponsor_model->delete($this->input->get("id"));
+	$data["redirect"]="site/viewsponsor";
+	$this->load->view("redirect",$data);
+}
+    
+    // school registration sports starts
+    
+    
+    public function viewschoolregistrationsports()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="viewschoolregistrationsports";
+	$data["page2"]="block/registerblock";
+	$data["before1"]=$this->input->get('id');
+        $data['schoolregistration']=$this->schoolregistration_model->getschoolregisterdropdown();
+        $data['registrationsports']=$this->schoolregistration_model->getregistrationsportsdropdown();
+	$data["base_url"]=site_url("site/viewschoolregistrationsportsjson");
+	$data["title"]="View schoolregistrationsports";
+	$this->load->view("templatewith2",$data);
+}
+function viewschoolregistrationsportsjson()
+{
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`schoolregistrationsports`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+	$elements[1]=new stdClass();
+	$elements[1]->field="`schoolregistration`.`name`";
+	$elements[1]->sort="1";
+	$elements[1]->header="Schoolregistration";
+	$elements[1]->alias="schoolregistration";
+	$elements[2]=new stdClass();
+	$elements[2]->field="`registrationsports`.`name`";
+	$elements[2]->sort="1";
+	$elements[2]->header="Registration Sports";
+	$elements[2]->alias="registrationsports";	
+    
+    $elements[3]=new stdClass();
+	$elements[3]->field="`schoolregistrationsports`.`schoolregistration`";
+	$elements[3]->sort="1";
+	$elements[3]->header="registerid";
+	$elements[3]->alias="registerid";
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+			if($maxrow=="")
+		{
+			$maxrow=20;
+		}
+			if($orderby=="")
+		{
+			$orderby="id";
+			$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `schoolregistrationsports` LEFT OUTER JOIN `schoolregistration` ON `schoolregistration`.`id`=`schoolregistrationsports`.`schoolregistration` LEFT OUTER JOIN `registrationsports` ON `registrationsports`.`id`=`schoolregistrationsports`.`registrationsports`");
+	$this->load->view("json",$data);
+}
+
+public function createschoolregistrationsports()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+    $data["page2"]="block/registerblock";
+	$data["before1"]=$this->input->get('id');
+      $data['schoolregistration']=$this->schoolregistration_model->getschoolregisterdropdown();
+        $data['registrationsports']=$this->schoolregistration_model->getregistrationsportsdropdown();
+	$data["page"]="createschoolregistrationsports";
+	$data["title"]="Create schoolregistrationsports";
+	$this->load->view("templatewith2",$data);
+}
+public function createschoolregistrationsportssubmit() 
+{
+	$access=array("1");
+	$this->checkaccess($access);
+			$schoolregistration=$this->input->get_post("schoolregistration");
+			$registrationsports=$this->input->get_post("registrationsports");
+    if($this->schoolregistrationsports_model->create($schoolregistration,$registrationsports)==0)
+    $data["alerterror"]="New schoolregistrationsports could not be created.";
+    else
+    $data["alertsuccess"]="schoolregistrationsports created Successfully.";
+    $data["redirect"]="site/viewschoolregistrationsports?id=".$schoolregistration;
+    $this->load->view("redirect",$data);
+		
+}
+public function editschoolregistrationsports()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="editschoolregistrationsports";
+     $data["page2"]="block/registerblock";
+	$data["before1"]=$this->input->get('registerid');
+	$data["title"]="Edit schoolregistrationsports";
+  $data['schoolregistration']=$this->schoolregistration_model->getschoolregisterdropdown();
+        $data['registrationsports']=$this->schoolregistration_model->getregistrationsportsdropdown();
+	$data["before"]=$this->schoolregistrationsports_model->beforeedit($this->input->get("id"));
+	$this->load->view("templatewith2",$data);
+}
+public function editschoolregistrationsportssubmit()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+			$id=$this->input->get_post("id");
+			$schoolregistration=$this->input->get_post("schoolregistration");
+			$registrationsports=$this->input->get_post("registrationsports");
+			if($this->schoolregistrationsports_model->edit($id,$schoolregistration,$registrationsports)==0)
+			$data["alerterror"]="New schoolregistrationsports could not be Updated.";
+			else
+			$data["alertsuccess"]="schoolregistrationsports Updated Successfully.";
+			$data["redirect"]="site/viewschoolregistrationsports?id=".$schoolregistration;
+			$this->load->view("redirect2",$data);
+		
+}
+public function deleteschoolregistrationsports()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->schoolregistrationsports_model->delete($this->input->get("id"));
+	$data["redirect"]="site/viewschoolregistrationsports?id=".$this->input->get('registerid');
+	$this->load->view("redirect2",$data);
+}
+    
+    // SCHool registration form
+    
+    
+    public function viewschoolregistration()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="viewschoolregistration";
+	$data["base_url"]=site_url("site/viewschoolregistrationjson");
+	$data["title"]="View schoolregistration";
+	$this->load->view("template",$data);
+}
+function viewschoolregistrationjson()
+{
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`schoolregistration`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+	$elements[1]=new stdClass();
+	$elements[1]->field="`schoolregistration`.`name`";
+	$elements[1]->sort="1";
+	$elements[1]->header="name";
+	$elements[1]->alias="name";
+	$elements[2]=new stdClass();
+	$elements[2]->field="`schoolregistration`.`email`";
+	$elements[2]->sort="1";
+	$elements[2]->header="email";
+	$elements[2]->alias="email";
+	$elements[3]=new stdClass();
+	$elements[3]->field="`schoolregistration`.`mobile`";
+	$elements[3]->sort="1";
+	$elements[3]->header="mobile";
+	$elements[3]->alias="mobile";
+	$elements[4]=new stdClass();
+	$elements[4]->field="`schoolregistration`.`landline`";
+	$elements[4]->sort="1";
+	$elements[4]->header="landline";
+	$elements[4]->alias="landline";
+	$elements[5]=new stdClass();
+	$elements[5]->field="`schoolregistration`.`timestamp`";
+	$elements[5]->sort="1";
+	$elements[5]->header="Time stamp";
+	$elements[5]->alias="timestamp";
+
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+			if($maxrow=="")
+		{
+			$maxrow=20;
+		}
+			if($orderby=="")
+		{
+			$orderby="id";
+			$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `schoolregistration`");
+	$this->load->view("json",$data);
+}
+
+public function createschoolregistration()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+    $data["type"]=$this->schoolregistration_model->getschooltypedropdown();
+	$data["page"]="createschoolregistration";
+	$data["title"]="Create schoolregistration";
+	$this->load->view("template",$data);
+}
+public function createschoolregistrationsubmit() 
+{
+	$access=array("1");
+	$this->checkaccess($access);
+			$name=$this->input->get_post("name");
+			$address=$this->input->get_post("address");
+			$establishdate=$this->input->get_post("establishdate");
+			$contactperson=$this->input->get_post("contactperson");
+			$type=$this->input->get_post("type");
+			$email=$this->input->get_post("email");
+			$mobile=$this->input->get_post("mobile");
+			$landline=$this->input->get_post("landline");
+//			$timestamp=$this->input->get_post("timestamp");
+			if($this->schoolregistration_model->create($name,$address,$establishdate,$contactperson,$type,$email,$mobile,$landline)==0)
+			$data["alerterror"]="New schoolregistration could not be created.";
+			else
+			$data["alertsuccess"]="schoolregistration created Successfully.";
+			$data["redirect"]="site/viewschoolregistration";
+			$this->load->view("redirect",$data);
+		
+}
+public function editschoolregistration()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="editschoolregistration";
+	$data["page2"]="block/registerblock";
+	$data["title"]="Edit schoolregistration";
+	$data["type"]=$this->schoolregistration_model->getschooltypedropdown();
+	$data["before1"]=$this->input->get('id');
+	$data["before"]=$this->schoolregistration_model->beforeedit($this->input->get("id"));
+	$this->load->view("templatewith2",$data);
+}
+public function editschoolregistrationsubmit()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+			$id=$this->input->get_post("id");	
+            $name=$this->input->get_post("name");
+			$address=$this->input->get_post("address");
+			$establishdate=$this->input->get_post("establishdate");
+			$contactperson=$this->input->get_post("contactperson");
+			$type=$this->input->get_post("type");
+			$email=$this->input->get_post("email");
+			$mobile=$this->input->get_post("mobile");
+			$landline=$this->input->get_post("landline");
+			$timestamp=$this->input->get_post("timestamp");
+			if($this->schoolregistration_model->edit($id,$name,$address,$establishdate,$contactperson,$type,$email,$mobile,$landline,$timestamp)==0)
+			$data["alerterror"]="New schoolregistration could not be Updated.";
+			else
+			$data["alertsuccess"]="schoolregistration Updated Successfully.";
+			$data["redirect"]="site/viewschoolregistration";
+			$this->load->view("redirect",$data);
+		
+}
+public function deleteschoolregistration()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->schoolregistration_model->delete($this->input->get("id"));
+	$data["redirect"]="site/viewschoolregistration";
+	$this->load->view("redirect",$data);
+}
 
 }
 ?>

@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('user_model','menu_model','agegroups_model','articles_model','banner_model','bannerslides_model','match_model','matchplayed_model','medal_model','medalwon_model','media_model','mediaitem_model','modules_model','round_model','school_model','sports_model','sportscategory_model','sportsgalleryitem_model','student_model','team_model','teamstudents_model','year_model','restapi_model');
+$autoload['model'] = array('user_model','menu_model','agegroups_model','articles_model','banner_model','bannerslides_model','match_model','matchplayed_model','medal_model','medalwon_model','media_model','mediaitem_model','modules_model','round_model','school_model','sports_model','sportscategory_model','sportsgalleryitem_model','student_model','team_model','teamstudents_model','year_model','restapi_model','registrationsports_model','sponsor_model','schoolregistrationsports_model','schoolregistration_model');
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
