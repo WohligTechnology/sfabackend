@@ -49,22 +49,45 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-//$myserver=$_SERVER['SERVER_NAME'];
-//
-//if($myserver!="localhost")
-//{
-//$myconfig= file_get_contents("/home/mafiawarloots/config/demo.json");
-//}
-//else
-//{
-//$myconfig= file_get_contents("C:/xampp/htdocs/config/config.json");
-//}
-//$myconfig=json_decode($myconfig);
-//
-//$dbname	= $myconfig->database;
 
-//$myserver=$_SERVER['SERVER_NAME'];
+$myserver=$_SERVER['SERVER_NAME'];
 
+if($myserver!="localhost")
+{
+  $db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'wohligco_pooja';
+$db['default']['password'] = 'pooja';
+$db['default']['database'] = 'wohligco_sfa';
+$db['default']['dbdriver'] = 'mysql';
+$db['default']['dbprefix'] = '';
+$db['default']['pconnect'] = TRUE;
+$db['default']['db_debug'] = TRUE;
+$db['default']['cache_on'] = FALSE;
+$db['default']['cachedir'] = '';
+$db['default']['char_set'] = 'utf8';
+$db['default']['dbcollat'] = 'utf8_general_ci';
+$db['default']['swap_pre'] = '';
+$db['default']['autoinit'] = TRUE;
+$db['default']['stricton'] = FALSE;
+}
+else
+{
+   $db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
+$db['default']['database'] = 'sfa';
+$db['default']['dbdriver'] = 'mysql';
+$db['default']['dbprefix'] = '';
+$db['default']['pconnect'] = TRUE;
+$db['default']['db_debug'] = TRUE;
+$db['default']['cache_on'] = FALSE;
+$db['default']['cachedir'] = '';
+$db['default']['char_set'] = 'utf8';
+$db['default']['dbcollat'] = 'utf8_general_ci';
+$db['default']['swap_pre'] = '';
+$db['default']['autoinit'] = TRUE;
+$db['default']['stricton'] = FALSE;
+}
 
 //$db['default']['hostname'] = getconfig("hostname");
 //$db['default']['username'] = getconfig("username");
@@ -81,46 +104,6 @@ $active_record = TRUE;
 //$db['default']['swap_pre'] = '';
 //$db['default']['autoinit'] = TRUE;
 //$db['default']['stricton'] = FALSE;
-
-
-
-//$active_group = 'default';
-//$active_record = TRUE;
-//
-////
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'wohligco_pooja';
-$db['default']['password'] = 'pooja';
-$db['default']['database'] = 'wohligco_sfa';
-$db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
-//
-//
-//$db['default']['hostname'] = 'localhost';
-//$db['default']['username'] = 'root';
-//$db['default']['password'] = '';
-//$db['default']['database'] = 'sfa';
-//$db['default']['dbdriver'] = 'mysql';
-//$db['default']['dbprefix'] = '';
-//$db['default']['pconnect'] = TRUE;
-//$db['default']['db_debug'] = TRUE;
-//$db['default']['cache_on'] = FALSE;
-//$db['default']['cachedir'] = '';
-//$db['default']['char_set'] = 'utf8';
-//$db['default']['dbcollat'] = 'utf8_general_ci';
-//$db['default']['swap_pre'] = '';
-//$db['default']['autoinit'] = TRUE;
-//$db['default']['stricton'] = FALSE;
-
 
 
 
