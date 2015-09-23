@@ -1378,7 +1378,7 @@ $this->load->view("json",$data);
 }
  public function getbannersliders()
  {
- $data["message"]=$this->restapi_model->getbannersliders($id);
+ $data["message"]=$this->restapi_model->getbannersliders();
  $this->load->view("json",$data);
  
  }
@@ -1391,7 +1391,7 @@ $this->load->view("json",$data);
  
     public function registerschool()
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+ $data = json_decode(file_get_contents('php://input'), true);
 		$name=$data['name'];
 		$address=$data['address'];
 		$establishdate=$data['establishdate'];
@@ -1401,7 +1401,12 @@ $this->load->view("json",$data);
 		$mobile=$data['mobile'];
 		$landline=$data['landline'];
 		$sports=$data['sports'];
+                  if(empty($data)){
+		$data['message']=0;
+		}
+	    else{
         $data['message']=$this->restapi_model->registerschool($name,$address,$establishdate,$contactperson,$type,$email,$mobile,$landline,$sports);
+}
         $this->load->view("json",$data);
     }
  

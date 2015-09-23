@@ -573,6 +573,9 @@ public function createbannerslidessubmit()
 			//$icon=$this->input->get_post("icon");
 			$title=$this->input->get_post("title");
 			$link=$this->input->get_post("link");
+			$description=$this->input->get_post("description");
+			$startdate=$this->input->get_post("startdate");
+			$enddate=$this->input->get_post("enddate");
 				//IMAGE
 						$config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -598,7 +601,7 @@ public function createbannerslidessubmit()
 
 
 
-			if($this->bannerslides_model->create($banner,$order,$icon,$title,$link,$image)==0)
+			if($this->bannerslides_model->create($banner,$order,$icon,$title,$link,$image,$description,$startdate,$enddate)==0)
 			$data["alerterror"]="New bannerslides could not be created.";
 			else
 			$data["alertsuccess"]="bannerslides created Successfully.";
@@ -646,6 +649,9 @@ public function editbannerslidessubmit()
 			//$icon=$this->input->get_post("icon");
 			$title=$this->input->get_post("title");
 			$link=$this->input->get_post("link");
+            $description=$this->input->get_post("description");
+			$startdate=$this->input->get_post("startdate");
+			$enddate=$this->input->get_post("enddate");
 			//$image=$this->input->get_post("image");
 
 				//IMAGE
@@ -686,7 +692,7 @@ public function editbannerslidessubmit()
 						   // print_r($image);
 							$icon=$icon->icon;
 						}
-			if($this->bannerslides_model->edit($id,$banner,$order,$icon,$title,$link,$image)==0)
+			if($this->bannerslides_model->edit($id,$banner,$order,$icon,$title,$link,$image,$description,$startdate,$enddate)==0)
 			$data["alerterror"]="New bannerslides could not be Updated.";
 			else
 			$data["alertsuccess"]="bannerslides Updated Successfully.";

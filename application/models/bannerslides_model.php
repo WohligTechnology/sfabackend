@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class bannerslides_model extends CI_Model
 {
-public function create($banner,$order,$icon,$title,$link,$image)
+public function create($banner,$order,$icon,$title,$link,$image,$description,$startdate,$enddate)
 {
-$data=array("banner" => $banner,"order" => $order,"icon" => $icon,"title" => $title,"link" => $link,"image" => $image);
+$data=array("banner" => $banner,"order" => $order,"icon" => $icon,"title" => $title,"link" => $link,"image" => $image,"description" => $description,"startdate" => $startdate,"enddate" => $enddate);
 $query=$this->db->insert( "sfa_bannerslides", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,9 +24,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_bannerslides")->row();
 return $query;
 }
-public function edit($id,$banner,$order,$icon,$title,$link,$image)
+public function edit($id,$banner,$order,$icon,$title,$link,$image,$description,$startdate,$enddate)
 {
-$data=array("banner" => $banner,"order" => $order,"icon" => $icon,"title" => $title,"link" => $link,"image" => $image);
+$data=array("banner" => $banner,"order" => $order,"icon" => $icon,"title" => $title,"link" => $link,"image" => $image,"description" => $description,"startdate" => $startdate,"enddate" => $enddate);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_bannerslides", $data );
 return 1;

@@ -55,6 +55,24 @@
 					?>
 				</div>
 			</div>
+           <div class=" form-group">
+				<label class="col-sm-2 control-label" for="normal-field">Description</label>
+				<div class="col-sm-8">
+					<textarea name="description" id="" cols="20" rows="10" class="form-control tinymce"><?php echo set_value( 'description',$before->description);?></textarea></div>
+			</div>
+			   <div class="form-group">
+                            <label class="col-sm-2 control-label" for="normal-field">Startdate</label>
+                            <div class="col-sm-4">
+                                <input type="date" id="normal-field" class="form-control" name="startdate" value='<?php echo set_value(' startdate',$before->startdate);?>'>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label" for="normal-field">Enddate</label>
+                            <div class="col-sm-4">
+                                <input type="date" id="normal-field" class="form-control" name="enddate" value='<?php echo set_value(' enddate',$before->enddate);?>'>
+                            </div>
+                        </div>
+                     
 			<div class="form-group">
 				<label class="col-sm-2 control-label" for="normal-field">&nbsp;</label>
 				<div class="col-sm-4">
