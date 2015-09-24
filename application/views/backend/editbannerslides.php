@@ -63,10 +63,10 @@
 			   <div class="form-group">
                             <label class="col-sm-2 control-label" for="normal-field">Startdate</label>
                             <div class="col-sm-4">
-                                <input type="date" id="normal-field" class="form-control" name="startdate" value='<?php echo set_value(' startdate',$before->startdate);?>'>
+                                <input type="text" id="normal-field" class="form-control" name="startdate" value='<?php echo set_value(' startdate',$before->startdate);?>'>
                             </div>
                         </div>
-                         <div class="form-group">
+                         <div class="form-group" style="display:none">
                             <label class="col-sm-2 control-label" for="normal-field">Enddate</label>
                             <div class="col-sm-4">
                                 <input type="date" id="normal-field" class="form-control" name="enddate" value='<?php echo set_value(' enddate',$before->enddate);?>'>
