@@ -34,5 +34,13 @@ public function getbannersliders()
             return 1;
         }
     }
+    public function getnewsletter($email){
+     $query=$this->db->query("INSERT INTO `newsletter`(`email`) VALUES ('$email')");
+        $id=$this->db->insert_id();
+        if($id)
+        return 1;
+        else
+        return 0;    
+    }
 }
 ?>

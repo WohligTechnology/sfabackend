@@ -1463,4 +1463,10 @@ $this->load->view("json",$data);
 	$this->load->view("json",$data);
     }
  
+ public function getnewsletter(){
+ $email=$this->input->get_post("email");
+$data["message"]=$this->restapi_model->getnewsletter($email);
+$this->load->view("json",$data);
+ }
+ 
 } ?>
