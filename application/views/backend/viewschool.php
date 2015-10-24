@@ -42,7 +42,7 @@ function drawtable(resultrow) {
                 {
                 image="No Receipt Available";
                 }
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.email + "</td><td>" + resultrow.contact + "</td><td>" + image + "</td><td>" + resultrow.location + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editschool?id=');?>"+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteschool?id='); ?>"+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.email + "</td><td>" + resultrow.contact + "</td><td>" + image + "</td><td>" + resultrow.location + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editschool?id=');?>"+resultrow.schoolid+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteschool?id='); ?>"+resultrow.schoolid+"'><i class='icon-trash '></i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

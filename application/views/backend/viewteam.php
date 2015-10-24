@@ -33,7 +33,7 @@ team Details
 <script>
 function drawtable(resultrow) {
 	var studentid ="<?php echo $this->input->get('id'); ?>";
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.title + "</td><td>" + resultrow.sportscategory + "</td><td>" + resultrow.agegroup + "</td><td>" + resultrow.year + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editteam?id=');?>"+resultrow.id+ "&studentid="+resultrow.studentid+"&schoolid="+resultrow.schoolid+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteteam?id='); ?>"+resultrow.id+ "&studentid="+resultrow.studentid+"&schoolid="+resultrow.schoolid+"'><i class='icon-trash '></i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.title + "</td><td>" + resultrow.sportscategory + "</td><td>" + resultrow.agegroup + "</td><td>" + resultrow.year + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editteam?id=');?>"+resultrow.teamid+ "&studentid="+resultrow.studentid+"&schoolid="+resultrow.schoolid+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteteam?id='); ?>"+resultrow.teamid+ "&studentid="+resultrow.studentid+"&schoolid="+resultrow.schoolid+"'><i class='icon-trash '></i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

@@ -2603,7 +2603,7 @@ function viewschooljson()
 {
 	$elements=array();
 	$elements[0]=new stdClass();
-	$elements[0]->field="`sfa_school`.`id`";
+	$elements[0]->field="CONCAT('SFASC',LPAD(`sfa_school`.`id`,6,0))";
 	$elements[0]->sort="1";
 	$elements[0]->header="ID";
 	$elements[0]->alias="id";
@@ -2642,6 +2642,11 @@ function viewschooljson()
 	$elements[7]->sort="1";
 	$elements[7]->header="Biography";
 	$elements[7]->alias="biography";
+	$elements[8]=new stdClass();
+	$elements[8]->field="`sfa_school`.`id`";
+	$elements[8]->sort="1";
+	$elements[8]->header="schoolid";
+	$elements[8]->alias="schoolid";
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -2855,7 +2860,7 @@ function viewstudentjson()
 	$id=$this->input->get('id');
 	$elements=array();
 	$elements[0]=new stdClass();
-	$elements[0]->field="`sfa_student`.`id`";
+	$elements[0]->field="CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0))";
 	$elements[0]->sort="1";
 	$elements[0]->header="ID";
 	$elements[0]->alias="id";
@@ -2899,6 +2904,11 @@ function viewstudentjson()
 	$elements[8]->sort="1";
 	$elements[8]->header="Schoolid";
 	$elements[8]->alias="schoolid";
+	$elements[9]=new stdClass();
+	$elements[9]->field="`sfa_student`.`id`";
+	$elements[9]->sort="1";
+	$elements[9]->header="studentid";
+	$elements[9]->alias="studentid";
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -3120,7 +3130,7 @@ function viewteamjson()
 	$id=$this->input->get('id');;
 	$elements=array();
 	$elements[0]=new stdClass();
-	$elements[0]->field="`sfa_team`.`id`";
+	$elements[0]->field="CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0))";
 	$elements[0]->sort="1";
 	$elements[0]->header="ID";
 	$elements[0]->alias="id";
@@ -3154,6 +3164,11 @@ function viewteamjson()
 	$elements[6]->sort="1";
 	$elements[6]->header="Schoolid";
 	$elements[6]->alias="schoolid";
+	$elements[7]=new stdClass();
+	$elements[7]->field="`sfa_team`.`id`";
+	$elements[7]->sort="1";
+	$elements[7]->header="teamid";
+	$elements[7]->alias="teamid";
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -3178,10 +3193,15 @@ public function createteam()
 	$this->checkaccess($access);
 	$data["page"]="createteam";
 	$data["title"]="Create team";
+	$data["page2"]="block/teamblock";
+	$data["before3"]=$this->input->get('id');
+	$data["before1"]=$this->input->get('id');
+	$data["before2"]=$this->input->get('schoolid');
+	$data["before4"]=$this->input->get('schoolid');
 	$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
 	$data["year"]=$this->year_model->getyeardropdown();
 	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
-	$this->load->view("template",$data);
+	$this->load->view("templatewith2",$data);
 }
 public function createteamsubmit() 
 {
@@ -3221,12 +3241,17 @@ public function editteam()
 	$access=array("1");
 	$this->checkaccess($access);
 	$data["page"]="editteam";
+	$data["page2"]="block/teamblock";
+	$data["before3"]=$this->input->get('id');
+	$data["before1"]=$this->input->get('studentid');
+	$data["before2"]=$this->input->get('schoolid');
+	$data["before4"]=$this->input->get('schoolid');
 	$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
 	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 	$data["year"]=$this->year_model->getyeardropdown();
 	$data["title"]="Edit team";
 	$data["before"]=$this->team_model->beforeedit($this->input->get("id"));
-	$this->load->view("template",$data);
+	$this->load->view("templatewith2",$data);
 }
 public function editteamsubmit()
 {
@@ -3255,11 +3280,12 @@ public function editteamsubmit()
 		$year=$this->input->get_post("year");
 		$title=$this->input->get_post("title");
 		$studentid=$this->input->get_post("studentid");
+		$schoolid=$this->input->get_post("schoolid");
 		if($this->team_model->edit($id,$sportscategory,$agegroup,$year,$title)==0)
 		$data["alerterror"]="New team could not be Updated.";
 		else
 		$data["alertsuccess"]="team Updated Successfully.";
-		$data["redirect"]="site/viewteam?id=".$studentid;
+		$data["redirect"]="site/viewteam?id=".$studentid."&schoolid=".$schoolid;
 		$this->load->view("redirect2",$data);
 		}
 }

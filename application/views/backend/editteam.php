@@ -12,6 +12,12 @@ Team Details
 <input type="text" id="normal-field" class="form-control" name="title" value='<?php echo set_value('title',$before->title);?>'>
 </div>
 </div>
+<div class="form-group" style="display:none">
+<label class="col-sm-2 control-label" for="normal-field">schoolid</label>
+<div class="col-sm-4">
+<input type="text" id="normal-field" class="form-control" name="schoolid" value='<?php echo set_value('schoolid',$this->input->get('schoolid'));?>'>
+</div>
+</div>
 <div class=" form-group">
 <label class="col-sm-2 control-label" for="normal-field">Sports Category</label>
 <div class="col-sm-4">
