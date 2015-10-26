@@ -14,6 +14,11 @@ public function getbannersliders()
         $query=$this->db->query("SELECT * FROM `registrationsports`")->result();
         return $query;
     }
+    public function getschoolnames()
+    {
+        $query=$this->db->query("SELECT * FROM `sfa_school`")->result();
+        return $query;
+    }
     public function registerschool($name,$address,$establishdate,$contactperson,$type,$email,$mobile,$landline,$sports)
     {
         $query=$this->db->query("INSERT INTO `schoolregistration`(`name`, `address`, `establishdate`, `contactperson`, `type`, `email`, `mobile`, `landline`, `timestamp`) VALUES ('$name','$address','$establishdate','$contactperson','$type','$email','$mobile','$landline',NULL)");

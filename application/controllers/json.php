@@ -1468,5 +1468,9 @@ $this->load->view("json",$data);
 $data["message"]=$this->restapi_model->getnewsletter($email);
 $this->load->view("json",$data);
  }
+ public function getschoolnames(){
+$data["message"]=$this->restapi_model->getschoolnames();
+$this->load->view("json",$data);
+ }
  
 } ?>
