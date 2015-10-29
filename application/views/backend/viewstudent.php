@@ -1,6 +1,9 @@
 <div class="row" style="padding:1% 0">
 <div class="col-md-12">
 <a class="btn btn-primary pull-right"  href="<?php echo site_url("site/createstudent?id=").$this->input->get('id'); ?>"><i class="icon-plus"></i>Create </a> &nbsp; 
+<div class="col-md-2">
+		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadstudentcsv'); ?>"><i class="icon-trash"></i>Upload CSV</a> &nbsp; 
+	</div>
 </div>
 </div>
 <div class="row">

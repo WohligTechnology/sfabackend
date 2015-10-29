@@ -48,5 +48,37 @@ public function getteamdropdown()
 		
 		return $team;
 	}
+    
+     public function createbycsv($file)
+	{
+        foreach ($file as $row)
+        {
+            $sportscategory=$row['sportscategory'];
+            $agegroup=$row['agegroup'];
+            $year=$row['year'];
+            $title=$row['title'];
+            
+            $query1=$this->db->query("SELECT `id` FROM `sfa_sportscategory` WHERE `title` LIKE '$sportscategory'")->row();
+            $sportscategoryid=$query1->id;
+            
+            $query2=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
+            $agegroupid=$query2->id;
+            
+            $query3=$this->db->query("SELECT `id` FROM `sfa_year` WHERE `name` LIKE '$year'")->row();
+            $yearid=$query3->id;
+            
+		$data  = array(
+			'sportscategory' => $sportscategoryid,
+			'agegroup' => $agegroupid,
+			'year' => $yearid,
+			'title' => $title
+		);
+		$query=$this->db->insert( 'sfa_team', $data );
+		$id=$this->db->insert_id();
+         
+            
+        }
+			return  1;
+	}
 }
 ?>

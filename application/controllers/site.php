@@ -4985,6 +4985,173 @@ public function deleteschoolregistration()
 	$data["redirect"]="site/viewschoolregistration";
 	$this->load->view("redirect",$data);
 }
+    
+    
+    //CSV FOR SCHOOL
+    
+     function uploadschoolcsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data[ 'page' ] = 'uploadschoolcsv';
+		$data[ 'title' ] = 'Upload school';
+		$this->load->view( 'template', $data );
+	} 
+    
+    function uploadschoolcsvsubmit()
+	{
+        $access = array("1");
+		$this->checkaccess($access);
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = '*';
+        $this->load->library('upload', $config);
+        $filename="file";
+        $file="";
+        if (  $this->upload->do_upload($filename))
+        {
+            $uploaddata = $this->upload->data();
+            $file=$uploaddata['file_name'];
+            $filepath=$uploaddata['file_path'];
+        }
+        $fullfilepath=$filepath."".$file;
+        $file = $this->csvreader->parse_file($fullfilepath);
+        $id1=$this->school_model->createbycsv($file);
+//        echo $id1;
+        
+        if($id1==0)
+        $data['alerterror']="New school could not be Uploaded.";
+		else
+		$data['alertsuccess']="school Uploaded Successfully.";
+        
+        $data['redirect']="site/viewschool";
+        $this->load->view("redirect",$data);
+    }
+    
+    //CSV FOR STUDENT
+    
+     function uploadstudentcsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data[ 'page' ] = 'uploadstudentcsv';
+		$data[ 'title' ] = 'Upload student';
+		$this->load->view( 'template', $data );
+	} 
+    
+    function uploadstudentcsvsubmit()
+	{
+        $access = array("1");
+		$this->checkaccess($access);
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = '*';
+        $this->load->library('upload', $config);
+        $filename="file";
+        $file="";
+        if (  $this->upload->do_upload($filename))
+        {
+            $uploaddata = $this->upload->data();
+            $file=$uploaddata['file_name'];
+            $filepath=$uploaddata['file_path'];
+        }
+        $fullfilepath=$filepath."".$file;
+        $file = $this->csvreader->parse_file($fullfilepath);
+        $id1=$this->student_model->createbycsv($file);
+//        echo $id1;
+        
+        if($id1==0)
+        $data['alerterror']="New student could not be Uploaded.";
+		else
+		$data['alertsuccess']="student Uploaded Successfully.";
+        
+        $data['redirect']="site/viewschool";
+        $this->load->view("redirect",$data);
+    }
+    
+    //CSV FOR TEAM
+    
+     function uploadteamcsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data[ 'page' ] = 'uploadteamcsv';
+		$data[ 'title' ] = 'Upload team';
+		$this->load->view( 'template', $data );
+	} 
+    
+    function uploadteamcsvsubmit()
+	{
+        $access = array("1");
+		$this->checkaccess($access);
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = '*';
+        $this->load->library('upload', $config);
+        $filename="file";
+        $file="";
+        if (  $this->upload->do_upload($filename))
+        {
+            $uploaddata = $this->upload->data();
+            $file=$uploaddata['file_name'];
+            $filepath=$uploaddata['file_path'];
+        }
+        $fullfilepath=$filepath."".$file;
+        $file = $this->csvreader->parse_file($fullfilepath);
+        $id1=$this->team_model->createbycsv($file);
+//        echo $id1;
+        
+        if($id1==0)
+        $data['alerterror']="New team could not be Uploaded.";
+		else
+		$data['alertsuccess']="team Uploaded Successfully.";
+        
+        $data['redirect']="site/viewschool";
+        $this->load->view("redirect",$data);
+    }
+    
+    public function viewnewsletter()
+{
+    $access=array("1");
+    $this->checkaccess($access);
+    $data["page"]="viewnewsletter";
+    $data["base_url"]=site_url("site/viewnewsletterjson");
+    $data["title"]="View newsletter";
+    $this->load->view("template",$data);
+}
+function viewnewsletterjson()
+{
+    $elements=array();
+    $elements[0]=new stdClass();
+    $elements[0]->field="`newsletter`.`id`";
+    $elements[0]->sort="1";
+    $elements[0]->header="ID";
+    $elements[0]->alias="id";
+    $elements[1]=new stdClass();
+    $elements[1]->field="`newsletter`.`email`";
+    $elements[1]->sort="1";
+    $elements[1]->header="email";
+    $elements[1]->alias="email";
+    $elements[2]=new stdClass();
+    $elements[2]->field="`newsletter`.`timestamp`";
+    $elements[2]->sort="1";
+    $elements[2]->header="timestamp";
+    $elements[2]->alias="timestamp";
+    $search=$this->input->get_post("search");
+    $pageno=$this->input->get_post("pageno");
+    $orderby=$this->input->get_post("orderby");
+    $orderorder=$this->input->get_post("orderorder");
+    $maxrow=$this->input->get_post("maxrow");
+            if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+            if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+    $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `newsletter`");
+    $this->load->view("json",$data);
+}
+
 
 }
 ?>

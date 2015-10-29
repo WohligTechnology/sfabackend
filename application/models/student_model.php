@@ -52,5 +52,39 @@ return $query;
 		$query=$this->db->query("SELECT `image` FROM `sfa_student` WHERE `id`='$id'")->row();
 		return $query;
 	}
+    
+      public function createbycsv($file)
+	{
+        foreach ($file as $row)
+        {
+            
+            
+            $name=$row['name'];
+            $school=$row['school'];
+            $address=$row['address'];
+            $content=$row['content'];
+            $email=$row['email'];
+            $image=$row['image'];
+            $location=$row['location'];
+            
+            $query1=$this->db->query("SELECT `id` FROM `sfa_school` WHERE `name` LIKE '$school'")->row();
+            $schoolid=$query1->id;
+            
+		$data  = array(
+			'name' => $name,
+			'school' => $schoolid,
+			'address' => $address,
+			'content' => $content,
+			'email' => $email,
+			'image' => $image,
+			'location' => $location
+		);
+		$query=$this->db->insert( 'sfa_student', $data );
+		$id=$this->db->insert_id();
+         
+            
+        }
+			return  1;
+	}
 }
 ?>
