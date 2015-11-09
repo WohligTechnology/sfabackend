@@ -367,6 +367,11 @@ function viewbannerjson()
 	$elements[2]->sort="1";
 	$elements[2]->header="Status";
 	$elements[2]->alias="status";
+    $elements[3]=new stdClass();
+	$elements[3]->field="`sfa_banner`.`order`";
+	$elements[3]->sort="1";
+	$elements[3]->header="order";
+	$elements[3]->alias="order";
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -412,7 +417,8 @@ public function createbannersubmit()
 		{
 			$name=$this->input->get_post("name");
 			$status=$this->input->get_post("status");
-			if($this->banner_model->create($name,$status)==0)
+			$order=$this->input->get_post("order");
+			if($this->banner_model->create($name,$status,$order)==0)
 			$data["alerterror"]="New banner could not be created.";
 			else
 			$data["alertsuccess"]="banner created Successfully.";
@@ -452,7 +458,8 @@ public function editbannersubmit()
 		$id=$this->input->get_post("id");
 		$name=$this->input->get_post("name");
 		$status=$this->input->get_post("status");
-		if($this->banner_model->edit($id,$name,$status)==0)
+		$order=$this->input->get_post("order");
+		if($this->banner_model->edit($id,$name,$status,$order)==0)
 		$data["alerterror"]="New banner could not be Updated.";
 		else
 		$data["alertsuccess"]="banner Updated Successfully.";

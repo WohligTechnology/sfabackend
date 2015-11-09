@@ -44,7 +44,7 @@ function drawtable(resultrow) {
 	else if(resultrow.type==2){
 	resultrow.type="Audio";
 	}
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.title + "</td><td>" + resultrow.thumbnail + "</td><td>" + resultrow.type + "</td><td>" + resultrow.order + "</td><td>" + resultrow.media + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editmediaitem?id=');?>"+resultrow.id+ "&mediaid="+ resultrow.mediaid +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletemediaitem?id='); ?>"+resultrow.id+ "&mediaid="+ resultrow.mediaid +"'><i class='icon-trash '></i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.title + "</td><td>" + resultrow.thumbnail + "</td><td>" + resultrow.type + "</td><td>" + resultrow.order + "</td><td>" + resultrow.media + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editmediaitem?id=');?>"+resultrow.id+ "&mediaid="+ resultrow.mediaid +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' onclick=\"return confirm('Are you sure you want to delete?');\" href='<?php echo site_url('site/deletemediaitem?id='); ?>"+resultrow.id+ "&mediaid="+ resultrow.mediaid +"'><i class='icon-trash '></i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

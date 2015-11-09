@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class banner_model extends CI_Model
 {
-public function create($name,$status)
+public function create($name,$status,$order)
 {
-$data=array("name" => $name,"status" => $status);
+$data=array("name" => $name,"status" => $status,"order" => $order);
 $query=$this->db->insert( "sfa_banner", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,9 +24,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_banner")->row();
 return $query;
 }
-public function edit($id,$name,$status)
+public function edit($id,$name,$status,$order)
 {
-$data=array("name" => $name,"status" => $status);
+$data=array("name" => $name,"status" => $status,"order" => $order);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_banner", $data );
 return 1;

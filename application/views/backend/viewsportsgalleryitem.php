@@ -50,7 +50,7 @@ function drawtable(resultrow) {
                 {
                 image="No Receipt Available";
                 }
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.sports + "</td><td>" + resultrow.sportscategory + "</td><td>" + resultrow.year + "</td><td>" + resultrow.type + "</td><td>" + resultrow.status + "</td><td>" + image + "</td><td>" + resultrow.title + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editsportsgalleryitem?id=');?>"+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletesportsgalleryitem?id='); ?>"+resultrow.id+"&sports="+resultrow.sportsid+"&sportscategory="+resultrow.sportscategoryid+"&year="+resultrow.yearid+"'><i class='icon-trash '></i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.sports + "</td><td>" + resultrow.sportscategory + "</td><td>" + resultrow.year + "</td><td>" + resultrow.type + "</td><td>" + resultrow.status + "</td><td>" + image + "</td><td>" + resultrow.title + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editsportsgalleryitem?id=');?>"+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' onclick=\"return confirm('Are you sure you want to delete?');\" href='<?php echo site_url('site/deletesportsgalleryitem?id='); ?>"+resultrow.id+"&sports="+resultrow.sportsid+"&sportscategory="+resultrow.sportscategoryid+"&year="+resultrow.yearid+"'><i class='icon-trash '></i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

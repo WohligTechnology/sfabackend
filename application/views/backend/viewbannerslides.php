@@ -44,7 +44,7 @@ function drawtable(resultrow) {
                 {
                 image="No Receipt Available";
                 }
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.banner + "</td><td>" + resultrow.order + "</td><td>" + icon + "</td><td>" + resultrow.title + "</td><td>" + resultrow.link + "</td><td>" + image + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editbannerslides?id=');?>" + resultrow.id + "&bannerid="+resultrow.bannerid+ "'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletebannerslides?id='); ?>" + resultrow.id + "&bannerid="+resultrow.bannerid+"'><i class='icon-trash '></i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.banner + "</td><td>" + resultrow.order + "</td><td>" + icon + "</td><td>" + resultrow.title + "</td><td>" + resultrow.link + "</td><td>" + image + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editbannerslides?id=');?>" + resultrow.id + "&bannerid="+resultrow.bannerid+ "'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' onclick=\"return confirm('Are you sure you want to delete?');\" href='<?php echo site_url('site/deletebannerslides?id='); ?>" + resultrow.id + "&bannerid="+resultrow.bannerid+"'><i class='icon-trash '></i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

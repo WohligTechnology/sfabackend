@@ -44,7 +44,7 @@ function drawtable(resultrow) {
                 {
                 image="No Receipt Available";
                 }
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.school + "</td><td>" + resultrow.email + "</td><td>" + image + "</td><td>" + resultrow.location + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editstudent?id=');?>"+resultrow.studentid+ "&schoolid=" + resultrow.schoolid + "'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletestudent?id='); ?>"+resultrow.studentid+ "&schoolid=" +resultrow.schoolid + "'><i class='icon-trash '></i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.school + "</td><td>" + resultrow.email + "</td><td>" + image + "</td><td>" + resultrow.location + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editstudent?id=');?>"+resultrow.studentid+ "&schoolid=" + resultrow.schoolid + "'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' onclick=\"return confirm('Are you sure you want to delete?');\" href='<?php echo site_url('site/deletestudent?id='); ?>"+resultrow.studentid+ "&schoolid=" +resultrow.schoolid + "'><i class='icon-trash '></i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

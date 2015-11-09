@@ -50,7 +50,7 @@ function drawtable(resultrow) {
 	else if(resultrow.type==1){
 	resultrow.type="Team";
 	}
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.match + "</td><td>" + resultrow.type + "</td><td>" + resultrow.order + "</td><td>" + resultrow.team + "</td><td>" + resultrow.student + "</td><td>" + resultrow.result + "</td><td>" + resultrow.round + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editmatchplayed?id=');?>"+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletematchplayed?id='); ?>"+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.match + "</td><td>" + resultrow.type + "</td><td>" + resultrow.order + "</td><td>" + resultrow.team + "</td><td>" + resultrow.student + "</td><td>" + resultrow.result + "</td><td>" + resultrow.round + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editmatchplayed?id=');?>"+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' onclick=\"return confirm('Are you sure you want to delete?');\" href='<?php echo site_url('site/deletematchplayed?id='); ?>"+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>
