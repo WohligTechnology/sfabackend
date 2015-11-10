@@ -17,7 +17,7 @@
 					<input type="text" id="normal-field" class="form-control" name="order" value='<?php echo set_value(' order ',$before->order);?>'>
 				</div>
 			</div>
-			<div class=" form-group">
+			<div class=" form-group"> Size 108 x 112 pixels (WxH)
 				<label class="col-sm-2 control-label" for="normal-field">Icon</label>
 				<div class="col-sm-4">
 					<input type="file" id="normal-field" class="form-control" name="icon" value='<?php echo set_value(' icon ',$before->icon);?>'>
@@ -42,7 +42,7 @@
 					<input type="text" id="normal-field" class="form-control" name="link" value='<?php echo set_value(' link ',$before->link);?>'>
 				</div>
 			</div>
-			<div class=" form-group">
+			<div class=" form-group"> Size 2000 x 868 pixels (WxH)
 				<label class="col-sm-2 control-label" for="normal-field">Image</label>
 				<div class="col-sm-4">
 					<input type="file" id="normal-field" class="form-control" name="image" value='<?php echo set_value(' image ',$before->image);?>'>
