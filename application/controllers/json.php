@@ -1473,4 +1473,5 @@ $data["message"]=$this->restapi_model->getschoolnames();
 $this->load->view("json",$data);
  }
  
+ 
 } ?>

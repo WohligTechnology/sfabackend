@@ -2707,6 +2707,7 @@ public function createschoolsubmit()
 			$location=$this->input->get_post("location");
 			$address=$this->input->get_post("address");
 			$biography=$this->input->get_post("biography");
+			$authority=$this->input->get_post("authority");
 				$config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
 						$this->load->library('upload', $config);
@@ -2741,7 +2742,7 @@ public function createschoolsubmit()
 							}
 
 						}
-			if($this->school_model->create($name,$email,$contact,$image,$location,$address,$biography)==0)
+			if($this->school_model->create($name,$email,$contact,$image,$location,$address,$biography,$authority)==0)
 			$data["alerterror"]="New school could not be created.";
 			else
 			$data["alertsuccess"]="school created Successfully.";
@@ -2791,6 +2792,7 @@ public function editschoolsubmit()
 			$location=$this->input->get_post("location");
 			$address=$this->input->get_post("address");
 			$biography=$this->input->get_post("biography");
+			$authority=$this->input->get_post("authority");
 				   $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
 						$this->load->library('upload', $config);
@@ -2833,7 +2835,7 @@ public function editschoolsubmit()
 							$image=$image->image;
 						}
 
-			if($this->school_model->edit($id,$name,$email,$contact,$image,$location,$address,$biography)==0)
+			if($this->school_model->edit($id,$name,$email,$contact,$image,$location,$address,$biography,$authority)==0)
 			$data["alerterror"]="New school could not be Updated.";
 			else
 			$data["alertsuccess"]="school Updated Successfully.";
@@ -2939,7 +2941,12 @@ public function createstudent()
 	$access=array("1");
 	$this->checkaccess($access);
 	$data["page"]="createstudent";
+    $data["gender"]=$this->student_model->getgenderdropdown();
 	$data["school"]=$this->school_model->getschooldropdown();
+	$data["isparticipant"]=$this->student_model->getisparticipantdropdown();
+    $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+    $data["sports"]=$this->sports_model->getsportsdropdown();
+    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
 	$data["title"]="Create student";
 	$this->load->view("template",$data);
 }
@@ -2958,7 +2965,12 @@ public function createstudentsubmit()
 		{
 			$data["alerterror"]=validation_errors();
 			$data["page"]="createstudent";
+            $data["gender"]=$this->student_model->getgenderdropdown();
+            $data["sports"]=$this->sports_model->getsportsdropdown();
 			$data["school"]=$this->school_model->getschooldropdown();
+            $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
+            $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+            $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
 			$data["title"]="Create student";
 			$this->load->view("template",$data);
 		}
@@ -2971,6 +2983,15 @@ public function createstudentsubmit()
 			$location=$this->input->get_post("location");
 			$address=$this->input->get_post("address");
 			$content=$this->input->get_post("content");
+			$sports=$this->input->get_post("sports");
+			$sportscategory=$this->input->get_post("sportscategory");
+			$agegroup=$this->input->get_post("agegroup");
+			$gender=$this->input->get_post("gender");
+			$isparticipant=$this->input->get_post("isparticipant");
+			$age=$this->input->get_post("age");
+			$phone=$this->input->get_post("phone");
+			$emergencycontact=$this->input->get_post("emergencycontact");
+			$dob=$this->input->get_post("dob");
 				$config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
 						$this->load->library('upload', $config);
@@ -3005,7 +3026,7 @@ public function createstudentsubmit()
 							}
 
 						}
-			if($this->student_model->create($name,$school,$email,$image,$location,$address,$content)==0)
+			if($this->student_model->create($name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)==0)
 			$data["alerterror"]="New student could not be created.";
 			else
 			$data["alertsuccess"]="student created Successfully.";
@@ -3020,6 +3041,11 @@ public function editstudent()
 	$data["page"]="editstudent";
 	$data["page2"]="block/teamblock";
 	$data["school"]=$this->school_model->getschooldropdown();
+	$data["gender"]=$this->student_model->getgenderdropdown();
+    $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
+    $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+    $data["sports"]=$this->sports_model->getsportsdropdown();
 	$data["title"]="Edit student";
 	$data["before1"]=$this->input->get("id");
 	$data["before2"]=$this->input->get("id");
@@ -3045,7 +3071,12 @@ public function editstudentsubmit()
 			$data["alerterror"]=validation_errors();
 			$data["page"]="editstudent";
 			$data["title"]="Edit student";
+            $data["gender"]=$this->student_model->getgenderdropdown();
 			$data["school"]=$this->school_model->getschooldropdown();
+            $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
+            $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+            $data["sports"]=$this->sports_model->getsportsdropdown();
+            $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
 			$data["before"]=$this->student_model->beforeedit($this->input->get("id"));
 			$this->load->view("template",$data);
 		}
@@ -3059,6 +3090,15 @@ public function editstudentsubmit()
 			$location=$this->input->get_post("location");
 			$address=$this->input->get_post("address");
 			$content=$this->input->get_post("content");
+            $sports=$this->input->get_post("sports");
+			$sportscategory=$this->input->get_post("sportscategory");
+			$agegroup=$this->input->get_post("agegroup");
+			$gender=$this->input->get_post("gender");
+			$isparticipant=$this->input->get_post("isparticipant");
+			$age=$this->input->get_post("age");
+			$phone=$this->input->get_post("phone");
+			$emergencycontact=$this->input->get_post("emergencycontact");
+			$dob=$this->input->get_post("dob");
 				 $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
 						$this->load->library('upload', $config);
@@ -3100,7 +3140,7 @@ public function editstudentsubmit()
 						   // print_r($image);
 							$image=$image->image;
 						}
-			if($this->student_model->edit($id,$name,$school,$email,$image,$location,$address,$content)==0)
+			if($this->student_model->edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)==0)
 			$data["alerterror"]="New student could not be Updated.";
 			else
 			$data["alertsuccess"]="student Updated Successfully.";

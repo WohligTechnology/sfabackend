@@ -54,6 +54,60 @@ Student Details
 <textarea name="content" id="" cols="20" rows="10" class="form-control tinymce"><?php echo set_value( 'content',$before->content);?></textarea>
 </div>
 </div>
+<div class=" form-group">
+<label class="col-sm-2 control-label" for="normal-field">Sports</label>
+<div class="col-sm-4">
+<?php echo form_dropdown("sports",$sports,set_value('sports',$before->sports),"class='chzn-select form-control'");?>
+</div>
+</div>
+<div class=" form-group">
+<label class="col-sm-2 control-label" for="normal-field">Sports Category</label>
+<div class="col-sm-4">
+<?php echo form_dropdown("sportscategory",$sportscategory,set_value('sportscategory',$before->sportscategory),"class='chzn-select form-control'");?>
+</div>
+</div>
+<div class=" form-group">
+<label class="col-sm-2 control-label" for="normal-field">Age group</label>
+<div class="col-sm-4">
+<?php echo form_dropdown("agegroup",$agegroup,set_value('agegroup',$before->agegroup),"class='chzn-select form-control'");?>
+</div>
+</div>
+<div class=" form-group">
+<label class="col-sm-2 control-label" for="normal-field">Gender</label>
+<div class="col-sm-4">
+<?php echo form_dropdown("gender",$gender,set_value('gender',$before->gender),"class='chzn-select form-control'");?>
+</div>
+</div>
+<div class=" form-group">
+<label class="col-sm-2 control-label" for="normal-field">Is Participant</label>
+<div class="col-sm-4">
+<?php echo form_dropdown("isparticipant",$isparticipant,set_value('isparticipant',$before->isparticipant),"class='chzn-select form-control'");?>
+</div>
+</div>
+<div class="form-group">
+<label class="col-sm-2 control-label" for="normal-field">Age</label>
+<div class="col-sm-4">
+<input type="text" id="normal-field" class="form-control" name="age" value='<?php echo set_value('age',$before->age);?>'>
+</div>
+</div>
+<div class="form-group">
+<label class="col-sm-2 control-label" for="normal-field">Phone</label>
+<div class="col-sm-4">
+<input type="text" id="normal-field" class="form-control" name="phone" value='<?php echo set_value('phone',$before->phone);?>'>
+</div>
+</div>
+<div class="form-group">
+<label class="col-sm-2 control-label" for="normal-field">Emergency Contact</label>
+<div class="col-sm-4">
+<input type="text" id="normal-field" class="form-control" name="emergencycontact" value='<?php echo set_value('emergencycontact',$before->emergencycontact);?>'>
+</div>
+</div>
+<div class="form-group">
+<label class="col-sm-2 control-label" for="normal-field">dob</label>
+<div class="col-sm-4">
+<input type="date" id="normal-field" class="form-control" name="dob" value='<?php echo set_value('dob',$before->dob);?>'>
+</div>
+</div>
 <div class="form-group">
 <label class="col-sm-2 control-label" for="normal-field">&nbsp;</label>
 <div class="col-sm-4">

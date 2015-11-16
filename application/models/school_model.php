@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class school_model extends CI_Model
 {
-public function create($name,$email,$contact,$image,$location,$address,$biography)
+public function create($name,$email,$contact,$image,$location,$address,$biography,$authority)
 {
-$data=array("name" => $name,"email" => $email,"contact" => $contact,"image" => $image,"location" => $location,"address" => $address,"biography" => $biography);
+$data=array("name" => $name,"email" => $email,"contact" => $contact,"image" => $image,"location" => $location,"address" => $address,"biography" => $biography,"authority" => $authority);
 $query=$this->db->insert( "sfa_school", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,9 +24,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_school")->row();
 return $query;
 }
-public function edit($id,$name,$email,$contact,$image,$location,$address,$biography)
+public function edit($id,$name,$email,$contact,$image,$location,$address,$biography,$authority)
 {
-$data=array("name" => $name,"email" => $email,"contact" => $contact,"image" => $image,"location" => $location,"address" => $address,"biography" => $biography);
+$data=array("name" => $name,"email" => $email,"contact" => $contact,"image" => $image,"location" => $location,"address" => $address,"biography" => $biography,"authority" => $authority);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_school", $data );
 return 1;
@@ -63,6 +63,11 @@ return $query;
             $address=$row['address'];
             $location=$row['location'];
             $biography=$row['biography'];
+            $authority=$row['authority'];
+            
+            $query1=$this->db->query("SELECT `id` FROM `sfa_school` WHERE `name` LIKE '$name'")->row();
+            $schoolid=$query1->id;
+            if($schoolid){
             
 		$data  = array(
 			'name' => $name,
@@ -71,11 +76,13 @@ return $query;
 			'image' => $image,
 			'address' => $address,
 			'location' => $location,
-			'biography' => $biography
+			'biography' => $biography,
+			'authority' => $authority
 		);
 		$query=$this->db->insert( 'sfa_school', $data );
 		$id=$this->db->insert_id();
-         
+            }
+            else{}
             
         }
 			return  1;

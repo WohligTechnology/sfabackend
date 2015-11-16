@@ -56,6 +56,12 @@ School Details
 </div>
 </div>
 <div class="form-group">
+<label class="col-sm-2 control-label" for="normal-field">authority</label>
+<div class="col-sm-4">
+<input type="text" id="normal-field" class="form-control" name="authority" value='<?php echo set_value('authority');?>'>
+</div>
+</div>
+<div class="form-group">
 <label class="col-sm-2 control-label" for="normal-field">&nbsp;</label>
 <div class="col-sm-4">
 <button type="submit" class="btn btn-primary">Save</button>
