@@ -67,7 +67,7 @@ return $query;
             
             $query1=$this->db->query("SELECT `id` FROM `sfa_school` WHERE `name` LIKE '$name'")->row();
             $schoolid=$query1->id;
-            if($schoolid){
+            if(empty($query1)){
             
 		$data  = array(
 			'name' => $name,
