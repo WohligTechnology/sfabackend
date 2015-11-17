@@ -1478,5 +1478,15 @@ $data["message"]=$this->restapi_model->getschoolprofile($id);
 $this->load->view("json",$data);
  }
  
+ public function getSchoolSports(){
+     $id=$this->input->get_post("id");
+     $sport=$this->input->get_post("sport");
+     $agegroup=$this->input->get_post("agegroup");
+$data["message"]=$this->restapi_model->getSchoolSports($id,$sport,$agegroup);
+$this->load->view("json",$data);
+ }
+ 
+ 
+ 
  
 } ?>
