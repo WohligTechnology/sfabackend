@@ -1472,6 +1472,11 @@ $this->load->view("json",$data);
 $data["message"]=$this->restapi_model->getschoolnames();
 $this->load->view("json",$data);
  }
+ public function getschoolprofile(){
+     $id=$this->input->get_post("id");
+$data["message"]=$this->restapi_model->getschoolprofile($id);
+$this->load->view("json",$data);
+ }
  
  
 } ?>

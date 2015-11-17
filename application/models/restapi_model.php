@@ -47,5 +47,10 @@ public function getbannersliders()
         else
         return 0;    
     }
+    public function getschoolprofile($id){
+      $query=$this->db->query("SELECT `id`, `name`, `email`, `contact`, `image`, `address`, `location`, `biography`, `authority` FROM `sfa_school` WHERE `id`='$id'")->row();
+        $query->participant=$this->db->query("SELECT COUNT(*) as `participant` FROM `sfa_student` WHERE `school`='$id'")->row();
+        return $query;
+    }
 }
 ?>
