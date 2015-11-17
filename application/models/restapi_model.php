@@ -48,9 +48,13 @@ public function getbannersliders()
         return 0;    
     }
     public function getschoolprofile($id){
-      $query=$this->db->query("SELECT `id`, `name`, `email`, `contact`, `image`, `address`, `location`, `biography`, `authority` FROM `sfa_school` WHERE `id`='$id'")->row();
-        $query->participant=$this->db->query("SELECT COUNT(*) as `participant` FROM `sfa_student` WHERE `school`='$id'")->row();
+      $query['school']=$this->db->query("SELECT `id`, `name`, `email`, `contact`, `image`, `address`, `location`, `biography`, `authority` FROM `sfa_school` WHERE `id`='$id'")->row();
+        $query['school']->participant=$this->db->query("SELECT COUNT(*) as `participant` FROM `sfa_student` WHERE `school`='$id'")->row();
+        
+        $query['sportname']=$this->db->query("SELECT DISTINCT(`sfa_sports`.`name`) FROM `sfa_student` LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_student`.`sports` WHERE `sfa_student`.`school`='$id'")->result();
+           
         return $query;
+        
     }
 }
 ?>
