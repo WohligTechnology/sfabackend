@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2015 at 09:19 AM
+-- Generation Time: Nov 18, 2015 at 06:46 AM
 -- Server version: 5.6.24
 -- PHP Version: 5.5.24
 
@@ -755,7 +755,7 @@ CREATE TABLE IF NOT EXISTS `sfa_student` (
 
 INSERT INTO `sfa_student` (`id`, `name`, `school`, `address`, `content`, `email`, `image`, `location`, `sports`, `sportscategory`, `agegroup`, `gender`, `isparticipant`, `age`, `phone`, `emergencycontact`) VALUES
 (1, 'jyoti', 1, 'fcdjgvsajg', 'cgvhbj', 'abc@ymail.com', 'abc.jpg', 'kalyan', 1, 1, 1, 1, 1, 22, '98787', 'seema 68797'),
-(2, 'hdhesgd', 2, 'gvh', 'sdhfbjah', 'dfga@sdnfj.dfd', 'fahdsg.jpg', 'pune', 2, 2, 2, 2, 1, 24, '787878', 'riya 8797879868789');
+(2, 'hdhesgd', 2, 'gvh', 'sdhfbjah', 'dfga@sdnfj.dfd', 'fahdsg.jpg', 'pune', 1, 2, 2, 2, 1, 24, '787878', 'riya 8797879868789');
 
 -- --------------------------------------------------------
 
