@@ -50,9 +50,15 @@ public function getbannersliders()
     public function getschoolprofile($id){
       $query['school']=$this->db->query("SELECT `id`, `name`, `email`, `contact`, `image`, `address`, `location`, `biography`, `authority` FROM `sfa_school` WHERE `id`='$id'")->row();
         $query['school']->participant=$this->db->query("SELECT COUNT(*) as `participant` FROM `sfa_student` WHERE `school`='$id'")->row();
+
+        $query1=$this->db->query("SELECT DISTINCT(`sfa_student`.`sports`) FROM `sfa_student` WHERE `sfa_student`.`school`='$id'")->result();
+        foreach($query1 as $row){
+            $query['sportname']=array();
+            $query2=$this->db->query("SELECT `id`, `name`, `status`, `order`, `icon`, `about`, `eligibility`, `rules`, `json` FROM `sfa_sports` WHERE `id`=$row->sports")->row();
+            array_push($query['sportname'],$query2);
+            
+        }
         
-        $query['sportname']=$this->db->query("SELECT DISTINCT(`sfa_sports`.`name`) FROM `sfa_student` LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_student`.`sports` WHERE `sfa_student`.`school`='$id'")->result();
-           
         return $query;
         
     }
