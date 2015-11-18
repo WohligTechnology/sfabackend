@@ -1598,6 +1598,17 @@ $this->load->view("json",$data);
         $this->load->view("json",$data);
  }
  
+ public function createEnquiries(){
+     $data = json_decode(file_get_contents('php://input'), true);
+		$name=$data['name'];
+		$email=$data['email'];
+		$mobile=$data['mobile'];
+		$person=$data['person'];
+        $data["message"]=$this->restapi_model->createEnquiries($name,$email,$mobile,$person);
+$this->load->view("json",$data);
+     
+ }
+ 
  
  
  

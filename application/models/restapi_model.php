@@ -61,5 +61,16 @@ public function getbannersliders()
         return $query;
         
     }
+    
+    public function createEnquiries($name,$email,$mobile,$person)
+{
+$data=array("name" => $name,"email" => $email,"mobile" => $mobile,"person" => $person);
+$query=$this->db->insert( "enquiries", $data );
+$id=$this->db->insert_id();
+if(!$query)
+return  0;
+else
+return  1;
+}
 }
 ?>

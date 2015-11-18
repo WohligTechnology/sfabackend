@@ -5198,6 +5198,132 @@ function viewnewsletterjson()
     $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `newsletter`");
     $this->load->view("json",$data);
 }
+    // ENQUIRIES
+     public function viewenquiries()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="viewenquiries";
+	$data["base_url"]=site_url("site/viewenquiriesjson");
+	$data["title"]="View enquiries";
+	$this->load->view("template",$data);
+}
+function viewenquiriesjson()
+{
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`enquiries`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+	$elements[1]=new stdClass();
+	$elements[1]->field="`enquiries`.`name`";
+	$elements[1]->sort="1";
+	$elements[1]->header="name";
+	$elements[1]->alias="name";
+	$elements[2]=new stdClass();
+	$elements[2]->field="`enquiries`.`email`";
+	$elements[2]->sort="1";
+	$elements[2]->header="email";
+	$elements[2]->alias="email";
+	$elements[3]=new stdClass();
+	$elements[3]->field="`enquiries`.`mobile`";
+	$elements[3]->sort="1";
+	$elements[3]->header="mobile";
+	$elements[3]->alias="mobile";
+	$elements[4]=new stdClass();
+	$elements[4]->field="`enquiries`.`person`";
+	$elements[4]->sort="1";
+	$elements[4]->header="person";
+	$elements[4]->alias="person";
+	$elements[5]=new stdClass();
+	$elements[5]->field="`enquiries`.`timestamp`";
+	$elements[5]->sort="1";
+	$elements[5]->header="Time stamp";
+	$elements[5]->alias="timestamp";
+
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+			if($maxrow=="")
+		{
+			$maxrow=20;
+		}
+			if($orderby=="")
+		{
+			$orderby="id";
+			$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `enquiries`");
+	$this->load->view("json",$data);
+}
+
+public function createenquiries()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+//    $data["type"]=$this->enquiries_model->getschooltypedropdown();
+	$data["page"]="createenquiries";
+	$data["title"]="Create enquiries";
+	$this->load->view("template",$data);
+}
+public function createenquiriessubmit() 
+{
+	$access=array("1");
+	$this->checkaccess($access);
+			$name=$this->input->get_post("name");
+			$email=$this->input->get_post("email");
+			$mobile=$this->input->get_post("mobile");
+			$person=$this->input->get_post("person");
+//			$timestamp=$this->input->get_post("timestamp");
+			if($this->enquiries_model->create($name,$email,$mobile,$person)==0)
+			$data["alerterror"]="New enquiries could not be created.";
+			else
+			$data["alertsuccess"]="enquiries created Successfully.";
+			$data["redirect"]="site/viewenquiries";
+			$this->load->view("redirect",$data);
+		
+}
+public function editenquiries()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="editenquiries";
+	$data["page2"]="block/registerblock";
+	$data["title"]="Edit enquiries";
+	$data["type"]=$this->enquiries_model->getschooltypedropdown();
+	$data["before1"]=$this->input->get('id');
+	$data["before"]=$this->enquiries_model->beforeedit($this->input->get("id"));
+	$this->load->view("templatewith2",$data);
+}
+public function editenquiriessubmit()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+			$id=$this->input->get_post("id");	
+            $name=$this->input->get_post("name");
+			$email=$this->input->get_post("email");
+			$mobile=$this->input->get_post("mobile");
+			$person=$this->input->get_post("person");
+			$timestamp=$this->input->get_post("timestamp");
+			if($this->enquiries_model->edit($id,$name,$email,$mobile,$person,$timestamp)==0)
+			$data["alerterror"]="New enquiries could not be Updated.";
+			else
+			$data["alertsuccess"]="enquiries Updated Successfully.";
+			$data["redirect"]="site/viewenquiries";
+			$this->load->view("redirect",$data);
+		
+}
+public function deleteenquiries()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->enquiries_model->delete($this->input->get("id"));
+	$data["redirect"]="site/viewenquiries";
+	$this->load->view("redirect",$data);
+}
 
 
 }
