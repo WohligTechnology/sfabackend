@@ -507,85 +507,9 @@ $id=$this->input->get_post("id");
 $data["message"]=$this->year_model->getsingleyear($id);
 $this->load->view("json",$data);
 }
-function getallsports()
+function getAllSports()
 {
-$elements=array();
-$elements[0]=new stdClass();
-$elements[0]->field="`sfa_sports`.`id`";
-$elements[0]->sort="1";
-$elements[0]->header="ID";
-$elements[0]->alias="id";
-
-$elements=array();
-$elements[1]=new stdClass();
-$elements[1]->field="`sfa_sports`.`name`";
-$elements[1]->sort="1";
-$elements[1]->header="Name";
-$elements[1]->alias="name";
-
-$elements=array();
-$elements[2]=new stdClass();
-$elements[2]->field="`sfa_sports`.`status`";
-$elements[2]->sort="1";
-$elements[2]->header="Status";
-$elements[2]->alias="status";
-
-$elements=array();
-$elements[3]=new stdClass();
-$elements[3]->field="`sfa_sports`.`order`";
-$elements[3]->sort="1";
-$elements[3]->header="Order";
-$elements[3]->alias="order";
-
-$elements=array();
-$elements[4]=new stdClass();
-$elements[4]->field="`sfa_sports`.`icon`";
-$elements[4]->sort="1";
-$elements[4]->header="Icon";
-$elements[4]->alias="icon";
-
-$elements=array();
-$elements[5]=new stdClass();
-$elements[5]->field="`sfa_sports`.`json`";
-$elements[5]->sort="1";
-$elements[5]->header="Json";
-$elements[5]->alias="json";
-
-$elements=array();
-$elements[6]=new stdClass();
-$elements[6]->field="`sfa_sports`.`about`";
-$elements[6]->sort="1";
-$elements[6]->header="About";
-$elements[6]->alias="about";
-
-$elements=array();
-$elements[7]=new stdClass();
-$elements[7]->field="`sfa_sports`.`eligibility`";
-$elements[7]->sort="1";
-$elements[7]->header="Eligibility";
-$elements[7]->alias="eligibility";
-
-$elements=array();
-$elements[8]=new stdClass();
-$elements[8]->field="`sfa_sports`.`rules`";
-$elements[8]->sort="1";
-$elements[8]->header="Rules";
-$elements[8]->alias="rules";
-
-$search=$this->input->get_post("search");
-$pageno=$this->input->get_post("pageno");
-$orderby=$this->input->get_post("orderby");
-$orderorder=$this->input->get_post("orderorder");
-$maxrow=$this->input->get_post("maxrow");
-if($maxrow=="")
-{
-}
-if($orderby=="")
-{
-$orderby="id";
-$orderorder="ASC";
-}
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_sports`");
+$data["message"]=$this->restapi_model->getAllSports();
 $this->load->view("json",$data);
 }
 public function getsinglesports()
@@ -603,42 +527,36 @@ $elements[0]->sort="1";
 $elements[0]->header="ID";
 $elements[0]->alias="id";
 
-$elements=array();
 $elements[1]=new stdClass();
 $elements[1]->field="`sfa_sportscategory`.`sports`";
 $elements[1]->sort="1";
 $elements[1]->header="Sports";
 $elements[1]->alias="sports";
 
-$elements=array();
 $elements[2]=new stdClass();
 $elements[2]->field="`sfa_sportscategory`.`title`";
 $elements[2]->sort="1";
 $elements[2]->header="Title";
 $elements[2]->alias="title";
 
-$elements=array();
 $elements[3]=new stdClass();
 $elements[3]->field="`sfa_sportscategory`.`order`";
 $elements[3]->sort="1";
 $elements[3]->header="Order";
 $elements[3]->alias="order";
 
-$elements=array();
 $elements[4]=new stdClass();
 $elements[4]->field="`sfa_sportscategory`.`status`";
 $elements[4]->sort="1";
 $elements[4]->header="Status";
 $elements[4]->alias="status";
 
-$elements=array();
 $elements[5]=new stdClass();
 $elements[5]->field="`sfa_sportscategory`.`type`";
 $elements[5]->sort="1";
 $elements[5]->header="Type";
 $elements[5]->alias="type";
 
-$elements=array();
 $elements[6]=new stdClass();
 $elements[6]->field="`sfa_sportscategory`.`json`";
 $elements[6]->sort="1";

@@ -71,6 +71,12 @@ if(!$query)
 return  0;
 else
 return  1;
+}  
+    public function getAllSports()
+{
+         $query=$this->db->query("SELECT `id`, `name`, `status`, `order`, `icon`, `about`, `eligibility`, `rules`, `json` FROM `sfa_sports` WHERE 1")->result();
+        return $query;
 }
+    
 }
 ?>
