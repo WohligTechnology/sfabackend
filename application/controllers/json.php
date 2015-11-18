@@ -1478,12 +1478,124 @@ $data["message"]=$this->restapi_model->getschoolprofile($id);
 $this->load->view("json",$data);
  }
  
- public function getSchoolSports(){
-     $id=$this->input->get_post("id");
-     $sport=$this->input->get_post("sport");
-     $agegroup=$this->input->get_post("agegroup");
-$data["message"]=$this->restapi_model->getSchoolSports($id,$sport,$agegroup);
-$this->load->view("json",$data);
+ public function getSchoolSports()
+ {
+     
+        $id=$this->input->get_post("id");
+        $sport=$this->input->get_post("sport");
+        $agegroup=$this->input->get_post("agegroup");
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`sfa_student`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+
+        $elements[1]=new stdClass();
+        $elements[1]->field="`sfa_student`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Name";
+        $elements[1]->alias="name";
+
+        $elements[2]=new stdClass();
+        $elements[2]->field="`sfa_student`.`school`";
+        $elements[2]->sort="1";
+        $elements[2]->header="School";
+        $elements[2]->alias="school";
+
+        $elements[3]=new stdClass();
+        $elements[3]->field="`sfa_student`.`email`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Email";
+        $elements[3]->alias="email";
+
+        $elements[4]=new stdClass();
+        $elements[4]->field="`sfa_student`.`image`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Image";
+        $elements[4]->alias="image";
+
+        $elements[5]=new stdClass();
+        $elements[5]->field="`sfa_student`.`location`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Location";
+        $elements[5]->alias="location";
+
+        $elements[6]=new stdClass();
+        $elements[6]->field="`sfa_student`.`address`";
+        $elements[6]->sort="1";
+        $elements[6]->header="Address";
+        $elements[6]->alias="address";
+
+        $elements[7]=new stdClass();
+        $elements[7]->field="`sfa_student`.`content`";
+        $elements[7]->sort="1";
+        $elements[7]->header="Content";
+        $elements[7]->alias="content";
+     
+        $elements[8]=new stdClass();
+        $elements[8]->field="`sfa_student`.`sports`";
+        $elements[8]->sort="1";
+        $elements[8]->header="sports";
+        $elements[8]->alias="sports";
+     
+        $elements[9]=new stdClass();
+        $elements[9]->field="`sfa_student`.`sportscategory`";
+        $elements[9]->sort="1";
+        $elements[9]->header="sportscategory";
+        $elements[9]->alias="sportscategory";
+     
+        $elements[10]=new stdClass();
+        $elements[10]->field="`sfa_student`.`agegroup`";
+        $elements[10]->sort="1";
+        $elements[10]->header="agegroup";
+        $elements[10]->alias="agegroup";
+     
+        $elements[11]=new stdClass();
+        $elements[11]->field="`sfa_student`.`gender`";
+        $elements[11]->sort="1";
+        $elements[11]->header="gender";
+        $elements[11]->alias="gender";
+     
+        $elements[12]=new stdClass();
+        $elements[12]->field="`sfa_student`.`isparticipant`";
+        $elements[12]->sort="1";
+        $elements[12]->header="isparticipant";
+        $elements[12]->alias="isparticipant";
+     
+        $elements[13]=new stdClass();
+        $elements[13]->field="`sfa_student`.`age`";
+        $elements[13]->sort="1";
+        $elements[13]->header="age";
+        $elements[13]->alias="age";
+     
+        $elements[14]=new stdClass();
+        $elements[14]->field="`sfa_student`.`phone`";
+        $elements[14]->sort="1";
+        $elements[14]->header="phone";
+        $elements[14]->alias="phone";
+     
+        $elements[15]=new stdClass();
+        $elements[15]->field="`sfa_student`.`emergencycontact`";
+        $elements[15]->sort="1";
+        $elements[15]->header="emergencycontact";
+        $elements[15]->alias="emergencycontact";
+
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+        }
+        if($orderby=="")
+        {
+        $orderby="id";
+        $orderorder="ASC";
+        }
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_student`","WHERE `sfa_student`.`school`='$id' OR `sfa_student`.`agegroup`='$agegroup' OR `sfa_student`.`agegroup`='$sport'"   );
+        $this->load->view("json",$data);
  }
  
  
