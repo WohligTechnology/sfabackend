@@ -1498,6 +1498,12 @@ $this->load->view("json",$data);
         $elements[15]->sort="1";
         $elements[15]->header="emergencycontact";
         $elements[15]->alias="emergencycontact";
+     
+        $elements[16]=new stdClass();
+        $elements[16]->field="`sfa_student`.`dob`";
+        $elements[16]->sort="1";
+        $elements[16]->header="dob";
+        $elements[16]->alias="dob";
 
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
