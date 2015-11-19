@@ -1512,17 +1512,18 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_student`","WHERE `sfa_student`.`school`='$id' OR `sfa_student`.`agegroup`='$agegroup' OR `sfa_student`.`agegroup`='$sport'"   );
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_student`","WHERE `sfa_student`.`school`='$id' AND `sfa_student`.`agegroup`='$agegroup' AND `sfa_student`.`sports`='$sport'");
         $this->load->view("json",$data);
  }
  
  public function createEnquiries(){
-     $data = json_decode(file_get_contents('php://input'), true);
-		$name=$data['name'];
-		$email=$data['email'];
-		$mobile=$data['mobile'];
-		$person=$data['person'];
+		$name=$this->input->get_post('name');
+		$email=$this->input->get_post('email');
+		$mobile=$this->input->get_post('mobile');
+		$person=$this->input->get_post('person');
+ 
         $data["message"]=$this->restapi_model->createEnquiries($name,$email,$mobile,$person);
+     
 $this->load->view("json",$data);
      
  }

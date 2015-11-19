@@ -62,11 +62,7 @@ public function getbannersliders()
         return $query;
         
     }
-    public function getSchoolSports($id,$sport,$agegroup){
-        $query=$this->db->query("SELECT `sfa_student`.`id`, `sfa_student`.`name`, `sfa_student`.`school`, `sfa_student`.`address`, `sfa_student`.`content`, `sfa_student`.`email`, `sfa_student`.`image`, `sfa_student`.`location`, `sfa_student`.`sports`, `sfa_student`.`sportscategory`, `sfa_student`.`agegroup`, `sfa_student`.`gender`, `sfa_student`.`isparticipant`, `sfa_student`.`age`, `sfa_student`.`phone`, `sfa_student`.`emergencycontact` FROM `sfa_student` WHERE `sfa_student`.`school`='$id' OR `sfa_student`.`agegroup`='$agegroup' OR `sfa_student`.`agegroup`='$sport'")->result();
-        return $query;
-        
-    }
+ 
     
     public function createEnquiries($name,$email,$mobile,$person)
 {
