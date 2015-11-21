@@ -79,6 +79,9 @@ return $query;
             $to   = new DateTime('today');
             $calculatedage=$from->diff($to)->y;
             
+            $date = date_create($dob);
+            $dob=date_format($date, 'Y-m-d');
+            
             //GENDER
             
             if($gender=="male"){
@@ -110,7 +113,8 @@ return $query;
 			'isparticipant' => 1,
 			'phone' => $phone,
 			'emergencycontact' => $emergencycontact,
-			'gender' => $genderid
+			'gender' => $genderid,
+			'dob' => $dob
 		);
 		$query=$this->db->insert( 'sfa_student', $data );
 		$id=$this->db->insert_id();
