@@ -123,9 +123,7 @@ return $query;
             $query2=$this->db->query("SELECT `id` FROM `sfa_sports` WHERE `name` LIKE '$sports'")->row();
             $sportsid=$query2->id;
             
-            //sportscategory
-            $query3=$this->db->query("SELECT `id` FROM `sfa_sportscategory` WHERE `title` LIKE '$sportscategory'")->row();
-            $sportscategoryid=$query3->id;
+           
             
          //sports
             if(empty($query2)){
@@ -141,6 +139,15 @@ return $query;
                 $query=$this->db->update( "sfa_student", $data );
                 
                 //INSERT SPORT CATEGORY IF SPORT IS PRESENT
+                
+                 //sportscategory
+                $sportscategory=explode(",",$sportscategory);
+                foreach($sportscategory as $key => $sportscategory)
+			     {
+                $sportscategory=trim($sportscategory);
+                $query3=$this->db->query("SELECT `id` FROM `sfa_sportscategory` WHERE `title` LIKE '$sportscategory'")->row();
+                $sportscategoryid=$query3->id;
+                
                 if(empty($query3)){
                 $data  = array(
                 'sports' => $sportsid,
@@ -158,6 +165,7 @@ return $query;
                 $data=array("sportscategory" => $sportscategoryid);
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_student", $data );
+                }
                 }
              
             }
@@ -168,6 +176,13 @@ return $query;
                 $query=$this->db->update( "sfa_student", $data );
                 
                 //INSERT SPORT CATEGORY IF SPORT IS PRESENT
+                 $sportscategory=explode(",",$sportscategory);
+                foreach($sportscategory as $key => $sportscategory)
+			     {
+                    $sportscategory=trim($sportscategory);
+                $query3=$this->db->query("SELECT `id` FROM `sfa_sportscategory` WHERE `title` LIKE '$sportscategory'")->row();
+                $sportscategoryid=$query3->id;
+                
                 if(empty($query3)){
                 $data  = array(
                 'sports' => $sportsid,
@@ -185,6 +200,7 @@ return $query;
                 $data=array("sportscategory" => $sportscategoryid);
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_student", $data );
+                }
                 }
                 
                 
