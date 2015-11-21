@@ -73,6 +73,8 @@ return $query;
             $phone=$row['phone'];
             $emergencycontact=$row['emergencycontact'];
             $dob=$row['dob'];
+            $team=$row['team'];
+            $year=$row['year'];
             $from = new DateTime($dob);
             $to   = new DateTime('today');
             $calculatedage=$from->diff($to)->y;
@@ -89,7 +91,7 @@ return $query;
             
             $query1=$this->db->query("SELECT * FROM `sfa_school` WHERE `id`= '$schoolproperid'")->row();
             $schoolid=$query1->id;
-            
+           
             $checkstudent=$this->db->query("SELECT * FROM `sfa_student` WHERE `name`= '$name' AND `address`='$address' AND `phone`='$phone'")->row();
             if(empty($checkstudent))
             {
@@ -128,23 +130,23 @@ return $query;
                 'status' => 1
                 );
                 $query=$this->db->insert( 'sfa_sports', $data );
-                $newsportid=$this->db->insert_id();
+                $sportsid=$this->db->insert_id();
                 
-                $data=array("sports" => $newsportid);
+                $data=array("sports" => $sportsid);
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_student", $data );
                 
                 //INSERT SPORT CATEGORY IF SPORT IS PRESENT
                 if(empty($query3)){
                 $data  = array(
-                'sports' => $newsportid,
+                'sports' => $sportsid,
                 'status' => 1,
                 'title' => $sportscategory
                 );
                 $query=$this->db->insert( 'sfa_sportscategory', $data );
-                $newsportcatid=$this->db->insert_id();
+                $sportscategoryid=$this->db->insert_id();
                     
-                $data=array("sportscategory" => $newsportcatid);
+                $data=array("sportscategory" => $sportscategoryid);
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_student", $data );
                 }
@@ -169,9 +171,9 @@ return $query;
                 'title' => $sportscategory
                 );
                 $query=$this->db->insert( 'sfa_sportscategory', $data );
-                $newsportcatid=$this->db->insert_id();
+                $sportscategoryid=$this->db->insert_id();
                     
-                $data=array("sportscategory" => $newsportcatid);
+                $data=array("sportscategory" => $sportscategoryid);
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_student", $data );
                 }
@@ -196,9 +198,9 @@ return $query;
                 'status' => 1
                 );
                 $query=$this->db->insert( 'sfa_agegroups', $data );
-                $newagegrpid=$this->db->insert_id();
+                $agegroupid=$this->db->insert_id();
                 
-                $data=array("agegroup" => $newagegrpid);
+                $data=array("agegroup" => $agegroupid);
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_student", $data );
             }
@@ -207,6 +209,68 @@ return $query;
             $this->db->where( "id", $id );
             $query=$this->db->update( "sfa_student", $data );
             }
+                
+                 //TEAM
+            if(!empty($team)){
+            $queryteam=$this->db->query("SELECT * FROM `sfa_team` WHERE `title` LIKE '$team'")->row();
+            $teamid=$queryteam->id;
+            if(empty($queryteam)){
+                $data  = array(
+                'title' => $team,
+                'agegroup' => $agegroupid,
+                'sportscategory' => $sportscategoryid
+                );
+                $query=$this->db->insert( 'sfa_team', $data );
+                $teamid=$this->db->insert_id();
+                
+                $data  = array(
+                'team' => $teamid,
+                'student' => $id
+                );
+                $query=$this->db->insert( 'sfa_teamstudents', $data );
+                $teamstudentid=$this->db->insert_id();
+                
+            }
+            else{
+                $data  = array(
+                'team' => $teamid,
+                'student' => $id
+                );
+                $query=$this->db->insert( 'sfa_teamstudents', $data );
+                $teamstudentid=$this->db->insert_id();
+                
+            }
+                if(!empty($year))
+                {
+                    
+                    $queryyear=$this->db->query("SELECT * FROM `sfa_year` WHERE `name` LIKE '$year'")->row();
+                    $yearid=$queryyear->id;
+                    if(empty($queryyear))
+                    {
+                        $data  = array(
+                        'name' => $year,
+                        'status' => 1
+                        );
+                        $query=$this->db->insert( 'sfa_year', $data );
+                        $yearid=$this->db->insert_id();
+                        
+                        $data=array("year" => $yearid);
+                        $this->db->where( "id", $teamid );
+                        $query=$this->db->update( "sfa_team", $data );
+
+                    }
+                    else
+                    {
+                        $data=array( 
+                        'year' => $yearid
+                        );
+                        $this->db->where( "id", $teamid );
+                        $query=$this->db->update( "sfa_team", $data );
+
+                    }
+                }
+            }
+            // TEAM END
         }
             else{}
         }
