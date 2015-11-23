@@ -56,23 +56,32 @@ Student Details
 </div>
 </div>
 <div class=" form-group">
-<label class="col-sm-2 control-label" for="normal-field">Sports</label>
-<div class="col-sm-4">
-<?php echo form_dropdown("sports",$sports,set_value('sports'),"class='chzn-select form-control'");?>
-</div>
-</div>
+				  <label class="col-sm-2 control-label">Sports</label>
+				  <div class="col-sm-4">
+					<?php
+						
+						echo form_dropdown('sports[]',$sports,set_value('sports'),'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an sports..." multiple');
+					?>
+				  </div>
+				</div>
 <div class=" form-group">
-<label class="col-sm-2 control-label" for="normal-field">Sports Category</label>
-<div class="col-sm-4">
-<?php echo form_dropdown("sportscategory",$sportscategory,set_value('sportscategory'),"class='chzn-select form-control'");?>
-</div>
-</div>
+				  <label class="col-sm-2 control-label">Sports Category</label>
+				  <div class="col-sm-4">
+					<?php
+						
+						echo form_dropdown('sportscategory[]',$sportscategory,set_value('sportscategory'),'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an sportscategory..." multiple');
+					?>
+				  </div>
+				</div>
 <div class=" form-group">
-<label class="col-sm-2 control-label" for="normal-field">Age Groups</label>
-<div class="col-sm-4">
-<?php echo form_dropdown("agegroup",$agegroup,set_value('agegroup'),"class='chzn-select form-control'");?>
-</div>
-</div>
+				  <label class="col-sm-2 control-label">Age Groups</label>
+				  <div class="col-sm-4">
+					<?php
+						
+						echo form_dropdown('agegroup[]',$agegroup,set_value('agegroup'),'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an agegroup..." multiple');
+					?>
+				  </div>
+				</div>
 <div class="form-group">
 <label class="col-sm-2 control-label" for="normal-field">phone</label>
 <div class="col-sm-4">

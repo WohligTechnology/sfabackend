@@ -63,5 +63,55 @@ return $query;
 		$query=$this->db->query("SELECT `icon` FROM `sfa_sports` WHERE `id`='$id'")->row();
 		return $query;
 	}
+    public function getsportbystudent($id)
+	{
+         $return=array();
+		$query=$this->db->query("SELECT `id`, `sport`, `student` FROM `sfa_studentsport` WHERE `student`='$id'");
+        if($query->num_rows() > 0)
+        {
+            $query=$query->result();
+            foreach($query as $row)
+            {
+                $return[]=$row->sport;
+            }
+        }
+         return $return;
+         
+		
+	}
+    public function getagegroupbystudent($id)
+	{
+         $return=array();
+		$query=$this->db->query("SELECT `id`, `student`, `agegroup`, `sport` FROM `sfa_studentagegroup` WHERE `student`='$id'");
+        if($query->num_rows() > 0)
+        {
+            $query=$query->result();
+            foreach($query as $row)
+            {
+                $return[]=$row->sport;
+            }
+        }
+         return $return;
+         
+		
+	}
+    public function getsportcategorybystudent($id)
+	{
+         $return=array();
+        
+		
+		$query=$this->db->query("SELECT `id`, `sport`, `sportscategory`, `student` FROM `sfa_sportcategorystudent` WHERE `student`='$id'");
+        if($query->num_rows() > 0)
+        {
+            $query=$query->result();
+            foreach($query as $row)
+            {
+                $return[]=$row->sportscategory;
+            }
+        }
+         return $return;
+         
+		
+	}
 }
 ?>

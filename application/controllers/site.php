@@ -3045,6 +3045,9 @@ public function editstudent()
     $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
     $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+     $data['selectedsport']=$this->sports_model->getsportbystudent($this->input->get_post('id'));
+     $data['selectedagegroup']=$this->sports_model->getagegroupbystudent($this->input->get_post('id'));
+     $data['selectedsportscategory']=$this->sports_model->getsportcategorybystudent($this->input->get_post('id'));
     $data["sports"]=$this->sports_model->getsportsdropdown();
 	$data["title"]="Edit student";
 	$data["before1"]=$this->input->get("id");
