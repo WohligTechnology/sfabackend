@@ -73,10 +73,10 @@ Student Details
 <?php echo form_dropdown("agegroup",$agegroup,set_value('agegroup'),"class='chzn-select form-control'");?>
 </div>
 </div>
-<div class=" form-group">
-<label class="col-sm-2 control-label" for="normal-field">Phone</label>
+<div class="form-group">
+<label class="col-sm-2 control-label" for="normal-field">phone</label>
 <div class="col-sm-4">
-<?php echo form_dropdown("phone",$phone,set_value('phone'),"class='chzn-select form-control'");?>
+<input type="text" id="normal-field" class="form-control" name="phone" value='<?php echo set_value('phone');?>'>
 </div>
 </div>
 <div class=" form-group">
