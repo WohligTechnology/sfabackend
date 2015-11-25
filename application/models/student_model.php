@@ -310,7 +310,7 @@ return $query;
                 
             }
       
-               
+           
             //agegroups
             $query3=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
             $agegroupid=$query3->id;
@@ -353,7 +353,7 @@ return $query;
                 $query=$this->db->insert( 'sfa_studentagegroup', $data );
                 $studentagegroupid=$this->db->insert_id();
             }
-                
+              
                  //TEAM
             if(!empty($team)){
             $queryteam=$this->db->query("SELECT * FROM `sfa_team` WHERE `title` LIKE '$team'")->row();
@@ -567,7 +567,7 @@ return $query;
                 
                 
             }
-      
+//              if($agegroup !="") {
                
             //agegroups
             $query3=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
@@ -611,7 +611,7 @@ return $query;
                 $query=$this->db->insert( 'sfa_studentagegroup', $data );
                 $studentagegroupid=$this->db->insert_id();
             }
-                
+              
                  //TEAM
             if(!empty($team)){
             $queryteam=$this->db->query("SELECT * FROM `sfa_team` WHERE `title` LIKE '$team'")->row();
