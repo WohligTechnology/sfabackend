@@ -3,16 +3,31 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class mediaitem_model extends CI_Model
 {
-public function create($title,$thumbnail,$type,$link,$order,$json,$media)
+	public function createmediastudent($value,$id){
+		$data  = array(
+			'student' => $value,
+			'mediaitem' => $id
+		);
+		$query=$this->db->insert( 'sfa_mediastudents', $data );
+		return  1;
+	}
+	
+public function create($title,$thumbnail,$type,$link,$order,$json,$media,$student)
 {
-$data=array("title" => $title,"thumbnail" => $thumbnail,"type" => $type,"link" => $link,"order" => $order,"json" => $json,"media" => $media);
-$query=$this->db->insert( "sfa_mediaitem", $data );
-$id=$this->db->insert_id();
-if(!$query)
-return  0;
-else
-return  $id;
+	$data=array("title" => $title,"thumbnail" => $thumbnail,"type" => $type,"link" => $link,"order" => $order,"json" => $json,"media" => $media);
+	$query=$this->db->insert( "sfa_mediaitem", $data );
+	$id=$this->db->insert_id();
+	//code here
+        foreach($student AS $key=>$value)
+        {
+            $this->mediaitem_model->createmediastudent($value,$id);
+        }
+	if(!$query)
+	return  0;
+	else
+	return  $id;
 }
+	
 public function beforeedit($id)
 {
 $this->db->where("id",$id);

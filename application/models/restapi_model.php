@@ -48,16 +48,22 @@ public function getbannersliders()
         return 0;    
     }
     public function getschoolprofile($id){
-      $query['school']=$this->db->query("SELECT `id`, `name`, `email`, `contact`, `image`, `address`, `location`, `biography`, `authority` FROM `sfa_school` WHERE `id`='$id'")->row();
-        $query['school']->participant=$this->db->query("SELECT COUNT(*) as `participant` FROM `sfa_student` WHERE `school`='$id'")->row();
-
-        $query1=$this->db->query("SELECT DISTINCT(`sfa_student`.`sports`) FROM `sfa_student` WHERE `sfa_student`.`school`='$id'")->result();
-        foreach($query1 as $row){
-            $query['sportname']=array();
-            $query2=$this->db->query("SELECT `id`, `name`, `status`, `order`, `icon`, `about`, `eligibility`, `rules`, `json` FROM `sfa_sports` WHERE `id`=$row->sports")->row();
-            array_push($query['sportname'],$query2);
-            
-        }
+//      $query['school']=$this->db->query("SELECT `id`, `name`, `email`, `contact`, `image`, `address`, `location`, `biography`, `authority` FROM `sfa_school` WHERE `id`='$id'")->row();
+//        $query['school']->participant=$this->db->query("SELECT COUNT(*) as `participant` FROM `sfa_student` WHERE `school`='$id'")->row();
+//
+//        $query1=$this->db->query("SELECT DISTINCT(`sfa_student`.`sports`) FROM `sfa_student` WHERE `sfa_student`.`school`='$id'")->result();
+//        foreach($query1 as $row){
+//            $query['sportname']=array();
+//            $query2=$this->db->query("SELECT `id`, `name`, `status`, `order`, `icon`, `about`, `eligibility`, `rules`, `json` FROM `sfa_sports` WHERE `id`=$row->sports")->row();
+//            array_push($query['sportname'],$query2);
+//            
+//        }
+	    
+	    $query['school'] = $this->db->query("SELECT * FROM `sfa_school` WHERE `id` = $id")->row();
+	    
+	    $query['sportname'] = $this->db->query("Select `sfa_sports`.`id`, `sfa_sports`.`name`,`sfa_school`.`id` as `schoolid`, `sfa_school`.`name` as `schoolname` from `sfa_sports` inner join `sfa_student` ON `sfa_sports`.`id` = `sfa_student`.`sports` inner join `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` where `sfa_school`.`id` = $id")->result();
+	    
+	    
         
         return $query;
         

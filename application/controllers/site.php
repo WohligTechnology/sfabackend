@@ -1171,6 +1171,7 @@ public function createmedia()
 	$access=array("1");
 	$this->checkaccess($access);
 	$data[ 'status' ] =$this->user_model->getstatusdropdown();
+	$data["school"]=$this->school_model->getschooldropdown();
 	$data["page"]="createmedia";
 	$data["title"]="Create media";
 	$this->load->view("template",$data);
@@ -1179,10 +1180,12 @@ public function createmediasubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
+	$this->form_validation->set_rules("school","School","trim");
 	$this->form_validation->set_rules("status","Status","trim");
 	$this->form_validation->set_rules("order","Order","trim");
 	$this->form_validation->set_rules("name","Name","trim");
 	$this->form_validation->set_rules("icon","Icon","trim");
+	$this->form_validation->set_rules("date","Date","trim");
 	$this->form_validation->set_rules("json","Json","trim");
 			if($this->form_validation->run()==FALSE)
 		{
@@ -1197,6 +1200,8 @@ public function createmediasubmit()
 			$status=$this->input->get_post("status");
 			$order=$this->input->get_post("order");
 			$name=$this->input->get_post("name");
+			$date=$this->input->get_post("date");
+			$school=$this->input->get_post("school");
 			//$icon=$this->input->get_post("icon");
 			$json=$this->input->get_post("json");
 				 //ICON
@@ -1235,8 +1240,7 @@ public function createmediasubmit()
 
 						}
 
-
-			if($this->media_model->create($status,$order,$name,$icon,$json)==0)
+			if($this->media_model->create($status,$order,$name,$icon,$json,$date,$school)==0)
 			$data["alerterror"]="New media could not be created.";
 			else
 			$data["alertsuccess"]="media created Successfully.";
@@ -1250,9 +1254,11 @@ public function editmedia()
 	$this->checkaccess($access);
 	$data["page"]="editmedia";
 	$data[ 'status' ] =$this->user_model->getstatusdropdown();
+	$data["school"]=$this->school_model->getschooldropdown();
 	$data["title"]="Edit media";
 	$data["base_url"]=site_url("site/viewmediaitemjson?id=").$this->input->get('id');
 	$data["before"]=$this->media_model->beforeedit($this->input->get("id"));
+	print_r($data["before"]);
 	$this->load->view("template",$data);
 }
 public function editmediasubmit()
@@ -1265,6 +1271,7 @@ public function editmediasubmit()
 	$this->form_validation->set_rules("name","Name","trim");
 	$this->form_validation->set_rules("icon","Icon","trim");
 	$this->form_validation->set_rules("json","Json","trim");
+	$this->form_validation->set_rules("school","School","trim");
 			if($this->form_validation->run()==FALSE)
 		{
 			$data["alerterror"]=validation_errors();
@@ -1282,6 +1289,8 @@ public function editmediasubmit()
 			$name=$this->input->get_post("name");
 			//$icon=$this->input->get_post("icon");
 			$json=$this->input->get_post("json");
+			$school=$this->input->get_post("school");
+			$date=$this->input->get_post("date");
 					//ICON
 
 				   $config['upload_path'] = './uploads/';
@@ -1325,7 +1334,7 @@ public function editmediasubmit()
 						   // print_r($image);
 							$icon=$icon->icon;
 						}
-			if($this->media_model->edit($id,$status,$order,$name,$icon,$json)==0)
+			if($this->media_model->edit($id,$status,$order,$name,$icon,$json,$school,$date)==0)
 			$data["alerterror"]="New media could not be Updated.";
 			else
 			$data["alertsuccess"]="media Updated Successfully.";
@@ -1399,6 +1408,16 @@ function viewmediaitemjson()
 	$elements[8]->sort="1";
 	$elements[8]->header="Mediaid";
 	$elements[8]->alias="mediaid";
+	$elements[9]=new stdClass();
+	$elements[9]->field="`sfa_media`.`date`";
+	$elements[9]->sort="1";
+	$elements[9]->header="Mediadate";
+	$elements[9]->alias="mediadate";
+	$elements[10]=new stdClass();
+	$elements[10]->field="`sfa_media`.`school`";
+	$elements[10]->sort="1";
+	$elements[10]->header="Mediaschool";
+	$elements[10]->alias="mediaschool";
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -1423,6 +1442,7 @@ public function createmediaitem()
 	$this->checkaccess($access);
 	$data["page"]="createmediaitem";
 	$data[ 'type' ] =$this->user_model->gettypedropdown();
+	$data[ 'student' ] =$this->student_model->getstudentdropdown();
 	$data[ 'media' ] =$this->media_model->getmediadropdown();
 	$data["title"]="Create mediaitem";
 	$this->load->view("template",$data);
@@ -1456,7 +1476,8 @@ public function createmediaitemsubmit()
 			$order=$this->input->get_post("order");
 			$json=$this->input->get_post("json");
 			$media=$this->input->get_post("media");
-			if($this->mediaitem_model->create($title,$thumbnail,$type,$link,$order,$json,$media)==0)
+			$student = $this->input->get_post("student");
+			if($this->mediaitem_model->create($title,$thumbnail,$type,$link,$order,$json,$media,$student)==0)
 			$data["alerterror"]="New mediaitem could not be created.";
 			else
 			$data["alertsuccess"]="mediaitem created Successfully.";
@@ -1471,6 +1492,8 @@ public function editmediaitem()
 	$data["page"]="editmediaitem";
 	$data[ 'media' ] =$this->media_model->getmediadropdown();
 	$data[ 'type' ] =$this->user_model->gettypedropdown();
+	$data[ 'student' ] =$this->student_model->getstudentdropdown();
+     $data['selectedstudent']=$this->media_model->getmediastudent($this->input->get_post('id'));
 	$data["title"]="Edit mediaitem";
 	$data["before"]=$this->mediaitem_model->beforeedit($this->input->get("id"));
 	$this->load->view("template",$data);
