@@ -1533,6 +1533,60 @@ $this->load->view("json",$data);
 $this->load->view("json",$data);
      
  }
+ public function getgalleryimage(){
+     $id=$this->input->get_post("id");
+        $sport=$this->input->get_post("sport");
+        $students=$this->db->query("SELECT `id` FROM `sfa_student` WHERE `school`='$id' AND `sports`='$sport'")->result();
+     $studentsids="(";
+            foreach($students as $key=>$value){
+//            $catid=$row->id;
+                if($key==0)
+                {
+                    $studentsids.=$value->id;
+                }
+                else
+                {
+                    $studentsids.=",".$value->id;
+                }
+            }
+            $studentsids.=")";
+        
+     if($studentsids=="()"){
+             $studentsids="(0)";
+            }
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`sfa_mediaitem`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+
+        $elements[1]=new stdClass();
+        $elements[1]->field="`sfa_mediaitem`.`thumbnail`";
+        $elements[1]->sort="1";
+        $elements[1]->header="thumbnail";
+        $elements[1]->alias="thumbnail";
+
+
+
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+        }
+        if($orderby=="")
+        {
+        $orderby="id";
+        $orderorder="ASC";
+        }
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_mediaitem` LEFT OUTER JOIN `sfa_mediastudents` ON `sfa_mediastudents`.`mediaitem`=`sfa_mediaitem`.`id`","WHERE `sfa_mediastudents`.`student` IN $studentsids");
+        $this->load->view("json",$data);
+ }
+ 
+ 
  
  
  
