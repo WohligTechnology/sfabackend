@@ -100,13 +100,14 @@ return $query;
          $return=array();
         
 		
-		$query=$this->db->query("SELECT `id`, `sport`, `sportscategory`, `student` FROM `sfa_sportcategorystudent` WHERE `student`='$id'");
+		$query=$this->db->query("SELECT `sfa_sportscategory`.`id`, `sfa_sportscategory`.`title` FROM `sfa_sportscategory` INNER JOIN `sfa_sportcategorystudent` ON `sfa_sportcategorystudent`.`sportscategory`=`sfa_sportscategory`.`id` WHERE `sfa_sportcategorystudent`.`student`='$id' GROUP BY `sfa_sportscategory`.`id`
+");
         if($query->num_rows() > 0)
         {
             $query=$query->result();
             foreach($query as $row)
             {
-                $return[]=$row->sportscategory;
+                $return[]=$row->id;
             }
         }
          return $return;

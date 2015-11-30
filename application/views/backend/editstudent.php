@@ -59,7 +59,7 @@ Student Details
 				  <div class="col-sm-4">
 					<?php
 						
-						echo form_dropdown('sports[]',$sports,$selectedsport,'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an sports..." multiple');
+						echo form_multiselect('sports[]',$sports,$selectedsport,'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an sports..." multiple');
 					?>
 				  </div>
 				</div>
@@ -68,7 +68,7 @@ Student Details
 				  <div class="col-sm-4">
 					<?php
 						
-						echo form_dropdown('sportscategory[]',$sportscategory,$selectedsportscategory,'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an sportscategory..." multiple');
+						echo form_multiselect('sportscategory[]',$sportscategory,$selectedsportscategory,'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an sportscategory..." multiple');
 					?>
 				  </div>
 				</div>
@@ -78,7 +78,7 @@ Student Details
 				  <div class="col-sm-4">
 					<?php
 						
-						echo form_dropdown('agegroup[]',$agegroup,$selectedagegroup,'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an agegroup..." multiple');
+						echo form_multiselect('agegroup[]',$agegroup,$selectedagegroup,'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an agegroup..." multiple');
 					?>
 				  </div>
 				</div>
