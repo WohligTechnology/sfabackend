@@ -59,7 +59,7 @@ public function getbannersliders()
 //            
 //        }
 	    
-	    $query['school'] = $this->db->query("SELECT *,CONCAT('SFASC',LPAD(`sfa_school`.`id`,6,0)) FROM `sfa_school` WHERE `id` = $id")->row();
+	    $query['school'] = $this->db->query("SELECT *,CONCAT('SFASC',LPAD(`sfa_school`.`id`,6,0)) as `sfaschoolid` FROM `sfa_school` WHERE `id` = $id")->row();
 	    
 	    $query['sportname'] = $this->db->query("Select `sfa_sports`.`id`, `sfa_sports`.`name`,`sfa_school`.`id` as `schoolid`, `sfa_school`.`name` as `schoolname` from `sfa_sports` inner join `sfa_student` ON `sfa_sports`.`id` = `sfa_student`.`sports` inner join `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` where `sfa_school`.`id` = $id")->result();
 	    
