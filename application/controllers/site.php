@@ -1601,7 +1601,7 @@ public function editmediaitemsubmit()
             
             if($thumbnail=="")
             {
-            $thumbnail=$this->user_model->getimagebyid($id);
+            $thumbnail=$this->mediaitem_model->getimagebyid($id);
                // print_r($thumbnail);
                 $thumbnail=$thumbnail->thumbnail;
             }
