@@ -1258,7 +1258,6 @@ public function editmedia()
 	$data["title"]="Edit media";
 	$data["base_url"]=site_url("site/viewmediaitemjson?id=").$this->input->get('id');
 	$data["before"]=$this->media_model->beforeedit($this->input->get("id"));
-	print_r($data["before"]);
 	$this->load->view("template",$data);
 }
 public function editmediasubmit()

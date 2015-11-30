@@ -18,9 +18,11 @@ public function create($title,$thumbnail,$type,$link,$order,$json,$media,$studen
 	$query=$this->db->insert( "sfa_mediaitem", $data );
 	$id=$this->db->insert_id();
 	//code here
+    if($student != ""){
         foreach($student AS $key=>$value)
         {
             $this->mediaitem_model->createmediastudent($value,$id);
+        }
         }
 	if(!$query)
 	return  0;

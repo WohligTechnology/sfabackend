@@ -29,15 +29,15 @@
 					<input type="text" id="normal-field" class="form-control" name="name" value='<?php echo set_value(' name ',$before->name);?>'>
 				</div>
 			</div>
-			<div class=" form-group">
+				<div class=" form-group">
 				<label class="col-sm-2 control-label" for="normal-field">Icon</label>
 				<div class="col-sm-4">
 					<input type="file" id="normal-field" class="form-control" name="icon" value='<?php echo set_value(' icon ',$before->icon);?>'>
-					<?php if($before->icon == "")
+						<?php if($before->icon == "")
 						 { }
 						 else
 						 { ?>
-						<img src="<?php echo base_url('uploads')." / ".$before->icon; ?>" width="140px" height="140px">
+							<img src="<?php echo base_url('uploads')."/".$before->icon; ?>" width="140px" height="140px">
 						<?php }
 					?>
 				</div>

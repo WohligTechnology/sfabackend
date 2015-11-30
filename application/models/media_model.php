@@ -18,7 +18,7 @@ public function create($status,$order,$name,$icon,$json,$date,$school)
 public function getmediastudent($id)
 	{
          $return=array();
-		$query=$this->db->query("SELECT `sfa_student`.`id`,`sfa_student`.`name` FROM `sfa_student` inner join `sfa_mediastudents` ON `sfa_student`.`id` = `sfa_mediastudents`.`student`  WHERE `sfa_mediastudents`.`student`='$id'");
+		$query=$this->db->query("SELECT `sfa_student`.`id`,`sfa_student`.`name` FROM `sfa_student` inner join `sfa_mediastudents` ON `sfa_student`.`id` = `sfa_mediastudents`.`student`  WHERE `sfa_mediastudents`.`mediaitem`='$id'");
         if($query->num_rows() > 0)
         {
             $query=$query->result();
