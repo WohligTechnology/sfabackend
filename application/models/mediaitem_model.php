@@ -51,5 +51,10 @@ public function delete($id)
 $query=$this->db->query("DELETE FROM `sfa_mediaitem` WHERE `id`='$id'");
 return $query;
 }
+    public function getimagebyid($id)
+	{
+		$query=$this->db->query("SELECT `thumbnail` FROM `sfa_mediaitem` WHERE `id`='$id'")->row();
+		return $query;
+	}
 }
 ?>

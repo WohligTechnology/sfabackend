@@ -22,7 +22,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="normal-field">Thumbnail</label>
 							<div class="col-sm-4">
-								<input type="text" id="normal-field" class="form-control" name="thumbnail" value='<?php echo set_value(' thumbnail ');?>'>
+								<input type="file" id="normal-field" class="form-control" name="thumbnail" value='<?php echo set_value(' thumbnail ');?>'>
 							</div>
 						</div>
 						<div class=" form-group">
