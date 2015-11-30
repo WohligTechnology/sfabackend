@@ -1646,8 +1646,12 @@ $this->load->view("json",$data);
  public function getgalleryimagestudentprofile(){
      $id=$this->input->get_post("id");
         $sport=$this->input->get_post("sport");
-        $schoolid=$this->db->query("SELECT `school` FROM `sfa_student` WHERE `id`='$id'")->row();
-        $mediaid=$this->db->query("SELECT `id`, `name`, `icon`, `status`, `order`, `json`, `school`, `date` FROM `sfa_media` WHERE `school`='$schoolid'")->row();
+     
+        $query2=$this->db->query("SELECT `school` FROM `sfa_student` WHERE `id`='$id'")->row();
+      $schoolid=$query2->school;
+     
+        $query1=$this->db->query("SELECT `id`, `name`, `icon`, `status`, `order`, `json`, `school`, `date` FROM `sfa_media` WHERE `school`='$schoolid'")->row();
+     $mediaid=$query1->mediaid;
      
         $elements=array();
         $elements[0]=new stdClass();
@@ -1677,7 +1681,7 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_mediaitem`","WHERE `sfa_mediaitem`.`sport` = $sport");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_mediaitem`","WHERE `sfa_mediaitem`.`sport` = '$sport' AND `sfa_mediaitem`.`id`='$mediaid'");
         $this->load->view("json",$data);
  }
  
