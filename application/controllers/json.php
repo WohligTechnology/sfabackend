@@ -1649,10 +1649,11 @@ $this->load->view("json",$data);
      
         $query2=$this->db->query("SELECT `school` FROM `sfa_student` WHERE `id`='$id'")->row();
       $schoolid=$query2->school;
-     
+   
         $query1=$this->db->query("SELECT `id`, `name`, `icon`, `status`, `order`, `json`, `school`, `date` FROM `sfa_media` WHERE `school`='$schoolid'")->row();
-     $mediaid=$query1->mediaid;
-     
+      
+
+     $mediaid=$query1->id;
         $elements=array();
         $elements[0]=new stdClass();
         $elements[0]->field="`sfa_mediaitem`.`id`";
