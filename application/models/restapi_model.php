@@ -84,7 +84,20 @@ return  1;
 {
          $query=$this->db->query("SELECT `id`, `name`, `status`, `order`, `icon`, `about`, `eligibility`, `rules`, `json` FROM `sfa_sports` WHERE 1")->result();
         return $query;
+}  
+    public function getStudentProfile($id)
+{
+         $query['studentprofile']=$this->db->query("SELECT `sfa_student`.`id`,CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `sfastudentid`, `sfa_student`.`name`, `sfa_student`.`school`, `sfa_student`.`address`, `sfa_student`.`content`, `sfa_student`.`email`, `sfa_student`.`image`, `sfa_student`.`location`, `sfa_student`.`sports`, `sfa_student`.`sportscategory`, `sfa_student`.`agegroup`, `sfa_student`.`gender`, `sfa_student`.`isparticipant`, `sfa_student`.`age`, `sfa_student`.`phone`, `sfa_student`.`emergencycontact`, `sfa_student`.`dob`,`sfa_school`.`id` as `schoolid`,`sfa_school`.`name` as `schoolname`,`sfa_agegroups`.`id` as `agegroupid`,`sfa_agegroups`.`name` as `agegroupname`
+         FROM `sfa_student`
+         LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`
+         LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_student`.`agegroup`
+         WHERE `sfa_student`.`id`='$id'")->row();
+        
+        $query['sportsparticipated']=$this->db->query("SELECT DISTINCT(`sfa_sports`.`id`), `sfa_sports`.`name` FROM `sfa_sports` LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`sport`=`sfa_sports`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_studentsport`.`student` WHERE `sfa_student`.`id`='$id'")->result();
+        
+        return $query;
 }
+    
     
 }
 ?>
