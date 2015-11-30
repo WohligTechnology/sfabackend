@@ -12,9 +12,9 @@ class mediaitem_model extends CI_Model
 		return  1;
 	}
 	
-public function create($title,$thumbnail,$type,$link,$order,$json,$media,$student)
+public function create($title,$thumbnail,$type,$link,$order,$json,$media,$student,$sport)
 {
-	$data=array("title" => $title,"thumbnail" => $thumbnail,"type" => $type,"link" => $link,"order" => $order,"json" => $json,"media" => $media);
+	$data=array("title" => $title,"thumbnail" => $thumbnail,"type" => $type,"link" => $link,"order" => $order,"json" => $json,"media" => $media,"sport" => $sport);
 	$query=$this->db->insert( "sfa_mediaitem", $data );
 	$id=$this->db->insert_id();
 	//code here
@@ -41,9 +41,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_mediaitem")->row();
 return $query;
 }
-public function edit($id,$title,$thumbnail,$type,$link,$order,$json,$media)
+public function edit($id,$title,$thumbnail,$type,$link,$order,$json,$media,$sport)
 {
-$data=array("title" => $title,"thumbnail" => $thumbnail,"type" => $type,"link" => $link,"order" => $order,"json" => $json,"media" => $media);
+$data=array("title" => $title,"thumbnail" => $thumbnail,"type" => $type,"link" => $link,"order" => $order,"json" => $json,"media" => $media,"sport" => $sport);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_mediaitem", $data );
 return 1;

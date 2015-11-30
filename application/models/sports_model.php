@@ -88,7 +88,7 @@ return $query;
             $query=$query->result();
             foreach($query as $row)
             {
-                $return[]=$row->sport;
+                $return[]=$row->agegroup;
             }
         }
          return $return;
@@ -99,8 +99,8 @@ return $query;
 	{
          $return=array();
         
-		
-		$query=$this->db->query("SELECT `sfa_sportscategory`.`id`, `sfa_sportscategory`.`title` FROM `sfa_sportscategory` INNER JOIN `sfa_sportcategorystudent` ON `sfa_sportcategorystudent`.`sportscategory`=`sfa_sportscategory`.`id` WHERE `sfa_sportcategorystudent`.`student`='$id'");
+//		$query=$this->db->query("SELECT `sfa_sportscategory`.`id`, `sfa_sportscategory`.`title` FROM `sfa_sportscategory` INNER JOIN `sfa_sportcategorystudent` ON `sfa_sportcategorystudent`.`sportscategory`=`sfa_sportscategory`.`id` WHERE `sfa_sportcategorystudent`.`student`='$id'");
+        $query=$this->db->query("SELECT `id`, `sportscategory`, `student` FROM `sfa_sportcategorystudent` WHERE `student`='$id'");
          if($query->num_rows() > 0)
         {
             $query=$query->result();

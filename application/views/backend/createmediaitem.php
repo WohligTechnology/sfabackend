@@ -64,6 +64,12 @@
 								<?php echo form_dropdown("media",$media,set_value('media'),"class='chzn-select form-control'");?>
 							</div>
 						</div>
+                        <div class=" form-group">
+							<label class="col-sm-2 control-label" for="normal-field">Sport</label>
+							<div class="col-sm-4">
+								<?php echo form_dropdown("sport",$sport,set_value('sport'),"class='chzn-select form-control'");?>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="normal-field">&nbsp;</label>
 							<div class="col-sm-4">

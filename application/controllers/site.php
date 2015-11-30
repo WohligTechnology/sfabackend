@@ -1443,6 +1443,7 @@ public function createmediaitem()
 	$data[ 'type' ] =$this->user_model->gettypedropdown();
 	$data[ 'student' ] =$this->student_model->getstudentdropdown();
 	$data[ 'media' ] =$this->media_model->getmediadropdown();
+    $data["sport"]=$this->sports_model->getsportsdropdown();
 	$data["title"]="Create mediaitem";
 	$this->load->view("template",$data);
 }
@@ -1461,6 +1462,7 @@ public function createmediaitemsubmit()
 		{
 			$data["alerterror"]=validation_errors();
 			$data["page"]="createmediaitem";
+                $data["sport"]=$this->sports_model->getsportsdropdown();
 			$data[ 'media' ] =$this->media_model->getmediadropdown();
 			$data[ 'type' ] =$this->user_model->gettypedropdown();
 			$data["title"]="Create mediaitem";
@@ -1476,6 +1478,7 @@ public function createmediaitemsubmit()
 			$json=$this->input->get_post("json");
 			$media=$this->input->get_post("media");
 			$student = $this->input->get_post("student");
+			$sport = $this->input->get_post("sport");
                  $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
@@ -1510,7 +1513,7 @@ public function createmediaitemsubmit()
                 }
                 
 			}
-			if($this->mediaitem_model->create($title,$thumbnail,$type,$link,$order,$json,$media,$student)==0)
+			if($this->mediaitem_model->create($title,$thumbnail,$type,$link,$order,$json,$media,$student,$sport)==0)
 			$data["alerterror"]="New mediaitem could not be created.";
 			else
 			$data["alertsuccess"]="mediaitem created Successfully.";
@@ -1526,6 +1529,7 @@ public function editmediaitem()
 	$data[ 'media' ] =$this->media_model->getmediadropdown();
 	$data[ 'type' ] =$this->user_model->gettypedropdown();
 	$data[ 'student' ] =$this->student_model->getstudentdropdown();
+    $data["sport"]=$this->sports_model->getsportsdropdown();
      $data['selectedstudent']=$this->media_model->getmediastudent($this->input->get_post('id'));
 	$data["title"]="Edit mediaitem";
 	$data["before"]=$this->mediaitem_model->beforeedit($this->input->get("id"));
@@ -1548,6 +1552,7 @@ public function editmediaitemsubmit()
 			$data["alerterror"]=validation_errors();
 			$data["page"]="editmediaitem";
 			$data[ 'media' ] =$this->media_model->getmediadropdown();
+                $data["sport"]=$this->sports_model->getsportsdropdown();
 			$data[ 'type' ] =$this->user_model->gettypedropdown();
 			$data["title"]="Edit mediaitem";
 			$data["before"]=$this->mediaitem_model->beforeedit($this->input->get("id"));
@@ -1563,6 +1568,7 @@ public function editmediaitemsubmit()
 			$order=$this->input->get_post("order");
 			$json=$this->input->get_post("json");
 			$media=$this->input->get_post("media");
+			$sport=$this->input->get_post("sport");
                   $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
@@ -1604,7 +1610,7 @@ public function editmediaitemsubmit()
                // print_r($thumbnail);
                 $thumbnail=$thumbnail->thumbnail;
             }
-			if($this->mediaitem_model->edit($id,$title,$thumbnail,$type,$link,$order,$json,$media)==0)
+			if($this->mediaitem_model->edit($id,$title,$thumbnail,$type,$link,$order,$json,$media,$sport)==0)
 			$data["alerterror"]="New mediaitem could not be Updated.";
 			else
 			$data["alertsuccess"]="mediaitem Updated Successfully.";
@@ -3143,12 +3149,12 @@ public function editstudent()
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
     $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
      $data['selectedsport']=$this->sports_model->getsportbystudent($this->input->get_post('id'));
-    print_r( $data['selectedsport']);
+  
     
      $data['selectedagegroup']=$this->sports_model->getagegroupbystudent($this->input->get_post('id'));
-    print_r( $data['selectedagegroup']);
+
      $data['selectedsportscategory']=$this->sports_model->getsportcategorybystudent($this->input->get_post('id'));
-    print_r( $data['selectedsportscategory']);
+
     $data["sports"]=$this->sports_model->getsportsdropdown();
 	$data["title"]="Edit student";
 	$data["before1"]=$this->input->get("id");
