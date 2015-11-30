@@ -31,7 +31,7 @@ $studentid=$this->db->insert( "sfa_student", $data );
 			'agegroup' => $value,
 			'student' => $studentid
 		);
-		$query=$this->db->insert( 'sfa_agegroup', $data );
+		$query=$this->db->insert( 'sfa_studentagegroup', $data );
 		return  1;
 	}
     public function createstudentsportscategory($value,$studentid)
