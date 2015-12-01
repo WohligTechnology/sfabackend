@@ -398,55 +398,57 @@ $this->load->view("json",$data);
 }
 function getallagegroups()
 {
-$elements=array();
-$elements[0]=new stdClass();
-$elements[0]->field="`sfa_agegroups`.`id`";
-$elements[0]->sort="1";
-$elements[0]->header="ID";
-$elements[0]->alias="id";
-
-$elements=array();
-$elements[1]=new stdClass();
-$elements[1]->field="`sfa_agegroups`.`name`";
-$elements[1]->sort="1";
-$elements[1]->header="Name";
-$elements[1]->alias="name";
-
-$elements=array();
-$elements[2]=new stdClass();
-$elements[2]->field="`sfa_agegroups`.`status`";
-$elements[2]->sort="1";
-$elements[2]->header="Status";
-$elements[2]->alias="status";
-
-$elements=array();
-$elements[3]=new stdClass();
-$elements[3]->field="`sfa_agegroups`.`order`";
-$elements[3]->sort="1";
-$elements[3]->header="Order";
-$elements[3]->alias="order";
-
-$elements=array();
-$elements[4]=new stdClass();
-$elements[4]->field="`sfa_agegroups`.`json`";
-$elements[4]->sort="1";
-$elements[4]->header="Json";
-$elements[4]->alias="json";
-
-$search=$this->input->get_post("search");
-$pageno=$this->input->get_post("pageno");
-$orderby=$this->input->get_post("orderby");
-$orderorder=$this->input->get_post("orderorder");
-$maxrow=$this->input->get_post("maxrow");
-if($maxrow=="")
-{
-}
-if($orderby=="")
-{
-$orderby="id";
-$orderorder="ASC";
-}
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_agegroups`");
+	
+	$data["message"] = $this->agegroups_model->getallagegroups();
+//$elements=array();
+//$elements[0]=new stdClass();
+//$elements[0]->field="`sfa_agegroups`.`id`";
+//$elements[0]->sort="1";
+//$elements[0]->header="ID";
+//$elements[0]->alias="id";
+//
+//$elements=array();
+//$elements[1]=new stdClass();
+//$elements[1]->field="`sfa_agegroups`.`name`";
+//$elements[1]->sort="1";
+//$elements[1]->header="Name";
+//$elements[1]->alias="name";
+//
+//$elements=array();
+//$elements[2]=new stdClass();
+//$elements[2]->field="`sfa_agegroups`.`status`";
+//$elements[2]->sort="1";
+//$elements[2]->header="Status";
+//$elements[2]->alias="status";
+//
+//$elements=array();
+//$elements[3]=new stdClass();
+//$elements[3]->field="`sfa_agegroups`.`order`";
+//$elements[3]->sort="1";
+//$elements[3]->header="Order";
+//$elements[3]->alias="order";
+//
+//$elements=array();
+//$elements[4]=new stdClass();
+//$elements[4]->field="`sfa_agegroups`.`json`";
+//$elements[4]->sort="1";
+//$elements[4]->header="Json";
+//$elements[4]->alias="json";
+//
+//$search=$this->input->get_post("search");
+//$pageno=$this->input->get_post("pageno");
+//$orderby=$this->input->get_post("orderby");
+//$orderorder=$this->input->get_post("orderorder");
+//$maxrow=$this->input->get_post("maxrow");
+//if($maxrow=="")
+//{
+//}
+//if($orderby=="")
+//{
+//$orderby="id";
+//$orderorder="ASC";
+//}
+//$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_agegroups`");
 $this->load->view("json",$data);
 }
 public function getsingleagegroups()
@@ -1401,6 +1403,12 @@ $data["message"]=$this->restapi_model->getStudentProfile($id);
 $this->load->view("json",$data);
  }
  
+ public function filtergames(){
+	 $games = $this->input->get_post("games");
+	 $data["message"] = $this->restapi_model->filtergames($games);
+	 $this->load->view("json",$data);
+ }
+ 
  public function getSchoolSports()
  {
      
@@ -1523,7 +1531,7 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_student`","WHERE `sfa_student`.`school`='$id' AND `sfa_student`.`agegroup`='$agegroup' AND `sfa_student`.`sports`='$sport'");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_student` inner join `sfa_studentsport` on `sfa_student`.`id` = `sfa_studentsport`.`student`"," where `sfa_studentsport`.`sport` = $sport and `sfa_student`.`school` = $id and `sfa_student`.`agegroup` = $agegroup group by `sfa_student`.`id`");
         $this->load->view("json",$data);
  }
  
@@ -1540,24 +1548,7 @@ $this->load->view("json",$data);
  }
  public function getgalleryimageforstudentprofile(){
      $id=$this->input->get_post("id");
-        $students=$this->db->query("SELECT `id` FROM `sfa_student` WHERE `school`='$id' AND `sports`='$sport'")->result();
-     $studentsids="(";
-            foreach($students as $key=>$value){
-//            $catid=$row->id;
-                if($key==0)
-                {
-                    $studentsids.=$value->id;
-                }
-                else
-                {
-                    $studentsids.=",".$value->id;
-                }
-            }
-            $studentsids.=")";
-        
-     if($studentsids=="()"){
-             $studentsids="(0)";
-            }
+	 $sport =$this->input->get_post("sport");
         $elements=array();
         $elements[0]=new stdClass();
         $elements[0]->field="`sfa_mediaitem`.`id`";
@@ -1586,31 +1577,31 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_mediaitem` LEFT OUTER JOIN `sfa_mediastudents` ON `sfa_mediastudents`.`mediaitem`=`sfa_mediaitem`.`id`","WHERE `sfa_mediastudents`.`student` IN $studentsids");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_mediaitem` inner join `sfa_mediastudents` ON `sfa_mediastudents`.`mediaitem` = `sfa_mediaitem`.`id`"," where `sfa_mediastudents`.`student` = $id and `sfa_mediaitem`.`sport` = $sport");
         $this->load->view("json",$data);
  }
  
   public function getgalleryimage(){
      $id=$this->input->get_post("id");
         $sport=$this->input->get_post("sport");
-        $students=$this->db->query("SELECT `id` FROM `sfa_student` WHERE `school`='$id' AND `sports`='$sport'")->result();
-     $studentsids="(";
-            foreach($students as $key=>$value){
-//            $catid=$row->id;
-                if($key==0)
-                {
-                    $studentsids.=$value->id;
-                }
-                else
-                {
-                    $studentsids.=",".$value->id;
-                }
-            }
-            $studentsids.=")";
-        
-     if($studentsids=="()"){
-             $studentsids="(0)";
-            }
+//        $students=$this->db->query("SELECT `id` FROM `sfa_student` WHERE `school`='$id' AND `sports`='$sport'")->result();
+//     $studentsids="(";
+//            foreach($students as $key=>$value){
+////            $catid=$row->id;
+//                if($key==0)
+//                {
+//                    $studentsids.=$value->id;
+//                }
+//                else
+//                {
+//                    $studentsids.=",".$value->id;
+//                }
+//            }
+//            $studentsids.=")";
+//        
+//     if($studentsids=="()"){v5tredxz	``	A1	`987654356722123456q	w34qw56r76890-0-9-
+//             $studentsids="(0)";
+//            }
         $elements=array();
         $elements[0]=new stdClass();
         $elements[0]->field="`sfa_mediaitem`.`id`";
@@ -1639,7 +1630,7 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_mediaitem` LEFT OUTER JOIN `sfa_mediastudents` ON `sfa_mediastudents`.`mediaitem`=`sfa_mediaitem`.`id`","WHERE `sfa_mediastudents`.`student` IN $studentsids");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_mediaitem` inner join `sfa_media` ON `sfa_mediaitem`.`media` = `sfa_media`.`id`"," where `sfa_media`.`school` = $id and `sfa_mediaitem`.`sport` = $sport");
         $this->load->view("json",$data);
  }
  
@@ -1649,11 +1640,10 @@ $this->load->view("json",$data);
      
         $query2=$this->db->query("SELECT `school` FROM `sfa_student` WHERE `id`='$id'")->row();
       $schoolid=$query2->school;
-   
+     
         $query1=$this->db->query("SELECT `id`, `name`, `icon`, `status`, `order`, `json`, `school`, `date` FROM `sfa_media` WHERE `school`='$schoolid'")->row();
-      
-
-     $mediaid=$query1->id;
+     $mediaid=$query1->mediaid;
+     
         $elements=array();
         $elements[0]=new stdClass();
         $elements[0]->field="`sfa_mediaitem`.`id`";
@@ -1685,9 +1675,4 @@ $this->load->view("json",$data);
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_mediaitem`","WHERE `sfa_mediaitem`.`sport` = '$sport' AND `sfa_mediaitem`.`id`='$mediaid'");
         $this->load->view("json",$data);
  }
- 
- 
- 
- 
- 
 } ?>

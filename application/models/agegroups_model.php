@@ -36,6 +36,11 @@ public function delete($id)
 $query=$this->db->query("DELETE FROM `sfa_agegroups` WHERE `id`='$id'");
 return $query;
 }
+	public function getallagegroups()
+	{
+		$query = $this->db->query("SELECT * from `sfa_agegroups` where status = 1")->result();
+		return $query;
+	}
 public function getagegroupsdropdown()
 	{
 	    $query=$this->db->query("SELECT * FROM `sfa_agegroups`  ORDER BY `id` ASC")->result();

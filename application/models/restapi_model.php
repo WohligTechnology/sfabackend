@@ -61,7 +61,7 @@ public function getbannersliders()
 	    
 	    $query['school'] = $this->db->query("SELECT *,CONCAT('SFASC',LPAD(`sfa_school`.`id`,6,0)) as `sfaschoolid` FROM `sfa_school` WHERE `id` = $id")->row();
 	    
-	    $query['sportname'] = $this->db->query("Select `sfa_sports`.`id`, `sfa_sports`.`name`,`sfa_school`.`id` as `schoolid`, `sfa_school`.`name` as `schoolname` from `sfa_sports` inner join `sfa_student` ON `sfa_sports`.`id` = `sfa_student`.`sports` inner join `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` where `sfa_school`.`id` = $id")->result();
+	    $query['sportname'] = $this->db->query("	Select distinct `sfa_sports`.`id`, `sfa_sports`.`name` from `sfa_sports` inner join `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` inner join `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` where `sfa_student`.`school` = $id")->result();
 	    
 	    
         
@@ -97,6 +97,14 @@ return  1;
         
         return $query;
 }
+	
+	public function filtergames($games){
+		$query = $this->db->query("select `id`, `name` from `sfa_sports` where `id` IN ($games)")->result();
+		foreach($query as $row){
+            $row->category = $this->db->query("select `sfa_sportscategory`.`id`, `sfa_sportscategory`.`title`,`sfa_sportscategory`.`sports` from `sfa_sportscategory` inner join `sfa_sports` ON `sfa_sportscategory`.`sports` = `sfa_sports`.`id` where `sfa_sports`.`id` = $row->id")->result();
+        }
+		return $query;
+	}
     
     
 }
