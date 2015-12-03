@@ -1,5 +1,5 @@
 <?php if ( ! defined("BASEPATH")) exit("No direct script access allowed");
-class Json extends CI_Controller 
+class Json extends CI_Controller
 {function getallbanner()
 {
 $elements=array();
@@ -398,7 +398,7 @@ $this->load->view("json",$data);
 }
 function getallagegroups()
 {
-	
+
 	$data["message"] = $this->agegroups_model->getallagegroups();
 //$elements=array();
 //$elements[0]=new stdClass();
@@ -1300,15 +1300,15 @@ $this->load->view("json",$data);
  {
  $data["message"]=$this->restapi_model->getbannersliders();
  $this->load->view("json",$data);
- 
+
  }
- 
+
     public function getregistrationsports()
     {
         $data['message']=$this->restapi_model->getgetregistrationsports();
         $this->load->view("json",$data);
     }
- 
+
     public function registerschool()
     {
  $data = json_decode(file_get_contents('php://input'), true);
@@ -1329,7 +1329,7 @@ $this->load->view("json",$data);
 }
         $this->load->view("json",$data);
     }
- 
+
     public function getsponsors()
     {
 	$elements=array();
@@ -1338,13 +1338,13 @@ $this->load->view("json",$data);
 	$elements[0]->sort="1";
 	$elements[0]->header="ID";
 	$elements[0]->alias="id";
-            
+
 	$elements[1]=new stdClass();
 	$elements[1]->field="`sponsor`.`name`";
 	$elements[1]->sort="1";
 	$elements[1]->header="Name";
 	$elements[1]->alias="name";
-            
+
 	$elements[2]=new stdClass();
 	$elements[2]->field="`sponsor`.`description`";
 	$elements[2]->sort="1";
@@ -1382,7 +1382,7 @@ $this->load->view("json",$data);
 	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sponsor`");
 	$this->load->view("json",$data);
     }
- 
+
  public function getnewsletter(){
  $email=$this->input->get_post("email");
 $data["message"]=$this->restapi_model->getnewsletter($email);
@@ -1402,16 +1402,16 @@ $this->load->view("json",$data);
 $data["message"]=$this->restapi_model->getStudentProfile($id);
 $this->load->view("json",$data);
  }
- 
+
  public function filtergames(){
 	 $games = $this->input->get_post("games");
 	 $data["message"] = $this->restapi_model->filtergames($games);
 	 $this->load->view("json",$data);
  }
- 
+
  public function getSchoolSports()
  {
-     
+
         $id=$this->input->get_post("id");
         $sport=$this->input->get_post("sport");
         $agegroup=$this->input->get_post("agegroup");
@@ -1463,55 +1463,55 @@ $this->load->view("json",$data);
         $elements[7]->sort="1";
         $elements[7]->header="Content";
         $elements[7]->alias="content";
-     
+
         $elements[8]=new stdClass();
         $elements[8]->field="`sfa_student`.`sports`";
         $elements[8]->sort="1";
         $elements[8]->header="sports";
         $elements[8]->alias="sports";
-     
+
         $elements[9]=new stdClass();
         $elements[9]->field="`sfa_student`.`sportscategory`";
         $elements[9]->sort="1";
         $elements[9]->header="sportscategory";
         $elements[9]->alias="sportscategory";
-     
+
         $elements[10]=new stdClass();
         $elements[10]->field="`sfa_student`.`agegroup`";
         $elements[10]->sort="1";
         $elements[10]->header="agegroup";
         $elements[10]->alias="agegroup";
-     
+
         $elements[11]=new stdClass();
         $elements[11]->field="`sfa_student`.`gender`";
         $elements[11]->sort="1";
         $elements[11]->header="gender";
         $elements[11]->alias="gender";
-     
+
         $elements[12]=new stdClass();
         $elements[12]->field="`sfa_student`.`isparticipant`";
         $elements[12]->sort="1";
         $elements[12]->header="isparticipant";
         $elements[12]->alias="isparticipant";
-     
+
         $elements[13]=new stdClass();
         $elements[13]->field="`sfa_student`.`age`";
         $elements[13]->sort="1";
         $elements[13]->header="age";
         $elements[13]->alias="age";
-     
+
         $elements[14]=new stdClass();
         $elements[14]->field="`sfa_student`.`phone`";
         $elements[14]->sort="1";
         $elements[14]->header="phone";
         $elements[14]->alias="phone";
-     
+
         $elements[15]=new stdClass();
         $elements[15]->field="`sfa_student`.`emergencycontact`";
         $elements[15]->sort="1";
         $elements[15]->header="emergencycontact";
         $elements[15]->alias="emergencycontact";
-     
+
         $elements[16]=new stdClass();
         $elements[16]->field="`sfa_student`.`dob`";
         $elements[16]->sort="1";
@@ -1531,20 +1531,24 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
+<<<<<<< HEAD
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_student` INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student`"," WHERE `sfa_studentsport`.`sport` = $sport AND `sfa_student`.`school` = $id AND `sfa_student`.`agegroup` = $agegroup ","GROUP BY `sfa_student`.`id`");
+=======
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_student` inner join `sfa_studentsport` on `sfa_student`.`id` = `sfa_studentsport`.`student`"," where `sfa_studentsport`.`sport` = $sport and `sfa_student`.`school` = $id and `sfa_student`.`agegroup` = $agegroup"," GROUP BY `sfa_student`.`id`");
+>>>>>>> origin/master
         $this->load->view("json",$data);
  }
- 
+
  public function createEnquiries(){
 		$name=$this->input->get_post('name');
 		$email=$this->input->get_post('email');
 		$mobile=$this->input->get_post('mobile');
 		$person=$this->input->get_post('person');
- 
+
         $data["message"]=$this->restapi_model->createEnquiries($name,$email,$mobile,$person);
-     
+
 $this->load->view("json",$data);
-     
+
  }
  public function getgalleryimageforstudentprofile(){
      $id=$this->input->get_post("id");
@@ -1580,7 +1584,7 @@ $this->load->view("json",$data);
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_mediaitem` inner join `sfa_mediastudents` ON `sfa_mediastudents`.`mediaitem` = `sfa_mediaitem`.`id`"," where `sfa_mediastudents`.`student` = $id and `sfa_mediaitem`.`sport` = $sport");
         $this->load->view("json",$data);
  }
- 
+
   public function getgalleryimage(){
      $id=$this->input->get_post("id");
         $sport=$this->input->get_post("sport");
@@ -1598,7 +1602,11 @@ $this->load->view("json",$data);
 //                }
 //            }
 //            $studentsids.=")";
+<<<<<<< HEAD
 //        
+=======
+//
+>>>>>>> origin/master
 //     if($studentsids=="()"){
 //             $studentsids="(0)";
 //            }
@@ -1633,17 +1641,17 @@ $this->load->view("json",$data);
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_mediaitem` inner join `sfa_media` ON `sfa_mediaitem`.`media` = `sfa_media`.`id`"," where `sfa_media`.`school` = $id and `sfa_mediaitem`.`sport` = $sport");
         $this->load->view("json",$data);
  }
- 
+
  public function getgalleryimagestudentprofile(){
      $id=$this->input->get_post("id");
         $sport=$this->input->get_post("sport");
-     
+
         $query2=$this->db->query("SELECT `school` FROM `sfa_student` WHERE `id`='$id'")->row();
       $schoolid=$query2->school;
-     
+
         $query1=$this->db->query("SELECT `id`, `name`, `icon`, `status`, `order`, `json`, `school`, `date` FROM `sfa_media` WHERE `school`='$schoolid'")->row();
      $mediaid=$query1->mediaid;
-     
+
         $elements=array();
         $elements[0]=new stdClass();
         $elements[0]->field="`sfa_mediaitem`.`id`";
