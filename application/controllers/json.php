@@ -1531,7 +1531,7 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_student` inner join `sfa_studentsport` on `sfa_student`.`id` = `sfa_studentsport`.`student`"," where `sfa_studentsport`.`sport` = $sport and `sfa_student`.`school` = $id and `sfa_student`.`agegroup` = $agegroup group by `sfa_student`.`id`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_student` INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student`"," WHERE `sfa_studentsport`.`sport` = $sport AND `sfa_student`.`school` = $id AND `sfa_student`.`agegroup` = $agegroup ","GROUP BY `sfa_student`.`id`");
         $this->load->view("json",$data);
  }
  
@@ -1599,7 +1599,7 @@ $this->load->view("json",$data);
 //            }
 //            $studentsids.=")";
 //        
-//     if($studentsids=="()"){v5tredxz	``	A1	`987654356722123456q	w34qw56r76890-0-9-
+//     if($studentsids=="()"){
 //             $studentsids="(0)";
 //            }
         $elements=array();

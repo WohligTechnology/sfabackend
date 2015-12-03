@@ -61,7 +61,9 @@ public function getbannersliders()
 	    
 	    $query['school'] = $this->db->query("SELECT *,CONCAT('SFASC',LPAD(`sfa_school`.`id`,6,0)) as `sfaschoolid` FROM `sfa_school` WHERE `id` = $id")->row();
 	    
-	    $query['sportname'] = $this->db->query("	Select distinct `sfa_sports`.`id`, `sfa_sports`.`name` from `sfa_sports` inner join `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` inner join `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` where `sfa_student`.`school` = $id")->result();
+	    $query['participant'] = $this->db->query("select count(`sfa_student`.`id`) as `studentcount` from `sfa_student` inner join `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` where `sfa_school`.`id` = $id")->row();
+	    
+	    $query['sportname'] = $this->db->query("Select distinct `sfa_sports`.`id`, `sfa_sports`.`name` from `sfa_sports` inner join `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` inner join `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` where `sfa_student`.`school` = $id")->result();
 	    
 	    
         

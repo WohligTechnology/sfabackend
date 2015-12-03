@@ -5,8 +5,9 @@ class student_model extends CI_Model
 {
 public function create($name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)
 {
-$data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location,"address" => $address,"content" => $content,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob);
-$studentid=$this->db->insert( "sfa_student", $data );
+$data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location, "agegroup" => $agegroup[0],"address" => $address,"content" => $content,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob);
+$query=$this->db->insert( "sfa_student", $data );
+	$studentid=$this->db->insert_id();
     foreach($sports AS $key=>$value)
         {
             $this->student_model->createstudentsport($value,$studentid);
@@ -36,7 +37,9 @@ $studentid=$this->db->insert( "sfa_student", $data );
 	}
     public function createstudentsportscategory($value,$studentid)
 	{
+	    $sport = $this->db->query("select `sfa_sports`.`id` from `sfa_sports` inner join `sfa_sportscategory` ON `sfa_sports`.`id` = `sfa_sportscategory`.`sports` where `sfa_sportscategory`.`id` = $value")->row();
 		$data  = array(
+			'sport' => $sport->id,
 			'sportscategory' => $value,
 			'student' => $studentid
 		);
@@ -52,8 +55,7 @@ $studentid=$this->db->insert( "sfa_student", $data );
 		$query=$this->db->insert( 'sfa_studentsport', $data );
 		return  1;
 	}
-public function beforeedit($id)
-{
+public function beforeedit($id){
 $this->db->where("id",$id);
 $query=$this->db->get("sfa_student")->row();
 return $query;
@@ -63,26 +65,28 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_student")->row();
 return $query;
 }
-public function edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)
+	
+public function
+edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)
 {
-$data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location,"address" => $address,"content" => $content,"sports" => $sports,"sportscategory" => $sportscategory,"agegroup" => $agegroup,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob);
+$data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location, "agegroup" => $agegroup[0],"address" => $address,"content" => $content,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_student", $data );
     $this->db->query("DELETE FROM `sfa_studentagegroup` WHERE `student`='$id'");
 		$this->db->query("DELETE FROM `sfa_studentsport` WHERE `student`='$id'");
-		$this->db->query("DELETE FROM `sfa_sportscategory` WHERE `student`='$id'");
+		$this->db->query("DELETE FROM `sfa_sportcategorystudent` WHERE `student`='$id'");
     
      foreach($sports AS $key=>$value)
         {
-            $this->student_model->createstudentsport($value,$studentid);
+            $this->student_model->createstudentsport($value,$id);
         }
     foreach($sportscategory AS $key=>$value)
         {
-            $this->student_model->createstudentsportscategory($value,$studentid);
+            $this->student_model->createstudentsportscategory($value,$id);
         }
     foreach($agegroup AS $key=>$value)
         {
-            $this->student_model->createstudentagegroup($value,$studentid);
+            $this->student_model->createstudentagegroup($value,$id);
         }
     
 return 1;
@@ -95,6 +99,18 @@ return $query;
 	public function getstudentdropdown()
 	{
 	    $query=$this->db->query("SELECT * FROM `sfa_student`  ORDER BY `id` ASC")->result();
+		$student=array(
+		);
+		foreach($query as $row)
+		{
+			$student[$row->id]=$row->name;
+		}
+		
+		return $student;
+	}
+	public function getstudentdropdownbyschool($media)
+	{
+	    $query=$this->db->query("select `sfa_student`.`id`, `sfa_student`.`name` from `sfa_student` inner join `sfa_media` ON `sfa_student`.`school` = `sfa_media`.`school` where `sfa_media`.`id` = $media ORDER BY `id` ASC")->result();
 		$student=array(
 		);
 		foreach($query as $row)

@@ -41,8 +41,16 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_mediaitem")->row();
 return $query;
 }
-public function edit($id,$title,$thumbnail,$type,$link,$order,$json,$media,$sport)
+public function edit($id,$title,$thumbnail,$type,$link,$order,$json,$media,$sport,$student)
 {
+	
+	$query=$this->db->query("DELETE FROM `sfa_mediastudents` WHERE `mediaitem`='$id'");
+	if($student != ""){
+        foreach($student AS $key=>$value)
+        {
+            $this->mediaitem_model->createmediastudent($value,$id);
+        }
+	}
 $data=array("title" => $title,"thumbnail" => $thumbnail,"type" => $type,"link" => $link,"order" => $order,"json" => $json,"media" => $media,"sport" => $sport);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_mediaitem", $data );

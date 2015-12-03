@@ -106,7 +106,7 @@ return $query;
             $query=$query->result();
             foreach($query as $row)
             {
-                $return[]=$row->id;
+                $return[]=$row->sportscategory;
             }
         }
          return $return;

@@ -1528,11 +1528,12 @@ public function editmediaitem()
 	$data["page"]="editmediaitem";
 	$data[ 'media' ] =$this->media_model->getmediadropdown();
 	$data[ 'type' ] =$this->user_model->gettypedropdown();
-	$data[ 'student' ] =$this->student_model->getstudentdropdown();
+	$data["before"]=$this->mediaitem_model->beforeedit($this->input->get("id"));
+	$data[ 'student' ] =$this->student_model->getstudentdropdownbyschool($data["before"]->media);
     $data["sport"]=$this->sports_model->getsportsdropdown();
      $data['selectedstudent']=$this->media_model->getmediastudent($this->input->get_post('id'));
 	$data["title"]="Edit mediaitem";
-	$data["before"]=$this->mediaitem_model->beforeedit($this->input->get("id"));
+	print_r($data["before"]);
 	$this->load->view("template",$data);
 }
 public function editmediaitemsubmit()
@@ -1569,6 +1570,7 @@ public function editmediaitemsubmit()
 			$json=$this->input->get_post("json");
 			$media=$this->input->get_post("media");
 			$sport=$this->input->get_post("sport");
+			$student = $this->input->get_post("student");
                   $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
@@ -1610,7 +1612,7 @@ public function editmediaitemsubmit()
                // print_r($thumbnail);
                 $thumbnail=$thumbnail->thumbnail;
             }
-			if($this->mediaitem_model->edit($id,$title,$thumbnail,$type,$link,$order,$json,$media,$sport)==0)
+			if($this->mediaitem_model->edit($id,$title,$thumbnail,$type,$link,$order,$json,$media,$sport,$student)==0)
 			$data["alerterror"]="New mediaitem could not be Updated.";
 			else
 			$data["alertsuccess"]="mediaitem Updated Successfully.";
@@ -3049,7 +3051,7 @@ public function createstudent()
 	$data["isparticipant"]=$this->student_model->getisparticipantdropdown();
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
     $data["sports"]=$this->sports_model->getsportsdropdown();
-    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdownwithsport();
 	$data["title"]="Create student";
 	$this->load->view("template",$data);
 }
@@ -3059,11 +3061,11 @@ public function createstudentsubmit()
 	$this->checkaccess($access);
 	$this->form_validation->set_rules("name","Name","trim");
 	$this->form_validation->set_rules("school","School","trim");
-	$this->form_validation->set_rules("email","Email","trim");
-	$this->form_validation->set_rules("image","Image","trim");
-	$this->form_validation->set_rules("location","Location","trim");
-	$this->form_validation->set_rules("address","Address","trim");
-	$this->form_validation->set_rules("content","Content","trim");
+//	$this->form_validation->set_rules("email","Email","trim");
+//	$this->form_validation->set_rules("image","Image","trim");
+//	$this->form_validation->set_rules("location","Location","trim");
+//	$this->form_validation->set_rules("address","Address","trim");
+//	$this->form_validation->set_rules("content","Content","trim");
 			if($this->form_validation->run()==FALSE)
 		{
 			$data["alerterror"]=validation_errors();
@@ -3147,7 +3149,7 @@ public function editstudent()
 	$data["gender"]=$this->student_model->getgenderdropdown();
     $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
-    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdownwithsport();
      $data['selectedsport']=$this->sports_model->getsportbystudent($this->input->get_post('id'));
   
     
@@ -3200,7 +3202,7 @@ public function editstudentsubmit()
 			$location=$this->input->get_post("location");
 			$address=$this->input->get_post("address");
 			$content=$this->input->get_post("content");
-            $sports=$this->input->get_post("sports");
+            	$sports=$this->input->get_post("sports");
 			$sportscategory=$this->input->get_post("sportscategory");
 			$agegroup=$this->input->get_post("agegroup");
 			$gender=$this->input->get_post("gender");

@@ -60,7 +60,7 @@ Student Details
 				  <div class="col-sm-4">
 					<?php
 						
-						echo form_dropdown('sports[]',$sports,set_value('sports'),'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an sports..." multiple');
+						echo form_dropdown('sports[]',$sports,set_value('sports'),'id="select3" class="chzn-select form-control" data-placeholder="Choose an sports..." multiple');
 					?>
 				  </div>
 				</div>

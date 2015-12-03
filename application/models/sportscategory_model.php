@@ -39,11 +39,23 @@ return $query;
 public function getsportscategorydropdown()
 	{
 	    $query=$this->db->query("SELECT * FROM `sfa_sportscategory`  ORDER BY `id` ASC")->result();
-		$sportscategory=array(
-		);
+		$sportscategory=array();
 		foreach($query as $row)
 		{
 			$sportscategory[$row->id]=$row->title;
+		}
+		
+		return $sportscategory;
+	}
+	
+	
+public function getsportscategorydropdownwithsport()
+	{
+	    $query=$this->db->query("select `sfa_sportscategory`.`id`, `sfa_sportscategory`.`title`, `sfa_sports`.`name` from `sfa_sportscategory` inner join `sfa_sports` ON `sfa_sportscategory`.`sports` = `sfa_sports`.`id` ORDER BY `id` ASC")->result();
+		$sportscategory=array();
+		foreach($query as $row)
+		{
+			$sportscategory[$row->id]=$row->name . " - " . $row->title;
 		}
 		
 		return $sportscategory;
