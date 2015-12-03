@@ -1610,7 +1610,7 @@ $this->load->view("json",$data);
  public function studentSearchById()
  {
       $id = $this->input->get("id");
-      $query=$this->db->query("SELECT * FROM `student` WHERE `id`='$id'");
+      $query=$this->db->query("SELECT * FROM `sfa_student` WHERE `id`='$id'");
 	 
 	 if($query->num_rows() == 0)
 	 {
@@ -1618,7 +1618,7 @@ $this->load->view("json",$data);
 	 }
 	 else
 	 {
-		 $data["message"]=$query->result();
+		 $data["message"]=$query->row();
 	 }
 		 
 	 
