@@ -710,5 +710,35 @@ return $query;
 		);
 		return $isparticipant;
 	}
+     function exportstudentcsv()
+	{
+		$this->load->dbutil();
+		$query=$this->db->query("SELECT CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `id`, `sfa_student`.`name` as `name`, `sfa_school`.`name` as `schoolname`, `sfa_student`.`address` as `address`, `sfa_student`.`content` as `content`,`sfa_student`.`email` as `email`, `sfa_student`.`image` as `image`, `sfa_student`.`location` as `location`, GROUP_CONCAT(DISTINCT(`sfa_sports`.`name`)) as `sport`, GROUP_CONCAT(DISTINCT(`sfa_sportscategory`.`title`)) as `sportscategory`, GROUP_CONCAT(DISTINCT(`sfa_agegroups`.`name`)) as `agegroups`, IF(`sfa_student`.`gender` = '1', 'Male', 'Female') as `gender`, `sfa_student`.`isparticipant` as `isparticipant`, `sfa_student`.`age` as `age`, `sfa_student`.`phone` as `phone`, `sfa_student`.`emergencycontact` as `emergencycontact`, `sfa_student`.`dob` as `dateofbirth` FROM `sfa_student` 
+LEFT OUTER JOIN `sfa_studentagegroup` ON `sfa_studentagegroup`.`student`=`sfa_student`.`id`
+LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_studentagegroup`.`agegroup`
+
+LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`student`=`sfa_student`.`id`
+LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_studentsport`.`sport`
+
+LEFT OUTER JOIN `sfa_sportcategorystudent` ON `sfa_sportcategorystudent`.`student`=`sfa_student`.`id`
+LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_sportcategorystudent`.`sportscategory`
+
+LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` GROUP BY `sfa_student`.`id`
+");
+
+       $content= $this->dbutil->csv_from_result($query);
+        //$data = 'Some file data';
+$timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+        if ( ! write_file("./csvgenerated/studentfile_$timestamp.csv", $content))
+        {
+             echo 'Unable to write the file';
+        }
+        else
+        {
+            redirect(base_url("csvgenerated/studentfile_$timestamp.csv"), 'refresh');
+             echo 'File written!';
+        }
+	}
 }
 ?>

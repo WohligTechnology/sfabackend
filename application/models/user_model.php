@@ -515,5 +515,18 @@ class User_model extends CI_Model
             return $newdata;
         }
     }
+    
+    public function getschoolcount()
+    {
+        $query=$this->db->query("SELECT count(*) as `counts` FROM `sfa_school`")->row();
+        $schoolcount=$query->counts;
+        return $schoolcount;
+        
+    } 
+    public function getstudentcount(){
+         $query=$this->db->query("SELECT count(*) as `counts` FROM `sfa_student` ")->row();
+          $studentcount=$query->counts;
+        return $studentcount;
+    }
 }
 ?>

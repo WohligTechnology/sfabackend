@@ -87,5 +87,28 @@ return $query;
         }
 			return  1;
 	}
+    
+    function exportschoolcsv()
+	{
+		$this->load->dbutil();
+		$query=$this->db->query("SELECT CONCAT('SFASC',LPAD(`id`,6,0)) as `id`, `name`, `email`, `contact`, `image`, `address`, `location`, `biography`, `authority` FROM `sfa_school` ORDER BY `id` ");
+
+       $content= $this->dbutil->csv_from_result($query);
+        //$data = 'Some file data';
+$timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+        if ( ! write_file("./csvgenerated/schoolfile_$timestamp.csv", $content))
+        {
+             echo 'Unable to write the file';
+        }
+        else
+        {
+            redirect(base_url("csvgenerated/schoolfile_$timestamp.csv"), 'refresh');
+             echo 'File written!';
+        }
+	}
+
 }
 ?>
+
+

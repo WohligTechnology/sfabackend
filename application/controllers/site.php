@@ -25,6 +25,8 @@ class Site extends CI_Controller
 		$access = array("1","2");
 		$this->checkaccess($access);
 		$data[ 'page' ] = 'dashboard';
+        $data['schoolcount']=$this->user_model->getschoolcount();
+        $data['studentcount']=$this->user_model->getstudentcount();
 		$data[ 'title' ] = 'Welcome';
 		$this->load->view( 'template', $data );	
 	}
@@ -5436,6 +5438,26 @@ public function deleteenquiries()
 	$data["redirect"]="site/viewenquiries";
 	$this->load->view("redirect",$data);
 }
+    
+    // SCHOOL CSV
+    
+    	public function exportschoolcsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->school_model->exportschoolcsv();
+        $data['redirect']="site/viewschool";
+        $this->load->view("redirect",$data);
+	}
+//    STUDENT CSV
+    public function exportstudentcsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->student_model->exportstudentcsv();
+        $data['redirect']="site/viewschool";
+        $this->load->view("redirect",$data);
+	}
 
 
 }

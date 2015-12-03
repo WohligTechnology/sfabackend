@@ -2,6 +2,7 @@
 <div class="col-md-12">
 <a class="btn btn-primary pull-right"  href="<?php echo site_url("site/createschool"); ?>"><i class="icon-plus"></i>Create </a> &nbsp; 
 </div>
+    <div><a class="btn btn-primary" href="<?php echo site_url('site/exportschoolcsv'); ?>"target="_blank"><i class="icon-plus"></i>Export to CSV </a></div>
  <div class="col-md-2">
 		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadschoolcsv'); ?>"><i class="icon-trash"></i>Upload CSV</a> &nbsp; 
 	</div>
