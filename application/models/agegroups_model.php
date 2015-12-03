@@ -45,6 +45,7 @@ public function getagegroupsdropdown()
 	{
 	    $query=$this->db->query("SELECT * FROM `sfa_agegroups`  ORDER BY `id` ASC")->result();
 		$agegroups=array(
+              ""=>"Choose Age Group"
 		);
 		foreach($query as $row)
 		{

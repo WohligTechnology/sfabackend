@@ -1,16 +1,6 @@
 <?php
 echo getconfig("projectname");
 ?>
-    <!--
-<div><span style="font-size: x-large;">Total Number of Schools : <?php
-echo $schoolcount;
-?></span>
-</div>
-<div><span style="font-size: x-large;">Total Number of Students : <?php
-echo $studentcount;
-?></span>
-</div>
--->
 
     <div class="row state-overview">
         <div class="col-lg-3 col-sm-3">
@@ -18,31 +8,31 @@ echo $studentcount;
                 <div class="symbol terques">
                     <i class="icon-building"></i>
                 </div>
-                    <div class="value">
-                        <p>Total Number of Schools </p>
-                        <h1><?php  echo $schoolcount; ?></h1>
+                <div class="value">
+                    <p>Total Schools </p>
+                    <h1><?php  echo $schoolcount; ?></h1>
 
-                    </div>
-              
+                </div>
+
             </section>
         </div>
-   
+
         <div class="col-lg-3 col-sm-3">
             <section class="panel">
                 <div class="symbol terques">
-                    <i class="icon-female"></i>
+                    <i class="icon-book"></i>
                 </div>
-                    <div class="value">
-                        <p>Total Number of Students </p>
-                        <h1><?php  echo $studentcount; ?></h1>
+                <div class="value">
+                    <p>Total Students </p>
+                    <h1><?php  echo $studentcount; ?></h1>
 
-                    </div>
-              
+                </div>
+
             </section>
         </div>
     </div>
 
-
+<form class='form-horizontal tasi-form' method='post' action='<?php echo site_url("site/getStudentCount");?>'>
     <div class="row">
         <div class=" form-group">
             <label class="col-sm-1 control-label" for="normal-field">School</label>
@@ -61,22 +51,53 @@ echo $studentcount;
         <div class=" form-group">
             <label class="col-sm-1 control-label" for="normal-field">Sport</label>
             <div class="col-sm-2">
-                <?php echo form_dropdown("sport",$sport,set_value('sport'),"class='chzn-select form-control'");?>
+                <?php echo form_dropdown("sport",$sport,set_value('sport'),'id="sportid" class="test chzn-select form-control"');?>
+
             </div>
         </div>
 
 
 
         <div class=" form-group">
-            <label class="col-sm-1 control-label" for="normal-field">Sports Category</label>
-            <div class="col-sm-2">
-                <?php echo form_dropdown("sportscategory",$sportscategory,set_value('sportscategory'),"class='chzn-select form-control'");?>
-            </div>
-        </div>
+                            <label class="col-sm-2 control-label" for="normal-field">Sports Category</label>
+                            <div class="col-sm-4">
+                                <select class="sportscategory form-control" name="sportscategory">
+
+                                </select>
+                            </div>
+                        </div>
         <div class=" form-group">
             <label class="col-sm-1 control-label" for="normal-field">Age group</label>
             <div class="col-sm-2">
                 <?php echo form_dropdown("agegroup",$agegroup,set_value('agegroup'),"class='chzn-select form-control'");?>
             </div>
         </div>
+        <div class=" form-group">
+				  <label class="col-sm-2 control-label">&nbsp;</label>
+				  <div class="col-sm-4">
+				  <button type="submit" class="btn btn-primary">Save</button>
+				</div>
+				</div>
     </div>
+</form>
+    <script>
+        function populate(data,$select) {
+            $select.html("");
+            $select.append("<option value=''>Choose Sport Category</option>");
+            for (var i = 0; i < data.length; i++) {
+                $select.append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+            }
+        }
+        $(document).ready(function () {
+            var $sportscategory = $("select.sportscategory");
+            var new_base_url = "<?php echo site_url(); ?>";
+            $("#sportid").change(function () {
+                $.getJSON(new_base_url + '/site/getSportCategoryBySport', {
+                    sport: $('select[name=sport]').val()
+                }, function (data) {
+                    console.log("abc");
+                    populate(data,$sportscategory);
+                });
+            });
+        });
+    </script>

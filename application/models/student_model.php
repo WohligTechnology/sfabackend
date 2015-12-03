@@ -695,11 +695,71 @@ return $query;
     public function getgenderdropdown()
 	{
 		$return=array(
+            "" => "Choose Gender",
             "1" => "Male",
 			"2" => "Female"
 		);
 		
 		return $return;
+	}
+    public function getStudentCount($school,$gender,$sport,$sportscategory,$agegroup)
+	{
+        
+        $where = " WHERE 1 AND";
+        if($school != "")
+        {
+            $where .= " `sfa_student`.`school` = '$school'  AND";
+        }
+        if($gender != "")
+        {
+            $where .= " `sfa_student`.`gender` = '$gender'  AND";
+        }
+        if($sport != "")
+        {
+            $where .= " `sfa_studentsport`.`sport`= '$sport'  AND";
+        }
+        if($sportscategory != "")
+        {
+            $where .= " `sfa_sportcategorystudent`.`sportscategory`='$sportscategory'  AND";
+        }
+        if($agegroup != "")
+        {
+            $where .= " `sfa_studentagegroup`.`agegroup` ='$agegroup'  AND";
+        }
+        
+        
+            
+            
+            
+            
+        $where .= " 1 ";    
+        
+		 $query=$this->db->query("SELECT `sfa_student`.`id` FROM `sfa_student` 
+LEFT OUTER JOIN `sfa_studentagegroup` ON `sfa_studentagegroup`.`student`=`sfa_student`.`id`
+
+LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`student`=`sfa_student`.`id`
+
+LEFT OUTER JOIN `sfa_sportcategorystudent` ON `sfa_sportcategorystudent`.`student`=`sfa_student`.`id`
+
+LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  $where");
+        echo "SELECT `sfa_student`.`id` FROM `sfa_student` 
+LEFT OUTER JOIN `sfa_studentagegroup` ON `sfa_studentagegroup`.`student`=`sfa_student`.`id`
+
+LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`student`=`sfa_student`.`id`
+
+LEFT OUTER JOIN `sfa_sportcategorystudent` ON `sfa_sportcategorystudent`.`student`=`sfa_student`.`id`
+
+LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  $where";
+     if($query->num_rows() >0){
+         
+         echo count($query);
+     }
+        else{
+            
+            echo "nulll h";
+        }
+        print_r($query);
+        
 	}
     
     public function getisparticipantdropdown()

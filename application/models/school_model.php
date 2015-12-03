@@ -40,6 +40,7 @@ return $query;
 	{
 	    $query=$this->db->query("SELECT * FROM `sfa_school`  ORDER BY `id` ASC")->result();
 		$school=array(
+            ""=>"Choose School"
 		);
 		foreach($query as $row)
 		{

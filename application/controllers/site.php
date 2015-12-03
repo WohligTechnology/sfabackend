@@ -25,11 +25,11 @@ class Site extends CI_Controller
 		$access = array("1","2");
 		$this->checkaccess($access);
 		$data[ 'page' ] = 'dashboard';
-         $data["gender"]=$this->student_model->getgenderdropdown();
-	$data["school"]=$this->school_model->getschooldropdown();
-    $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
-    $data["sport"]=$this->sports_model->getsportsdropdown();
-    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdownwithsport();
+        $data["gender"]=$this->student_model->getgenderdropdown();
+        $data["school"]=$this->school_model->getschooldropdown();
+        $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+        $data["sport"]=$this->sports_model->getsportsdropdown();
+        $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
         $data['schoolcount']=$this->user_model->getschoolcount();
         $data['studentcount']=$this->user_model->getstudentcount();
 		$data[ 'title' ] = 'Welcome';
@@ -5463,6 +5463,23 @@ public function deleteenquiries()
         $data['redirect']="site/viewschool";
         $this->load->view("redirect",$data);
 	}
+    
+public function getSportCategoryBySport() {
+        $sport=$this->input->get_post("sport");
+        $data1 = $this->sportscategory_model->getSportCategoryBySport($sport);
+        $data["message"] = $data1;
+        $this->load->view("json", $data);
+    }
+    public function getStudentCount() {
+        $school=$this->input->get_post("school");
+        $gender=$this->input->get_post("gender");
+        $sport=$this->input->get_post("sport");
+        $sportscategory=$this->input->get_post("sportscategory");
+        $agegroup=$this->input->get_post("agegroup");
+        if($this->student_model->getStudentCount($school,$gender,$sport,$sportscategory,$agegroup)==0)
+			$data["redirect"]="site/index";
+//			$this->load->view("redirect",$data);
+    }
 
 
 }

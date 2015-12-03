@@ -43,6 +43,7 @@ return $query;
 	{
 	    $query=$this->db->query("SELECT * FROM `sfa_sports`  ORDER BY `id` ASC")->result();
 		$sports=array(
+            "" => "Choose Sport"
 		);
 		foreach($query as $row)
 		{
@@ -54,7 +55,8 @@ return $query;
 	public function getsportstypedropdown()
 	{
 		$type=array(
-			"0" => "team",
+			
+            "0" => "team",
 			"1" => "single"
 		);
 		return $type;
