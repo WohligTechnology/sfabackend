@@ -734,31 +734,16 @@ return $query;
             
         $where .= " 1 ";    
         
-		 $query=$this->db->query("SELECT `sfa_student`.`id` FROM `sfa_student` 
+        $querystr =  "SELECT COUNT(`id`) as `count` FROM (SELECT `sfa_student`.`id` FROM `sfa_student` 
 LEFT OUTER JOIN `sfa_studentagegroup` ON `sfa_studentagegroup`.`student`=`sfa_student`.`id`
 
 LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`student`=`sfa_student`.`id`
 
 LEFT OUTER JOIN `sfa_sportcategorystudent` ON `sfa_sportcategorystudent`.`student`=`sfa_student`.`id`
 
-LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  $where");
-        echo "SELECT `sfa_student`.`id` FROM `sfa_student` 
-LEFT OUTER JOIN `sfa_studentagegroup` ON `sfa_studentagegroup`.`student`=`sfa_student`.`id`
-
-LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`student`=`sfa_student`.`id`
-
-LEFT OUTER JOIN `sfa_sportcategorystudent` ON `sfa_sportcategorystudent`.`student`=`sfa_student`.`id`
-
-LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  $where";
-     if($query->num_rows() >0){
-         
-         echo count($query);
-     }
-        else{
-            
-            echo "nulll h";
-        }
-        print_r($query);
+LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`   $where GROUP BY `id` ) as `tab1`";
+		$query=$this->db->query($querystr)->row();
+        return $query->count;
         
 	}
     

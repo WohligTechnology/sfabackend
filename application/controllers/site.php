@@ -5476,9 +5476,9 @@ public function getSportCategoryBySport() {
         $sport=$this->input->get_post("sport");
         $sportscategory=$this->input->get_post("sportscategory");
         $agegroup=$this->input->get_post("agegroup");
-        if($this->student_model->getStudentCount($school,$gender,$sport,$sportscategory,$agegroup)==0)
-			$data["redirect"]="site/index";
-//			$this->load->view("redirect",$data);
+       
+			$data["message"]=$this->student_model->getStudentCount($school,$gender,$sport,$sportscategory,$agegroup);
+			$this->load->view("json",$data);
     }
 
 
