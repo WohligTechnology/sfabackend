@@ -25,6 +25,11 @@ class Site extends CI_Controller
 		$access = array("1","2");
 		$this->checkaccess($access);
 		$data[ 'page' ] = 'dashboard';
+         $data["gender"]=$this->student_model->getgenderdropdown();
+	$data["school"]=$this->school_model->getschooldropdown();
+    $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+    $data["sport"]=$this->sports_model->getsportsdropdown();
+    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdownwithsport();
         $data['schoolcount']=$this->user_model->getschoolcount();
         $data['studentcount']=$this->user_model->getstudentcount();
 		$data[ 'title' ] = 'Welcome';
