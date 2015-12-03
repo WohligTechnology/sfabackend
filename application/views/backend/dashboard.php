@@ -124,8 +124,7 @@ echo getconfig("projectname");
         $(document).ready(function () {
 
             $(".getfilter").click(function () {
-                $.getJSON("<?php echo site_url("
-                    site / getStudentCount ");?>", {
+                $.getJSON("<?php echo site_url("site/getStudentCount");?>", {
                         school: $("select[name=school]").val(),
                         gender: $("select[name=gender]").val(),
                         sport: $("select[name=sport]").val(),
