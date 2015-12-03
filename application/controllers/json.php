@@ -1535,6 +1535,97 @@ $this->load->view("json",$data);
         $this->load->view("json",$data);
  }
 
+ public function studentSearchByName()
+ {
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`sfa_student`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+
+        $elements[1]=new stdClass();
+        $elements[1]->field="`sfa_student`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Name";
+        $elements[1]->alias="name";
+
+        $elements[2]=new stdClass();
+        $elements[2]->field="CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0))";
+        $elements[2]->sort="1";
+        $elements[2]->header="Sfaid";
+        $elements[2]->alias="sfaid";
+
+        $elements[3]=new stdClass();
+        $elements[3]->field="DATE_FORMAT(`sfa_student`.`dob`,'%D %M %Y')";
+        $elements[3]->sort="1";
+        $elements[3]->header="Dob";
+        $elements[3]->alias="dob";
+
+        $elements[4]=new stdClass();
+        $elements[4]->field="`sfa_school`.`name`";
+        $elements[4]->sort="1";
+        $elements[4]->header="School";
+        $elements[4]->alias="school";
+
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+	 
+	 $school = $this->input->get("school");	
+	 $studentname = $this->input->get("studentname");	
+	 
+	 $where = "WHERE 1 AND ";
+	 
+	 if($school != "") {
+		 $where.="  `sfa_school`.`name` LIKE '%$school%' AND " ;
+	 }
+	 else {
+		 $where.=" " ;
+	 }
+	 
+	 if($studentname != "" ) {
+		 $where.="  `sfa_student`.`name` LIKE '%$studentname%' AND " ;
+	 }
+	 else {
+		 $where.="";
+	 }
+	 $where .= " 1 ";
+	 
+        if($maxrow=="")
+        {
+        }
+        if($orderby=="")
+        {
+        $orderby="id";
+        $orderorder="ASC";
+        }
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_student` inner join `sfa_school` on `sfa_student`.`school` = `sfa_school`.`id`",$where);
+        $this->load->view("json",$data);
+ }
+ 
+ 
+ public function studentSearchById()
+ {
+      $id = $this->input->get("id");
+      $query=$this->db->query("SELECT * FROM `student` WHERE `id`='$id'");
+	 
+	 if($query->num_rows() == 0)
+	 {
+		 $data["message"]=false;
+	 }
+	 else
+	 {
+		 $data["message"]=$query->result();
+	 }
+		 
+	 
+      $this->load->view("json",$data);
+ }
+ 
+
  public function createEnquiries(){
 		$name=$this->input->get_post('name');
 		$email=$this->input->get_post('email');
