@@ -2,6 +2,9 @@
 <div class="col-md-12">
 <a class="btn btn-primary pull-right"  href="<?php echo site_url("site/creatematch"); ?>"><i class="icon-plus"></i>Create </a> &nbsp; 
 </div>
+    <div class="col-md-2">
+		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadmatchcsv'); ?>"><i class="icon-trash"></i>Upload CSV</a> &nbsp; 
+	</div>
 </div>
 <div class="row">
 <div class="col-lg-12">

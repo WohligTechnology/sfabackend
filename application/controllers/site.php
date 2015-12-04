@@ -3863,7 +3863,8 @@ public function creatematch()
 	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 	$data["year"]=$this->year_model->getyeardropdown();
 	$data["status"]=$this->user_model->getstatusdropdown();
-	$data["root"]=$this->round_model->getrounddropdown();
+	$data["round"]=$this->round_model->getrounddropdown();
+     $data["gender"]=$this->student_model->getgenderdropdown();
 	$data["title"]="Create match";
 	$this->load->view("template",$data);
 }
@@ -3886,7 +3887,8 @@ public function creatematchsubmit()
 			$data["sports"]=$this->sports_model->getsportsdropdown();
 			$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 			$data["year"]=$this->year_model->getyeardropdown();
-			$data["root"]=$this->round_model->getrounddropdown();
+                 $data["gender"]=$this->student_model->getgenderdropdown();
+			$data["round"]=$this->round_model->getrounddropdown();
 			$data["status"]=$this->user_model->getstatusdropdown();
 			$data["title"]="Create match";
 			$this->load->view("template",$data);
@@ -3901,7 +3903,12 @@ public function creatematchsubmit()
 			//$timestamp=$this->input->get_post("timestamp");
 			$resulttimestamp=$this->input->get_post("resulttimestamp");
 			$matchresult=$this->input->get_post("matchresult");
-			if($this->match_model->create($sports,$sportscategory,$agegroup,$status,$resulttimestamp,$matchresult,$name)==0)
+			$starttime=$this->input->get_post("starttime");
+			$endtime=$this->input->get_post("endtime");
+			$gender=$this->input->get_post("gender");
+			$matchdate=$this->input->get_post("matchdate");
+			$round=$this->input->get_post("round");
+			if($this->match_model->create($sports,$sportscategory,$agegroup,$status,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round)==0)
 			$data["alerterror"]="New match could not be created.";
 			else
 			$data["alertsuccess"]="match created Successfully.";
@@ -3918,8 +3925,9 @@ public function editmatch()
 	$data["sports"]=$this->sports_model->getsportsdropdown();
 	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 	$data["year"]=$this->year_model->getyeardropdown();
-	$data["root"]=$this->round_model->getrounddropdown();
+	$data["round"]=$this->round_model->getrounddropdown();
 	$data["status"]=$this->user_model->getstatusdropdown();
+     $data["gender"]=$this->student_model->getgenderdropdown();
 	$data["title"]="Edit match";
 	$data["before"]=$this->match_model->beforeedit($this->input->get("id"));
 	$this->load->view("template",$data);
@@ -3944,8 +3952,9 @@ public function editmatchsubmit()
 			$data["sports"]=$this->sports_model->getsportsdropdown();
 			$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 			$data["year"]=$this->year_model->getyeardropdown();
-			$data["root"]=$this->round_model->getrounddropdown();
+			$data["round"]=$this->round_model->getrounddropdown();
 			$data["status"]=$this->user_model->getstatusdropdown();
+             $data["gender"]=$this->student_model->getgenderdropdown();
 			$data["title"]="Edit match";
 			$data["before"]=$this->match_model->beforeedit($this->input->get("id"));
 			$this->load->view("template",$data);
@@ -3961,7 +3970,12 @@ public function editmatchsubmit()
 			$timestamp=$this->input->get_post("timestamp");
 			$resulttimestamp=$this->input->get_post("resulttimestamp");
 			$matchresult=$this->input->get_post("matchresult");
-			if($this->match_model->edit($id,$sports,$sportscategory,$agegroup,$status,$timestamp,$resulttimestamp,$matchresult,$name)==0)
+            $starttime=$this->input->get_post("starttime");
+			$endtime=$this->input->get_post("endtime");
+			$gender=$this->input->get_post("gender");
+            $matchdate=$this->input->get_post("matchdate");
+                $round=$this->input->get_post("round");
+			if($this->match_model->edit($id,$sports,$sportscategory,$agegroup,$status,$timestamp,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round)==0)
 			$data["alerterror"]="New match could not be Updated.";
 			else
 			$data["alertsuccess"]="match Updated Successfully.";
@@ -5479,6 +5493,42 @@ public function getSportCategoryBySport() {
        
 			$data["message"]=$this->student_model->getStudentCount($school,$gender,$sport,$sportscategory,$agegroup);
 			$this->load->view("json",$data);
+    }
+    function uploadmatchcsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data[ 'page' ] = 'uploadmatchcsv';
+		$data[ 'title' ] = 'Upload school';
+		$this->load->view( 'template', $data );
+	}
+    function uploadmatchcsvsubmit()
+	{
+        $access = array("1");
+		$this->checkaccess($access);
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = '*';
+        $this->load->library('upload', $config);
+        $filename="file";
+        $file="";
+        if (  $this->upload->do_upload($filename))
+        {
+            $uploaddata = $this->upload->data();
+            $file=$uploaddata['file_name'];
+            $filepath=$uploaddata['file_path'];
+        }
+        $fullfilepath=$filepath."".$file;
+        $file = $this->csvreader->parse_file($fullfilepath);
+        $id1=$this->match_model->createbycsv($file);
+//        echo $id1;
+        
+        if($id1==0)
+        $data['alerterror']="New match could not be Uploaded.";
+		else
+		$data['alertsuccess']="match Uploaded Successfully.";
+        
+        $data['redirect']="site/viewmatch";
+        $this->load->view("redirect",$data);
     }
 
 
