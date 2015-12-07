@@ -75,7 +75,7 @@ return $query;
             $query2=$this->db->query("SELECT `id` FROM `sfa_sports` WHERE `name` = '$sports'")->row();
             $sportsid=$query2->id;
             
-            $query3=$this->db->query("SELECT `id` FROM `sfa_sportscategory` WHERE `title` = '$sportscategory'")->row();
+            $query3=$this->db->query("SELECT `id` FROM `sfa_sportscategory` WHERE `title` = '$sportscategory' AND `sports`='$sportsid'")->row();
             $sportscategoryid=$query3->id;
             
             
