@@ -1561,12 +1561,18 @@ $this->load->view("json",$data);
         $elements[3]->sort="1";
         $elements[3]->header="Dob";
         $elements[3]->alias="dob";
-
+	 
         $elements[4]=new stdClass();
-        $elements[4]->field="`sfa_school`.`name`";
+        $elements[4]->field="`sfa_student`.`dob`";
         $elements[4]->sort="1";
-        $elements[4]->header="School";
-        $elements[4]->alias="school";
+        $elements[4]->header="Image";
+        $elements[4]->alias="image";
+
+        $elements[5]=new stdClass();
+        $elements[5]->field="`sfa_school`.`name`";
+        $elements[5]->sort="1";
+        $elements[5]->header="School";
+        $elements[5]->alias="school";
 
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
