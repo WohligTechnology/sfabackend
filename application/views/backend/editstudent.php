@@ -78,7 +78,7 @@ Student Details
 				  <div class="col-sm-4">
 					<?php
 						
-						echo form_multiselect('agegroup[]',$agegroup,$selectedagegroup,'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an agegroup..." multiple');
+						echo form_dropdown('agegroup[]',$agegroup,$selectedagegroup,'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an agegroup..."');
 					?>
 				  </div>
 				</div>

@@ -78,7 +78,7 @@ Student Details
 				  <div class="col-sm-4">
 					<?php
 						
-						echo form_dropdown('agegroup[]',$agegroup,set_value('agegroup'),'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an agegroup..." multiple');
+						echo form_dropdown('agegroup[]',$agegroup,set_value('agegroup'),'id="select3" class="chzn-select form-control" 	data-placeholder="Choose an agegroup..." single');
 					?>
 				  </div>
 				</div>
