@@ -75,13 +75,7 @@ public function getbannersliders()
 	
 	public function getAgeGroup($id, $sport){
 		
-		$query=$this->db->query("Select `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`, `sfa_agegroups`.`name` 
-from `sfa_sports` 
-inner join `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` 
-inner join `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` 
-inner join `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` 
-where `sfa_student`.`school` = $id AND `sfa_sports`.`id` = $sport
-group by `sfa_agegroups`.`name`")->result();
+		$query=$this->db->query("Select `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`,`sfa_agegroups`.`name` from `sfa_sports` inner join `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` inner join `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` inner join `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` where `sfa_student`.`school` = $id AND `sfa_sports`.`id` = $sport group by `sfa_agegroups`.`name`")->result();
 		return $query;
 	}
 	
