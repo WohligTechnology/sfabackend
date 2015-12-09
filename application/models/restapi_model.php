@@ -72,6 +72,24 @@ public function getbannersliders()
         return $query;
         
     }
+	
+	public function getAgeGroup($id, $sport){
+		
+		$query=$this->db->query("Select `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`, `sfa_agegroups`.`name` 
+from `sfa_sports` 
+inner join `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` 
+inner join `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` 
+inner join `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` 
+where `sfa_student`.`school` = $id AND `sfa_sports`.`id` = $sport
+group by `sfa_agegroups`.`name`")->result();
+		return $query;
+	}
+	
+	public function getSchoolSports($id,$sport,$agegroup){
+		$query=$this->db->query("SELECT `sfa_student`.`id`,`sfa_student`.`name`,`sfa_student`.`school`,`sfa_student`.`email`,`sfa_student`.`image`,`sfa_student`.`location`,`sfa_student`.`address`,`sfa_student`.`content`,`sfa_student`.`sports`,`sfa_student`.`sportscategory`,`sfa_student`.`agegroup`,`sfa_student`.`gender`,`sfa_student`.`isparticipant`,`sfa_student`.`age`,`sfa_student`.`phone`,`sfa_student`.`emergencycontact`,`sfa_student`.`dob`FROM `sfa_student` INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student` WHERE `sfa_studentsport`.`sport` = $sport AND `sfa_student`.`school` = $id AND `sfa_student`.`agegroup` = $agegroup GROUP BY `sfa_student`.`id`")->result();
+		return $query;
+	}
+		
  
     
     public function createEnquiries($name,$email,$mobile,$person)

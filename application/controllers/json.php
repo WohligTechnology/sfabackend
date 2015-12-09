@@ -1409,9 +1409,8 @@ $this->load->view("json",$data);
 	 $this->load->view("json",$data);
  }
 
- public function getSchoolSports()
+ public function getSchoolSports1()
  {
-
         $id=$this->input->get_post("id");
         $sport=$this->input->get_post("sport");
         $agegroup=$this->input->get_post("agegroup");
@@ -1532,6 +1531,23 @@ $this->load->view("json",$data);
         $orderorder="ASC";
         }
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_student` INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student`"," WHERE `sfa_studentsport`.`sport` = $sport AND `sfa_student`.`school` = $id AND `sfa_student`.`agegroup` = $agegroup ","GROUP BY `sfa_student`.`id`");
+        $this->load->view("json",$data);
+ }
+
+ public function getAgeGroup()
+ {
+        $id=$this->input->get_post("id");
+        $sport=$this->input->get_post("sport");
+	   $data["message"]=$this->restapi_model->getAgeGroup($id,$sport);
+        $this->load->view("json",$data);
+ }
+
+ public function getSchoolSports()
+ {
+        $id=$this->input->get_post("id");
+        $sport=$this->input->get_post("sport");
+        $agegroup=$this->input->get_post("agegroup");
+	   $data["message"]=$this->restapi_model->getSchoolSports($id,$sport,$agegroup);
         $this->load->view("json",$data);
  }
 
