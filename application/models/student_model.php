@@ -130,7 +130,6 @@ return $query;
         foreach ($file as $row)
         {
             
-            
             $name=$row['name'];
             $school=$row['school'];
             $address=$row['address'];
@@ -167,7 +166,7 @@ return $query;
             $query1=$this->db->query("SELECT * FROM `sfa_school` WHERE `id`= '$schoolproperid'")->row();
             $schoolid=$query1->id;
            
-            $checkstudent=$this->db->query("SELECT * FROM `sfa_student` WHERE `name`= '$name' AND `school`='$schoolid' AND `email`='$email' AND `gender`='$genderid' AND `dob`='$dob'")->row();
+            $checkstudent=$this->db->query("SELECT * FROM `sfa_student` WHERE `name`= '$name' AND `school`='$schoolid'  AND `gender`='$genderid' AND `dob`='$dob'")->row();
             if(empty($checkstudent))
             {
             
@@ -198,7 +197,8 @@ return $query;
            
             
          //sports
-            if(empty($query2)){
+            if(empty($query2))
+            {
                 $data  = array(
                 'name' => $sports,
                 'status' => 1
@@ -328,11 +328,11 @@ return $query;
       
               if($agegroup !="") {
             //agegroups
-            $query3=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
-            $agegroupid=$query3->id;
-            
-            
-            if(empty($query3)){
+            $query10=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
+            print_r($query10);
+            if(empty($query10))
+            {
+                echo $agegroup;
                  $data  = array(
                 'name' => $agegroup,
                 'status' => 1
@@ -344,32 +344,19 @@ return $query;
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_student", $data );
                 
-                 // STUDENT AGEGROUP MAPPING
-                
-                 $data  = array(
-                'student' => $id,
-                'sport' => $sportsid,
-                'agegroup' => $agegroupid
-                );
-                $query=$this->db->insert( 'sfa_studentagegroup', $data );
-                $studentagegroupid=$this->db->insert_id();
             }
-            else{
-               $data=array("agegroup" => $agegroupid);
-            $this->db->where( "id", $id );
-            $query=$this->db->update( "sfa_student", $data );
-                
-                // STUDENT AGEGROUP MAPPING
-                
-                 $data  = array(
-                'student' => $id,
-                'sport' => $sportsid,
-                'agegroup' => $agegroupid
-                );
-                $query=$this->db->insert( 'sfa_studentagegroup', $data );
-                $studentagegroupid=$this->db->insert_id();
+            else
+            {
+                $agegroupid=$query10->id;
+                echo $agegroupid;
+                $data=array("agegroup" => $agegroupid);
+                $this->db->where( "id", $id );
+                $query=$this->db->update( "sfa_student", $data );
+             
             }
-              }  
+              } 
+                 $querygetagegroup=$this->db->query("SELECT `agegroup` FROM `sfa_student` WHERE `id` = '$id'")->row();
+                $agegroupid=$querygetagegroup->agegroup;
                  //TEAM
             if(!empty($team)){
             $queryteam=$this->db->query("SELECT * FROM `sfa_team` WHERE `title` LIKE '$team'")->row();
@@ -586,11 +573,11 @@ return $query;
               if($agegroup !="") {
                
             //agegroups
-            $query3=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
-            $agegroupid=$query3->id;
-            
-            
-            if(empty($query3)){
+            $query10=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
+            print_r($query10);
+            if(empty($query10))
+            {
+                echo $agegroup;
                  $data  = array(
                 'name' => $agegroup,
                 'status' => 1
@@ -601,31 +588,14 @@ return $query;
                 $data=array("agegroup" => $agegroupid);
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_student", $data );
-                
-                  // STUDENT AGEGROUP MAPPING
-                
-                 $data  = array(
-                'student' => $id,
-                'sport' => $sportsid,
-                'agegroup' => $agegroupid
-                );
-                $query=$this->db->insert( 'sfa_studentagegroup', $data );
-                $studentagegroupid=$this->db->insert_id();
             }
-            else{
-               $data=array("agegroup" => $agegroupid);
-            $this->db->where( "id", $id );
-            $query=$this->db->update( "sfa_student", $data );
-                
-                  // STUDENT AGEGROUP MAPPING
-                
-                 $data  = array(
-                'student' => $id,
-                'sport' => $sportsid,
-                'agegroup' => $agegroupid
-                );
-                $query=$this->db->insert( 'sfa_studentagegroup', $data );
-                $studentagegroupid=$this->db->insert_id();
+            else
+            {
+                $agegroupid=$query10->id;
+                 echo $agegroupid;
+                $data=array("agegroup" => $agegroupid);
+                $this->db->where( "id", $id );
+                $query=$this->db->update( "sfa_student", $data );
             }
               }
                  //TEAM

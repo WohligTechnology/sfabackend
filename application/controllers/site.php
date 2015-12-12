@@ -3180,7 +3180,6 @@ public function editstudentsubmit()
 	$this->form_validation->set_rules("id","ID","trim");
 	$this->form_validation->set_rules("name","Name","trim");
 	$this->form_validation->set_rules("school","School","trim");
-	$this->form_validation->set_rules("email","Email","trim");
 	$this->form_validation->set_rules("image","Image","trim");
 	$this->form_validation->set_rules("location","Location","trim");
 	$this->form_validation->set_rules("address","Address","trim");
@@ -5530,6 +5529,7 @@ public function getSportCategoryBySport() {
         $data['redirect']="site/viewmatch";
         $this->load->view("redirect",$data);
     }
+    
 
 
 }
