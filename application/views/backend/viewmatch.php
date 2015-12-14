@@ -15,12 +15,12 @@ match Details
 </header>
 -->
 <div class="drawchintantable">
-<?php $this->chintantable->createsearch("Match List");?>
+<?php $this->chintantable->createsearch("Schedule");?>
 <table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
 <thead>
 <tr>
 <th data-field="id">ID</th>
-<th data-field="name">Name</th>
+<th data-field="name">Court</th>
 <th data-field="sports">Sports</th>
 <th data-field="sportscategory">Sports Category</th>
 <th data-field="agegroup">Age group</th>

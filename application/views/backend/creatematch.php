@@ -8,7 +8,7 @@
     <div class="col-lg-12">
         <section class="panel">
             <header class="panel-heading">
-                Match Details
+                Create Schedule
             </header>
             <div class="panel-body">
                 <form class='form-horizontal tasi-form' method='post' action='<?php echo site_url("site/creatematchsubmit");?>' enctype='multipart/form-data'>

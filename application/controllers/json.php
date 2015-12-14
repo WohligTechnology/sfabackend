@@ -1787,5 +1787,14 @@ $this->load->view("json",$data);
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_mediaitem`","WHERE `sfa_mediaitem`.`sport` = '$sport' AND `sfa_mediaitem`.`id`='$mediaid'");
         $this->load->view("json",$data);
  }
+ public function checkstr(){
+     $team1="SFATE856987";
+        $checkstud= substr($team1, 3, 2);
+     echo $checkstud;
+      $getid= substr($team1, 5, 6);
+                $getid=intval($getid);
+     echo "   ".$getid;
+    echo " ".$team1;
+ }
  
 } ?>

@@ -3844,7 +3844,7 @@ function viewmatchjson()
 	$elements[8]=new stdClass();
 	$elements[8]->field="`sfa_match`.`name`";
 	$elements[8]->sort="1";
-	$elements[8]->header="Name";
+	$elements[8]->header="Court";
 	$elements[8]->alias="name";
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
@@ -3932,6 +3932,9 @@ public function editmatch()
 	$access=array("1");
 	$this->checkaccess($access);
 	$data["page"]="editmatch";
+	$data["page2"]="block/matchblock";
+    $data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
 	$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
 	$data["sports"]=$this->sports_model->getsportsdropdown();
 	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
@@ -3941,7 +3944,7 @@ public function editmatch()
      $data["gender"]=$this->student_model->getgenderdropdown();
 	$data["title"]="Edit match";
 	$data["before"]=$this->match_model->beforeedit($this->input->get("id"));
-	$this->load->view("template",$data);
+	$this->load->view("templatewith2",$data);
 }
 public function editmatchsubmit()
 {
@@ -4007,9 +4010,12 @@ public function viewmatchplayed()
 	$access=array("1");
 	$this->checkaccess($access);
 	$data["page"]="viewmatchplayed";
+    $data["page2"]="block/matchblock";
+    $data["before1"]=$this->input->get("id");
+    $data["before2"]=$this->input->get("id");
 	$data["base_url"]=site_url("site/viewmatchplayedjson");
 	$data["title"]="View matchplayed";
-	$this->load->view("template",$data);
+	$this->load->view("templatewith2",$data);
 }
 function viewmatchplayedjson()
 {
@@ -4037,7 +4043,7 @@ function viewmatchplayedjson()
 	$elements[4]=new stdClass();
 	$elements[4]->field="`sfa_team`.`title`";
 	$elements[4]->sort="1";
-	$elements[4]->header="team";
+	$elements[4]->header="Team";
 	$elements[4]->alias="team";
 	$elements[5]=new stdClass();
 	$elements[5]->field="`sfa_student`.`name`";
@@ -4059,6 +4065,12 @@ function viewmatchplayedjson()
 	$elements[8]->sort="1";
 	$elements[8]->header="Reason";
 	$elements[8]->alias="reason";
+    
+    $elements[9]=new stdClass();
+	$elements[9]->field="`sfa_matchplayed`.`match`";
+	$elements[9]->sort="1";
+	$elements[9]->header="matchid";
+	$elements[9]->alias="matchid";
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -4082,6 +4094,9 @@ public function creatematchplayed()
 	$access=array("1");
 	$this->checkaccess($access);
 	$data["page"]="creatematchplayed";
+    $data["page2"]="block/matchblock";
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
 	$data["team"]=$this->team_model->getteamdropdown();
 	$data["student"]=$this->student_model->getstudentdropdown();
 	$data["round"]=$this->round_model->getrounddropdown();
@@ -4090,7 +4105,7 @@ public function creatematchplayed()
 	$data["match"]=$this->match_model->getmatchdropdown();
 	$data["match"]=$this->match_model->getmatchdropdown();
 	$data["title"]="Create matchplayed";
-	$this->load->view("template",$data);
+	$this->load->view("templatewith2",$data);
 }
 public function creatematchplayedsubmit() 
 {
@@ -4131,8 +4146,8 @@ public function creatematchplayedsubmit()
 			$data["alerterror"]="New matchplayed could not be created.";
 			else
 			$data["alertsuccess"]="matchplayed created Successfully.";
-			$data["redirect"]="site/viewmatchplayed";
-			$this->load->view("redirect",$data);
+			$data["redirect"]="site/viewmatchplayed?id=".$match;
+			$this->load->view("redirect2",$data);
 		}
 }
 public function editmatchplayed()
@@ -4192,7 +4207,7 @@ public function editmatchplayedsubmit()
 			$data["alerterror"]="New matchplayed could not be Updated.";
 			else
 			$data["alertsuccess"]="matchplayed Updated Successfully.";
-			$data["redirect"]="site/viewmatchplayed";
+			$data["redirect"]="site/viewmatchplayed?id=".$match;
 			$this->load->view("redirect",$data);
 		}
 }
@@ -4201,8 +4216,8 @@ public function deletematchplayed()
 	$access=array("1");
 	$this->checkaccess($access);
 	$this->matchplayed_model->delete($this->input->get("id"));
-	$data["redirect"]="site/viewmatchplayed";
-	$this->load->view("redirect",$data);
+	$data["redirect"]="site/viewmatchplayed?id=".$this->input->get("matchid");
+	$this->load->view("redirect2",$data);
 }
 public function viewmedal()
 {
@@ -5538,8 +5553,8 @@ public function getSportCategoryBySport() {
 		else
 		$data['alertsuccess']="match Uploaded Successfully.";
         
-        $data['redirect']="site/viewmatch";
-        $this->load->view("redirect",$data);
+//        $data['redirect']="site/viewmatch";
+//        $this->load->view("redirect",$data);
     }
     public function viewteam1()
 {

@@ -1,6 +1,6 @@
 <section class="panel">
     <header class="panel-heading">
-        Match Details
+        Edit Schedule
     </header>
     <div class="panel-body">
         <form class='form-horizontal tasi-form' method='post' action='<?php echo site_url("site/editmatchsubmit");?>' enctype='multipart/form-data'>
