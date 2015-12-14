@@ -1787,4 +1787,5 @@ $this->load->view("json",$data);
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_mediaitem`","WHERE `sfa_mediaitem`.`sport` = '$sport' AND `sfa_mediaitem`.`id`='$mediaid'");
         $this->load->view("json",$data);
  }
+ 
 } ?>

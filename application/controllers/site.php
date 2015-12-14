@@ -3364,6 +3364,8 @@ public function createteam()
 	$data["before2"]=$this->input->get('schoolid');
 	$data["before4"]=$this->input->get('schoolid');
 	$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+    $data["school"]=$this->school_model->getschooldropdown();
+    $data["sport"]=$this->sports_model->getsportsdropdown();
 	$data["year"]=$this->year_model->getyeardropdown();
 	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 	$this->load->view("templatewith2",$data);
@@ -3380,7 +3382,9 @@ public function createteamsubmit()
 			$data["alerterror"]=validation_errors();
 			$data["page"]="createteam";
 			$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+                $data["school"]=$this->school_model->getschooldropdown();
 			$data["year"]=$this->year_model->getyeardropdown();
+            $data["sport"]=$this->sports_model->getsportsdropdown();
 			$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 			$data["title"]="Create team";
 			$this->load->view("template",$data);
@@ -3391,9 +3395,11 @@ public function createteamsubmit()
 			$agegroup=$this->input->get_post("agegroup");
 			$year=$this->input->get_post("year");
 			$title=$this->input->get_post("title");
-			$id=$this->input->get_post("id");
 			$schoolid=$this->input->get("schoolid");
-			if($this->team_model->create($sportscategory,$agegroup,$year,$title)==0)
+			$id=$this->input->get("id");
+			$sport=$this->input->get_post("sport");
+			$school=$this->input->get_post("school");
+			if($this->team_model->create($sportscategory,$agegroup,$year,$title,$sport,$school)==0)
 			$data["alerterror"]="New team could not be created.";
 			else
 			$data["alertsuccess"]="team created Successfully.";
@@ -3411,9 +3417,11 @@ public function editteam()
 	$data["before1"]=$this->input->get('studentid');
 	$data["before2"]=$this->input->get('schoolid');
 	$data["before4"]=$this->input->get('schoolid');
+    $data["sport"]=$this->sports_model->getsportsdropdown();
 	$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
 	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 	$data["year"]=$this->year_model->getyeardropdown();
+    $data["school"]=$this->school_model->getschooldropdown();
 	$data["title"]="Edit team";
 	$data["before"]=$this->team_model->beforeedit($this->input->get("id"));
 	$this->load->view("templatewith2",$data);
@@ -3430,8 +3438,10 @@ public function editteamsubmit()
 		{
 		$data["alerterror"]=validation_errors();
 		$data["page"]="editteam";
+            $data["sport"]=$this->sports_model->getsportsdropdown();
 		$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
 		$data["year"]=$this->year_model->getyeardropdown();
+            $data["school"]=$this->school_model->getschooldropdown();
 		$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 		$data["title"]="Edit team";
 		$data["before"]=$this->team_model->beforeedit($this->input->get("id"));
@@ -3446,7 +3456,9 @@ public function editteamsubmit()
 		$title=$this->input->get_post("title");
 		$studentid=$this->input->get_post("studentid");
 		$schoolid=$this->input->get_post("schoolid");
-		if($this->team_model->edit($id,$sportscategory,$agegroup,$year,$title)==0)
+        $sport=$this->input->get_post("sport");
+        $school=$this->input->get_post("school");
+		if($this->team_model->edit($id,$sportscategory,$agegroup,$year,$title,$sport,$school)==0)
 		$data["alerterror"]="New team could not be Updated.";
 		else
 		$data["alertsuccess"]="team Updated Successfully.";
@@ -5529,6 +5541,455 @@ public function getSportCategoryBySport() {
         $data['redirect']="site/viewmatch";
         $this->load->view("redirect",$data);
     }
+    public function viewteam1()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="viewteam1";
+	$data["base_url"]=site_url("site/viewteam1json");
+	$data["title"]="View team";
+	$this->load->view("template",$data);
+}
+function viewteam1json()
+{
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0))";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+	$elements[1]=new stdClass();
+	$elements[1]->field="`sfa_sportscategory`.`title`";
+	$elements[1]->sort="1";
+	$elements[1]->header="Sports Category";
+	$elements[1]->alias="sportscategory";
+	$elements[2]=new stdClass();
+	$elements[2]->field="`sfa_agegroups`.`name`";
+	$elements[2]->sort="1";
+	$elements[2]->header="Age group";
+	$elements[2]->alias="agegroup";
+	$elements[3]=new stdClass();
+	$elements[3]->field="`sfa_year`.`name`";
+	$elements[3]->sort="1";
+	$elements[3]->header="Year";
+	$elements[3]->alias="year";
+	$elements[4]=new stdClass();
+	$elements[4]->field="`sfa_team`.`title`";
+	$elements[4]->sort="1";
+	$elements[4]->header="Title";
+	$elements[4]->alias="title";
+	$elements[5]=new stdClass();
+	$elements[5]->field="`sfa_teamstudents`.`student`";
+	$elements[5]->sort="1";
+	$elements[5]->header="Studentid";
+	$elements[5]->alias="studentid";
+	$elements[6]=new stdClass();
+	$elements[6]->field="`sfa_student`.`school`";
+	$elements[6]->sort="1";
+	$elements[6]->header="Schoolid";
+	$elements[6]->alias="schoolid";
+	$elements[7]=new stdClass();
+	$elements[7]->field="`sfa_team`.`id`";
+	$elements[7]->sort="1";
+	$elements[7]->header="teamid";
+	$elements[7]->alias="teamid";
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+			if($maxrow=="")
+		{
+			$maxrow=20;
+		}
+			if($orderby=="")
+		{
+			$orderby="id";
+			$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_team` LEFT OUTER JOIN `sfa_year` ON `sfa_year`.`id`=`sfa_team`.`year` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_team`.`agegroup` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_team`.`sportscategory` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_team`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_teamstudents`.`student`","GROUP BY `sfa_team`.`id`");
+	$this->load->view("json",$data);
+}
+
+public function createteam1()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="createteam1";
+	$data["title"]="Create team";
+	$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+    $data["school"]=$this->school_model->getschooldropdown();
+    $data["sport"]=$this->sports_model->getsportsdropdown();
+	$data["year"]=$this->year_model->getyeardropdown();
+	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+	$this->load->view("template",$data);
+}
+public function createteam1submit() 
+{
+	$access=array("1");
+	$this->checkaccess($access);
+			$sportscategory=$this->input->get_post("sportscategory");
+			$agegroup=$this->input->get_post("agegroup");
+			$year=$this->input->get_post("year");
+			$title=$this->input->get_post("title");
+//			$schoolid=$this->input->get("schoolid");
+			$sport=$this->input->get_post("sport");
+			$school=$this->input->get_post("school"); 
+			if($this->team_model->create($sportscategory,$agegroup,$year,$title,$sport,$school)==0)
+			$data["alerterror"]="New team could not be created.";
+			else
+			$data["alertsuccess"]="team created Successfully.";
+			$data["redirect"]="site/viewteam1";
+			$this->load->view("redirect",$data);
+		
+}
+public function editteam1()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="editteam1";
+    $data["sport"]=$this->sports_model->getsportsdropdown();
+	$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+	$data["year"]=$this->year_model->getyeardropdown();
+    $data["school"]=$this->school_model->getschooldropdown();
+	$data["title"]="Edit team";
+	$data["before"]=$this->team_model->beforeedit($this->input->get("id"));
+	$this->load->view("template",$data);
+}
+public function editteam1submit()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	
+		$id=$this->input->get_post("id");
+		$sportscategory=$this->input->get_post("sportscategory");
+		$agegroup=$this->input->get_post("agegroup");
+		$year=$this->input->get_post("year");
+		$title=$this->input->get_post("title");
+        $sport=$this->input->get("sport");
+        $school=$this->input->get("school");
+		if($this->team_model->edit($id,$sportscategory,$agegroup,$year,$title,$sport,$school)==0)
+		$data["alerterror"]="New team could not be Updated.";
+		else
+		$data["alertsuccess"]="team Updated Successfully.";
+		$data["redirect"]="site/viewteam1";
+		$this->load->view("redirect",$data);
+		
+}
+public function deleteteam1()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->team_model->delete($this->input->get("id"));
+	$data["redirect"]="site/viewteam1";
+	$this->load->view("redirect",$data);
+}
+    
+    // student table 
+    
+    public function viewstudent1()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="viewstudent1";
+	$data["base_url"]=site_url("site/viewstudent1json");
+	$data["title"]="View student";
+//	$data["before"]=$this->student_model->beforeedit($id);
+	$this->load->view("template",$data);
+}
+function viewstudent1json()
+{
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0))";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+	$elements[1]=new stdClass();
+	$elements[1]->field="`sfa_student`.`name`";
+	$elements[1]->sort="1";
+	$elements[1]->header="Name";
+	$elements[1]->alias="name";
+	$elements[2]=new stdClass();
+	$elements[2]->field="`sfa_school`.`name`";
+	$elements[2]->sort="1";
+	$elements[2]->header="School";
+	$elements[2]->alias="school";
+	$elements[3]=new stdClass();
+	$elements[3]->field="`sfa_student`.`email`";
+	$elements[3]->sort="1";
+	$elements[3]->header="Email";
+	$elements[3]->alias="email";
+	$elements[4]=new stdClass();
+	$elements[4]->field="`sfa_student`.`image`";
+	$elements[4]->sort="1";
+	$elements[4]->header="Image";
+	$elements[4]->alias="image";
+	$elements[5]=new stdClass();
+	$elements[5]->field="`sfa_student`.`location`";
+	$elements[5]->sort="1";
+	$elements[5]->header="Location";
+	$elements[5]->alias="location";
+	$elements[6]=new stdClass();
+	$elements[6]->field="`sfa_student`.`address`";
+	$elements[6]->sort="1";
+	$elements[6]->header="Address";
+	$elements[6]->alias="address";
+	$elements[7]=new stdClass();
+	$elements[7]->field="`sfa_student`.`content`";
+	$elements[7]->sort="1";
+	$elements[7]->header="Content";
+	$elements[7]->alias="content";
+	$elements[8]=new stdClass();
+	$elements[8]->field="`sfa_student`.`school`";
+	$elements[8]->sort="1";
+	$elements[8]->header="Schoolid";
+	$elements[8]->alias="schoolid";
+	$elements[9]=new stdClass();
+	$elements[9]->field="`sfa_student`.`id`";
+	$elements[9]->sort="1";
+	$elements[9]->header="studentid";
+	$elements[9]->alias="studentid";
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+			if($maxrow=="")
+		{
+			$maxrow=20;
+		}
+			if($orderby=="")
+		{
+			$orderby="id";
+			$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`");
+	$this->load->view("json",$data);
+}
+
+public function createstudent1()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="createstudent1";
+    $data["gender"]=$this->student_model->getgenderdropdown();
+	$data["school"]=$this->school_model->getschooldropdown();
+	$data["isparticipant"]=$this->student_model->getisparticipantdropdown();
+    $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+    $data["sports"]=$this->sports_model->getsportsdropdown();
+    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdownwithsport();
+	$data["title"]="Create student";
+	$this->load->view("template",$data);
+}
+public function createstudentsubmit1() 
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->form_validation->set_rules("name","Name","trim");
+	$this->form_validation->set_rules("school","School","trim");
+//	$this->form_validation->set_rules("email","Email","trim");
+//	$this->form_validation->set_rules("image","Image","trim");
+//	$this->form_validation->set_rules("location","Location","trim");
+//	$this->form_validation->set_rules("address","Address","trim");
+//	$this->form_validation->set_rules("content","Content","trim");
+			if($this->form_validation->run()==FALSE)
+		{
+			$data["alerterror"]=validation_errors();
+			$data["page"]="createstudent1";
+            $data["gender"]=$this->student_model->getgenderdropdown();
+            $data["sports"]=$this->sports_model->getsportsdropdown();
+			$data["school"]=$this->school_model->getschooldropdown();
+            $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
+            $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+            $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+			$data["title"]="Create student";
+			$this->load->view("template",$data);
+		}
+			else
+		{
+			$name=$this->input->get_post("name");
+			$school=$this->input->get_post("school");
+			$email=$this->input->get_post("email");
+			//$image=$this->input->get_post("image");
+			$location=$this->input->get_post("location");
+			$address=$this->input->get_post("address");
+			$content=$this->input->get_post("content");
+			$sports=$this->input->get_post("sports");
+			$sportscategory=$this->input->get_post("sportscategory");
+			$agegroup=$this->input->get_post("agegroup");
+			$gender=$this->input->get_post("gender");
+			$isparticipant=$this->input->get_post("isparticipant");
+			$age=$this->input->get_post("age");
+			$phone=$this->input->get_post("phone");
+			$emergencycontact=$this->input->get_post("emergencycontact");
+			$dob=$this->input->get_post("dob");
+				$config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="image";
+						$image="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$image=$uploaddata['file_name'];
+
+							$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+							$config_r['maintain_ratio'] = TRUE;
+							$config_t['create_thumb'] = FALSE;///add this
+							$config_r['width']   = 800;
+							$config_r['height'] = 800;
+							$config_r['quality']    = 100;
+							//end of configs
+
+							$this->load->library('image_lib', $config_r); 
+							$this->image_lib->initialize($config_r);
+							if(!$this->image_lib->resize())
+							{
+								echo "Failed." . $this->image_lib->display_errors();
+								//return false;
+							}  
+							else
+							{
+								//print_r($this->image_lib->dest_image);
+								//dest_image
+								$image=$this->image_lib->dest_image;
+								//return false;
+							}
+
+						}
+			if($this->student_model->create($name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)==0)
+			$data["alerterror"]="New student could not be created.";
+			else
+			$data["alertsuccess"]="student created Successfully.";
+			$data["redirect"]="site/viewstudent1";
+			$this->load->view("redirect",$data);
+		}
+}
+public function editstudent1()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="editstudent1";
+	$data["school"]=$this->school_model->getschooldropdown();
+	$data["gender"]=$this->student_model->getgenderdropdown();
+    $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
+    $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+    $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdownwithsport();
+     $data['selectedsport']=$this->sports_model->getsportbystudent($this->input->get_post('id'));
+  
+    
+     $data['selectedagegroup']=$this->sports_model->getagegroupbystudent($this->input->get_post('id'));
+
+     $data['selectedsportscategory']=$this->sports_model->getsportcategorybystudent($this->input->get_post('id'));
+
+    $data["sports"]=$this->sports_model->getsportsdropdown();
+	$data["title"]="Edit student";
+	$data["before"]=$this->student_model->beforeedit($this->input->get("id"));
+	$this->load->view("template",$data);
+}
+public function editstudentsubmit1()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->form_validation->set_rules("id","ID","trim");
+	$this->form_validation->set_rules("name","Name","trim");
+	$this->form_validation->set_rules("school","School","trim");
+	$this->form_validation->set_rules("image","Image","trim");
+	$this->form_validation->set_rules("location","Location","trim");
+	$this->form_validation->set_rules("address","Address","trim");
+	$this->form_validation->set_rules("content","Content","trim");
+			if($this->form_validation->run()==FALSE)
+		{
+			$data["alerterror"]=validation_errors();
+			$data["page"]="editstudent1";
+			$data["title"]="Edit student";
+            $data["gender"]=$this->student_model->getgenderdropdown();
+			$data["school"]=$this->school_model->getschooldropdown();
+            $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
+            $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
+            $data["sports"]=$this->sports_model->getsportsdropdown();
+            $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
+			$data["before"]=$this->student_model->beforeedit($this->input->get("id"));
+			$this->load->view("template",$data);
+		}
+			else
+		{
+			$id=$this->input->get_post("id");
+			$name=$this->input->get_post("name");
+			$school=$this->input->get_post("school");
+			$email=$this->input->get_post("email");
+			//$image=$this->input->get_post("image");
+			$location=$this->input->get_post("location");
+			$address=$this->input->get_post("address");
+			$content=$this->input->get_post("content");
+            	$sports=$this->input->get_post("sports");
+			$sportscategory=$this->input->get_post("sportscategory");
+			$agegroup=$this->input->get_post("agegroup");
+			$gender=$this->input->get_post("gender");
+			$isparticipant=$this->input->get_post("isparticipant");
+			$age=$this->input->get_post("age");
+			$phone=$this->input->get_post("phone");
+			$emergencycontact=$this->input->get_post("emergencycontact");
+			$dob=$this->input->get_post("dob");
+				 $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="image";
+						$image="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$image=$uploaddata['file_name'];
+
+							$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+							$config_r['maintain_ratio'] = TRUE;
+							$config_t['create_thumb'] = FALSE;///add this
+							$config_r['width']   = 800;
+							$config_r['height'] = 800;
+							$config_r['quality']    = 100;
+							//end of configs
+
+							$this->load->library('image_lib', $config_r); 
+							$this->image_lib->initialize($config_r);
+							if(!$this->image_lib->resize())
+							{
+								echo "Failed." . $this->image_lib->display_errors();
+								//return false;
+							}  
+							else
+							{
+								//print_r($this->image_lib->dest_image);
+								//dest_image
+								$image=$this->image_lib->dest_image;
+								//return false;
+							}
+
+						}
+
+						if($image=="")
+						{
+						$image=$this->student_model->getimagebyid($id);
+						   // print_r($image);
+							$image=$image->image;
+						}
+			if($this->student_model->edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)==0)
+			$data["alerterror"]="New student could not be Updated.";
+			else
+			$data["alertsuccess"]="student Updated Successfully.";
+			$data["redirect"]="site/viewstudent1";
+			$this->load->view("redirect",$data);
+		}
+}
+public function deletestudent1()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->student_model->delete($this->input->get("id"));
+	$data["redirect"]="site/viewstudent1";
+	$this->load->view("redirect",$data);
+}
     
 
 

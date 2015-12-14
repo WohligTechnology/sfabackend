@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class team_model extends CI_Model
 {
-public function create($sportscategory,$agegroup,$year,$title)
+public function create($sportscategory,$agegroup,$year,$title,$sport,$school)
 {
-$data=array("sportscategory" => $sportscategory,"agegroup" => $agegroup,"year" => $year,"title"=>$title);
+$data=array("sportscategory" => $sportscategory,"agegroup" => $agegroup,"year" => $year,"title"=>$title,"sport"=>$sport,"school"=>$school);
 $query=$this->db->insert( "sfa_team", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,9 +24,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_team")->row();
 return $query;
 }
-public function edit($id,$sportscategory,$agegroup,$year,$title)
+public function edit($id,$sportscategory,$agegroup,$year,$title,$sport,$school)
 {
-$data=array("sportscategory" => $sportscategory,"agegroup" => $agegroup,"year" => $year,"title"=>$title);
+$data=array("sportscategory" => $sportscategory,"agegroup" => $agegroup,"year" => $year,"title"=>$title,"sport"=>$sport,"school"=>$school);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_team", $data );
 return 1;

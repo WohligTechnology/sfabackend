@@ -22,6 +22,18 @@ Team Details
 <input type="text" id="normal-field" class="form-control" name="title" value='<?php echo set_value('title');?>'>
 </div>
 </div>
+    <div class=" form-group">
+<label class="col-sm-2 control-label" for="normal-field">School</label>
+<div class="col-sm-4">
+<?php echo form_dropdown("school",$school,set_value('school',$this->input->get('schoolid')),"class='chzn-select form-control'");?>
+</div>
+</div>
+    <div class=" form-group">
+<label class="col-sm-2 control-label" for="normal-field">Sport</label>
+<div class="col-sm-4">
+<?php echo form_dropdown("sport",$sport,set_value('sport'),"class='chzn-select form-control'");?>
+</div>
+</div>
 <div class=" form-group">
 <label class="col-sm-2 control-label" for="normal-field">Sports Category</label>
 <div class="col-sm-4">
