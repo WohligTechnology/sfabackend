@@ -19,9 +19,6 @@ team Details
 <tr>
 <th data-field="id">ID</th>
 <th data-field="title">Title</th>
-<th data-field="sportscategory">Sports Category</th>
-<th data-field="agegroup">Age group</th>
-<th data-field="year">Year</th>
 <th data-field="action">Action</th>
 </tr>
 </thead>
@@ -34,7 +31,7 @@ team Details
 <script>
 function drawtable(resultrow) {
 	var studentid ="<?php echo $this->input->get('id'); ?>";
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.title + "</td><td>" + resultrow.sportscategory + "</td><td>" + resultrow.agegroup + "</td><td>" + resultrow.year + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editteam1?id=');?>"+resultrow.teamid+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' onclick=\"return confirm('Are you sure you want to delete?');\" href='<?php echo site_url('site/deleteteam1?id='); ?>"+resultrow.teamid+"'><i class='icon-trash '></i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.title + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editteam1?id=');?>"+resultrow.teamid+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' onclick=\"return confirm('Are you sure you want to delete?');\" href='<?php echo site_url('site/deleteteam1?id='); ?>"+resultrow.teamid+"'><i class='icon-trash '></i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

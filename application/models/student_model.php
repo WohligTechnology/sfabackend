@@ -5,6 +5,15 @@ class student_model extends CI_Model
 {
 public function create($name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)
 {
+    if($age !="")
+    {
+    }
+    else{
+        $from = new DateTime($dob);
+        $to   = new DateTime('today');
+        $age=$from->diff($to)->y;
+    }
+    
 $data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location, "agegroup" => $agegroup[0],"address" => $address,"content" => $content,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob);
 $query=$this->db->insert( "sfa_student", $data );
 	$studentid=$this->db->insert_id();
@@ -69,6 +78,14 @@ return $query;
 public function
 edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)
 {
+    if($age !="")
+    {
+    }
+    else{
+        $from = new DateTime($dob);
+        $to   = new DateTime('today');
+        $age=$from->diff($to)->y;
+    }
 $data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location, "agegroup" => $agegroup[0],"address" => $address,"content" => $content,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_student", $data );

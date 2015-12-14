@@ -5558,41 +5558,19 @@ function viewteam1json()
 	$elements[0]->sort="1";
 	$elements[0]->header="ID";
 	$elements[0]->alias="id";
+    
+    
 	$elements[1]=new stdClass();
-	$elements[1]->field="`sfa_sportscategory`.`title`";
+	$elements[1]->field="`sfa_team`.`title`";
 	$elements[1]->sort="1";
-	$elements[1]->header="Sports Category";
-	$elements[1]->alias="sportscategory";
+	$elements[1]->header="Title";
+	$elements[1]->alias="title";
+	
 	$elements[2]=new stdClass();
-	$elements[2]->field="`sfa_agegroups`.`name`";
+	$elements[2]->field="`sfa_team`.`id`";
 	$elements[2]->sort="1";
-	$elements[2]->header="Age group";
-	$elements[2]->alias="agegroup";
-	$elements[3]=new stdClass();
-	$elements[3]->field="`sfa_year`.`name`";
-	$elements[3]->sort="1";
-	$elements[3]->header="Year";
-	$elements[3]->alias="year";
-	$elements[4]=new stdClass();
-	$elements[4]->field="`sfa_team`.`title`";
-	$elements[4]->sort="1";
-	$elements[4]->header="Title";
-	$elements[4]->alias="title";
-	$elements[5]=new stdClass();
-	$elements[5]->field="`sfa_teamstudents`.`student`";
-	$elements[5]->sort="1";
-	$elements[5]->header="Studentid";
-	$elements[5]->alias="studentid";
-	$elements[6]=new stdClass();
-	$elements[6]->field="`sfa_student`.`school`";
-	$elements[6]->sort="1";
-	$elements[6]->header="Schoolid";
-	$elements[6]->alias="schoolid";
-	$elements[7]=new stdClass();
-	$elements[7]->field="`sfa_team`.`id`";
-	$elements[7]->sort="1";
-	$elements[7]->header="teamid";
-	$elements[7]->alias="teamid";
+	$elements[2]->header="teamid";
+	$elements[2]->alias="teamid";
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -5607,7 +5585,7 @@ function viewteam1json()
 			$orderby="id";
 			$orderorder="ASC";
 		}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_team` LEFT OUTER JOIN `sfa_year` ON `sfa_year`.`id`=`sfa_team`.`year` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_team`.`agegroup` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_team`.`sportscategory` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_team`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_teamstudents`.`student`","GROUP BY `sfa_team`.`id`");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_team`");
 	$this->load->view("json",$data);
 }
 
