@@ -65,6 +65,7 @@ return $query;
 //            $team1=trim($row['team1']);
              $last_key = key( array_slice( $row, -1, 1, TRUE ) );
             $noofcount = substr($last_key, 4);
+         
             
             if($gender=="male"){
                 $genderid=1;
@@ -122,79 +123,40 @@ return $query;
             // MATCH TEAM OR STUDENTS
             
             
-//            for($i=0;$i<$totalnoofcount;$i++)
-//            {
-//                $team=trim($row["team$i"]);
-//                $checkstud= substr($team, 3, 2);
-//                if($checkstud != "TE"){
-//                {
-//                    $this->db->insert("");
-//                }
-//                else
-//                {
-//                    
-//                }
-//            }
-            
-                $checkstud= substr($team1, 3, 2);
-                if($checkstud != "TE"){
-                    // it is a STUDENT
-                $getid= substr($getid, 5, 6);
-                $getid=intval($getid);
+            for($i=1;$i<=$noofcount;$i++)
+            {
+                $team=trim($row["team$i"]);
+                $checkstud= substr($team, 3, 2);
+                if($checkstud != "TE")
+                {
+                      // //////////////////////////// STUDENT
+   
+                    $getid= substr($team, 5, 6);
+                    $getid=intval($getid);
                     
                      $data  = array(
-                'match' => $id,
-                         'student' =>$getid
-                );
-                $query=$this->db->insert( 'sfa_matchplayed', $data );
-                $roundid=$this->db->insert_id();
+                    'match' => $id,
+                     'student' =>$getid
+                    );
+                    $query=$this->db->insert( 'sfa_matchplayed', $data );
+                    $matchplayedid=$this->db->insert_id();
                 }
-                 else{
-                     // it is a team
-                $getid= substr($getid, 5, 6);
-                $getid=intval($getid);
-                    
-                     $data  = array(
-                'match' => $id,
-                         'team' =>$getid
-                );
-                $query=$this->db->insert( 'sfa_matchplayed', $data );
-                $roundid=$this->db->insert_id();
-                 } 
-            
-            
-//            // MATCH TEAM OR STUDENTS
-            
-                $checkstud= substr($team2, 3, 2);
-                if($checkstud != "TE"){
-                    // it is a STUDENT
-                $getid= substr($getid, 5, 6);
-                $getid=intval($getid);
-                    
-                     $data  = array(
-                'match' => $id,
-                         'student' =>$getid
-                );
-                $query=$this->db->insert( 'sfa_matchplayed', $data );
-                $matchplayedid=$this->db->insert_id();
+                else
+                {
+                          ////////////////////////////// it is a TEAM
+               
+                    $getid= substr($team, 5, 6);
+                    $getid=intval($getid);
+
+                         $data  = array(
+                    'match' => $id,
+                    'team' =>$getid
+                    );
+                    $query=$this->db->insert( 'sfa_matchplayed', $data );
+                    $matchplayedid=$this->db->insert_id();
                 }
-                 else{
-                     // it is a team
-                $getid= substr($getid, 5, 6);
-                $getid=intval($getid);
-                    
-                     $data  = array(
-                'match' => $id,
-                         'team' =>$getid
-                );
-                $query=$this->db->insert( 'sfa_matchplayed', $data );
-                $matchplayedid=$this->db->insert_id();
-                 }
-            
-            
-            
-            
-            
+            }
+             
         }
 			return  1;
 }

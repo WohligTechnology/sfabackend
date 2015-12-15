@@ -3,7 +3,7 @@
         <div class=" pull-right col-md-1 createbtn"><a href="<?php echo site_url('site/viewmatch'); ?>" class="btn btn-primary pull-right"><i class="icon-long-arrow-left"></i>&nbsp;Back</a> </div>
     </div>
     <div class="col-md-3">
-        <a class="btn btn-default" href="<?php echo base_url('uploads/match.csv'); ?>"><i class="icon-upload"></i>Download CSV Format</a> &nbsp;
+        <a class="btn btn-default" href="<?php echo base_url('uploads/newexcelformatch.csv'); ?>"><i class="icon-upload"></i>Download CSV Format</a> &nbsp;
     </div>
 </div>
 <div class="row">

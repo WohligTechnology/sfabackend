@@ -31,14 +31,16 @@ matchplayed Details
 </section>
 <script>
 function drawtable(resultrow) {
-	if (resultrow.result==0){
+	if (resultrow.result==1){
 	resultrow.result="Won";
 	}
-	else if(resultrow.result==1){
+	else if(resultrow.result==2){
 	resultrow.result="Lost";
 	}
-	else if(resultrow.result==2){
+	else if(resultrow.result==3){
 	resultrow.result="Draw";
+	}else if(resultrow.result==0){
+	resultrow.result="Not Yet";
 	}
 	if (resultrow.type==0){
 	resultrow.type="Student";

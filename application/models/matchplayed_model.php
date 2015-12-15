@@ -52,9 +52,10 @@ return $query;
 	public function getresultdropdown()
 	{
 		$type=array(
-			"0" => "Won",
-			"1" => "Lost",
-			"2" => "Draw"
+			"0" => "Not yet",
+			"1" => "Won",
+			"2" => "Lost",
+			"3" => "Draw"
 		);
 //		foreach($query as $row)
 //		{

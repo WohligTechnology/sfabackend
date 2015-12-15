@@ -5553,8 +5553,8 @@ public function getSportCategoryBySport() {
 		else
 		$data['alertsuccess']="match Uploaded Successfully.";
         
-//        $data['redirect']="site/viewmatch";
-//        $this->load->view("redirect",$data);
+        $data['redirect']="site/viewmatch";
+        $this->load->view("redirect",$data);
     }
     public function viewteam1()
 {
