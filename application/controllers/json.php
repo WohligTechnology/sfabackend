@@ -1541,13 +1541,23 @@ $this->load->view("json",$data);
 	   $data["message"]=$this->restapi_model->getAgeGroup($id,$sport);
         $this->load->view("json",$data);
  }
+ 
+ public function getSportsCategory()
+ {
+        $id=$this->input->get_post("id");
+        $sport=$this->input->get_post("sport");
+	   $agegroup=$this->input->get_post("agegroup");
+	   $data["message"]=$this->restapi_model->getSportsCategory($id,$sport,$agegroup);
+        $this->load->view("json",$data);
+ }
 
  public function getSchoolSports()
  {
         $id=$this->input->get_post("id");
         $sport=$this->input->get_post("sport");
         $agegroup=$this->input->get_post("agegroup");
-	   $data["message"]=$this->restapi_model->getSchoolSports($id,$sport,$agegroup);
+        $category=$this->input->get_post("category");
+	   $data["message"]=$this->restapi_model->getSchoolSports($id,$sport,$agegroup,$category);
         $this->load->view("json",$data);
  }
 
@@ -1624,6 +1634,7 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
+	 
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_student` inner join `sfa_school` on `sfa_student`.`school` = `sfa_school`.`id`",$where);
         $this->load->view("json",$data);
  }
