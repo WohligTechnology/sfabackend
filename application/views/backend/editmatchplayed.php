@@ -14,25 +14,26 @@ Match Played Details
 <div class=" form-group">
 <label class="col-sm-2 control-label" for="normal-field">Type</label>
 <div class="col-sm-4">
-<?php echo form_dropdown("type",$type,set_value('type',$before->type),"class='chzn-select form-control'");?>
+<?php echo form_dropdown("type",$type,set_value('type',$before->type)," id='typeid' class='chzn-select form-control'");?>
 </div>
 </div>
-<div class="form-group">
-<label class="col-sm-2 control-label" for="normal-field">Order</label>
-<div class="col-sm-4">
-<input type="text" id="normal-field" class="form-control" name="order" value='<?php echo set_value('order',$before->order);?>'>
-</div>
-</div>
-<div class=" form-group">
+
+<div class=" form-group team box">
 <label class="col-sm-2 control-label" for="normal-field">team</label>
 <div class="col-sm-4">
 <?php echo form_dropdown("team",$team,set_value('team',$before->team),"class='chzn-select form-control'");?>
 </div>
 </div>
-<div class=" form-group">
+<div class=" form-group student box">
 <label class="col-sm-2 control-label" for="normal-field">Student</label>
 <div class="col-sm-4">
 <?php echo form_dropdown("student",$student,set_value('student',$before->student),"class='chzn-select form-control'");?>
+</div>
+</div>
+    <div class="form-group">
+<label class="col-sm-2 control-label" for="normal-field">Order</label>
+<div class="col-sm-4">
+<input type="text" id="normal-field" class="form-control" name="order" value='<?php echo set_value('order',$before->order);?>'>
 </div>
 </div>
 <div class=" form-group">
@@ -63,3 +64,44 @@ Match Played Details
 </form>
 </div>
 </section>
+ <script>
+        function populate(data, $select) {
+            $select.html("");
+            $select.append("<option value=''>Choose Sport Category</option>");
+            for (var i = 0; i < data.length; i++) {
+                $select.append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+            }
+        }
+        $(document).ready(function () {
+
+            // FOR SHOW HIDE
+            
+    $("#typeid").change(function(){
+        $(this).find("option:selected").each(function(){
+            if($(this).attr("value")=="0"){
+                $(".box").not(".student").hide();
+                $(".student").show();
+            }
+            else if($(this).attr("value")=="1"){
+                $(".box").not(".team").hide();
+                $(".team").show();
+            }
+           
+            else{
+                $(".box").hide();
+            }
+        });
+    }).change();
+            
+            var $sportscategory = $("select.sportscategory");
+            var new_base_url = "<?php echo site_url(); ?>";
+            $("#hj").change(function () {
+                $.getJSON(new_base_url + '/site/getType', {
+                    type: $('select[name=type]').val()
+                }, function (data) {
+                    console.log("abc");
+                    populate(data, $sportscategory);
+                });
+            });
+        });
+    </script>

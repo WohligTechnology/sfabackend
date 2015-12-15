@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <div class=" form-group">
-                            <label class="col-sm-2 control-label" for="normal-field">Sport</label>
+                            <label class="col-sm-2 control-label" for="normal-field">Sports Category</label>
                             <div class="col-sm-4">
                                 <select class="sportscategory form-control" name="sportscategory">
 

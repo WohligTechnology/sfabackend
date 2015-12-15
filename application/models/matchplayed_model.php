@@ -39,6 +39,7 @@ return $query;
 		public function gettypedropdown()
 	{
 		$type=array(
+			"" => "Choose Type",
 			"0" => "Student",
 			"1" => "Team"
 		);

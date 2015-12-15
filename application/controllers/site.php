@@ -4209,7 +4209,7 @@ public function editmatchplayedsubmit()
 			else
 			$data["alertsuccess"]="matchplayed Updated Successfully.";
 			$data["redirect"]="site/viewmatchplayed?id=".$match;
-			$this->load->view("redirect",$data);
+			$this->load->view("redirect2",$data);
 		}
 }
 public function deletematchplayed()
