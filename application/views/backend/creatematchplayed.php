@@ -13,7 +13,7 @@ Match Played Details
 <div class="panel-body">
 <form class='form-horizontal tasi-form' method='post' action='<?php echo site_url("site/creatematchplayedsubmit");?>' enctype= 'multipart/form-data'>
 <div class="panel-body">
-<div class=" form-group">
+<div class=" form-group" style="display:none">
 <label class="col-sm-2 control-label" for="normal-field">Match</label>
 <div class="col-sm-4">
 <?php echo form_dropdown("match",$match,set_value('match',$this->input->get('id')),"class='chzn-select form-control'");?>

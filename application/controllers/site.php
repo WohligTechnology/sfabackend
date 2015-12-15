@@ -4013,12 +4013,13 @@ public function viewmatchplayed()
     $data["page2"]="block/matchblock";
     $data["before1"]=$this->input->get("id");
     $data["before2"]=$this->input->get("id");
-	$data["base_url"]=site_url("site/viewmatchplayedjson");
+	$data["base_url"]=site_url("site/viewmatchplayedjson?id=").$this->input->get("id");
 	$data["title"]="View matchplayed";
 	$this->load->view("templatewith2",$data);
 }
 function viewmatchplayedjson()
 {
+    $id=$this->input->get("id");
 	$elements=array();
 	$elements[0]=new stdClass();
 	$elements[0]->field="`sfa_matchplayed`.`id`";
@@ -4085,7 +4086,7 @@ function viewmatchplayedjson()
 			$orderby="id";
 			$orderorder="ASC";
 		}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student` LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`id`=`sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_round` ON `sfa_round`.`id`=`sfa_matchplayed`.`round`");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student` LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`id`=`sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_round` ON `sfa_round`.`id`=`sfa_matchplayed`.`round`","WHERE `sfa_matchplayed`.`match`=$id");
 	$this->load->view("json",$data);
 }
 

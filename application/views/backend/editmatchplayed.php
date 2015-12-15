@@ -5,7 +5,7 @@ Match Played Details
 <div class="panel-body">
 <form class='form-horizontal tasi-form' method='post' action='<?php echo site_url("site/editmatchplayedsubmit");?>' enctype= 'multipart/form-data'>
 <input type="hidden" id="normal-field" class="form-control" name="id" value="<?php echo set_value('id',$before->id);?>" style="display:none;">
-<div class=" form-group">
+<div class=" form-group" style="display:none">
 <label class="col-sm-2 control-label" for="normal-field">Match</label>
 <div class="col-sm-4">
 <?php echo form_dropdown("match",$match,set_value('match',$before->match),"class='chzn-select form-control'");?>
