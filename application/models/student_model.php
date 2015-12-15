@@ -117,6 +117,7 @@ return $query;
 	{
 	    $query=$this->db->query("SELECT * FROM `sfa_student`  ORDER BY `id` ASC")->result();
 		$student=array(
+            "" => "Choose Student"
 		);
 		foreach($query as $row)
 		{

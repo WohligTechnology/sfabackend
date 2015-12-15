@@ -40,6 +40,7 @@ public function getteamdropdown()
 	{
 	    $query=$this->db->query("SELECT * FROM `sfa_team`  ORDER BY `id` ASC")->result();
 		$team=array(
+            "" => "Choose Team"
 		);
 		foreach($query as $row)
 		{
