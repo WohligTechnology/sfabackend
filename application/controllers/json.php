@@ -1550,6 +1550,12 @@ $this->load->view("json",$data);
 	   $data["message"]=$this->restapi_model->getSportsCategory($id,$sport,$agegroup);
         $this->load->view("json",$data);
  }
+ 
+ public function isStudentSports()
+ {
+	   $data["message"]=$this->restapi_model->isStudentSports();
+        $this->load->view("json",$data);
+ }
 
  public function getSchoolSports()
  {
@@ -1599,6 +1605,12 @@ $this->load->view("json",$data);
         $elements[5]->sort="1";
         $elements[5]->header="School";
         $elements[5]->alias="school";
+	 
+        $elements[6]=new stdClass();
+        $elements[6]->field="`sfa_school`.`id`";
+        $elements[6]->sort="1";
+        $elements[6]->header="SchoolId";
+        $elements[6]->alias="schoolid";
 
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");

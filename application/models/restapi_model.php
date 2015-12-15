@@ -73,11 +73,22 @@ public function getbannersliders()
         
     }
 	
+	public function isStudentSports(){
+			$query= $this->db->query("SELECT distinct `sfa_sports`.`id`, `sfa_sports`.`name` FROM `sfa_sports` INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id`")->result();
+		
+		return $query;
+	}
+	
 	public function getAgeGroup($id, $sport){
 		
 		$where = "WHERE 1 AND ";
-		$where.= " `sfa_student`.`school` = $id  AND";
 	 
+	 if($id != "") {
+		 $where.=" `sfa_student`.`school` = $id  AND" ;
+	 }
+	 else {
+		 $where.=" " ;
+	 }
 	 if($sport != "") {
 		 $where.="  `sfa_sports`.`id` = $sport AND " ;
 	 }
@@ -119,6 +130,7 @@ public function getbannersliders()
 	public function getSchoolSports($id,$sport,$agegroup,$category){
 	
 		$where = "WHERE 1 AND ";
+		$where.= " `sfa_student`.`school` = $id AND ";
 	 
 	 if($sport != "") {
 		 $where.="  `sfa_studentsport`.`sport` = $sport AND " ;
