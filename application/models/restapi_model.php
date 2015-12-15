@@ -75,23 +75,74 @@ public function getbannersliders()
 	
 	public function getAgeGroup($id, $sport){
 		
-		$query=$this->db->query("SELECT `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`,`sfa_agegroups`.`name` from `sfa_sports` INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` INNER JOIN `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` WHERE `sfa_student`.`school` = $id AND `sfa_sports`.`id` = $sport GROUP BY `sfa_agegroups`.`name`")->result();
+		$where = "WHERE 1 AND ";
+		$where.= " `sfa_student`.`school` = $id  AND";
+	 
+	 if($sport != "") {
+		 $where.="  `sfa_sports`.`id` = $sport AND " ;
+	 }
+	 else {
+		 $where.=" " ;
+	 }
+	 
+	 $where .= " 1 ";
+		
+		$query=$this->db->query("SELECT `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`,`sfa_agegroups`.`name` from `sfa_sports` INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` INNER JOIN `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` $where GROUP BY `sfa_agegroups`.`name`")->result();
 		return $query;
 	}
 	
 	public function getSportsCategory($id, $sport, $agegroup){
 		
-		$query=$this->db->query("SELECT `sfa_sportscategory`.`id`,`sfa_sportscategory`.`title` FROM `sfa_sportscategory` INNER JOIN `sfa_sportcategorystudent` ON `sfa_sportscategory`.`id` = `sfa_sportcategorystudent`.`sportscategory` INNER JOIN `sfa_student` ON `sfa_sportcategorystudent`.`student` = `sfa_student`.`id` INNER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` WHERE `sfa_school`.`id` = $id AND `sfa_sportcategorystudent`.`sport` = $sport AND `sfa_student`.`agegroup` = $agegroup GROUP BY `id`")->result();
+		$where = "WHERE 1 AND ";
+		$where.= " `sfa_school`.`id` = $id AND ";
+	 
+	 if($sport != "") {
+		 $where.="  `sfa_sportcategorystudent`.`sport` = $sport AND " ;
+	 }
+	 else {
+		 $where.=" " ;
+	 }
+		
+	 if($agegroup != "") {
+		 $where.="  `sfa_student`.`agegroup` = $agegroup AND " ;
+	 }
+	 else {
+		 $where.=" " ;
+	 }
+	 
+	 $where .= " 1 ";
+		
+		$query=$this->db->query("SELECT `sfa_sportscategory`.`id`,`sfa_sportscategory`.`title` FROM `sfa_sportscategory` INNER JOIN `sfa_sportcategorystudent` ON `sfa_sportscategory`.`id` = `sfa_sportcategorystudent`.`sportscategory` INNER JOIN `sfa_student` ON `sfa_sportcategorystudent`.`student` = `sfa_student`.`id` INNER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` $where GROUP BY `id`")->result();
 		return $query;
 	}
 	
 	public function getSchoolSports($id,$sport,$agegroup,$category){
-		if($sport==0&&$agegroup==0&&$category==0){
-			$where = "`sfa_student`.`school` = $id";
-		}else{
-			$where = "`sfa_studentsport`.`sport` = $sport AND `sfa_student`.`school` = $id AND `sfa_student`.`agegroup` = $agegroup AND `sfa_sportcategorystudent`.`sportscategory` = $category";
-		}
-		$query=$this->db->query("SELECT `sfa_student`.`id`,`sfa_student`.`name`,`sfa_student`.`school`,`sfa_student`.`email`,`sfa_student`.`image`,`sfa_student`.`location`,`sfa_student`.`address`,`sfa_student`.`content`,`sfa_student`.`sports`,`sfa_student`.`sportscategory`,`sfa_student`.`agegroup`,`sfa_student`.`gender`,`sfa_student`.`isparticipant`,`sfa_student`.`age`,`sfa_student`.`phone`,`sfa_student`.`emergencycontact`,`sfa_student`.`dob`FROM `sfa_student` INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student` INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student` WHERE $where GROUP BY `sfa_student`.`id`")->result();
+	
+		$where = "WHERE 1 AND ";
+	 
+	 if($sport != "") {
+		 $where.="  `sfa_studentsport`.`sport` = $sport AND " ;
+	 }
+	 else {
+		 $where.=" " ;
+	 }
+	 
+	 if($agegroup != "") {
+		 $where.="  `sfa_student`.`agegroup` = $agegroup AND " ;
+	 }
+	 else {
+		 $where.="";
+	 }
+		
+	 if($category != "") {
+		 $where.="  `sfa_sportcategorystudent`.`sportscategory` = $category AND " ;
+	 }
+	 else {
+		 $where.="";
+	 }
+	 $where .= " 1 ";
+		
+		$query=$this->db->query("SELECT `sfa_sportscategory`.`title`,`sfa_student`.`id`,`sfa_student`.`name`,`sfa_student`.`school`,`sfa_student`.`email`,`sfa_student`.`image`,`sfa_student`.`location`,`sfa_student`.`address`,`sfa_student`.`content`,`sfa_student`.`sports`,`sfa_student`.`sportscategory`,`sfa_student`.`agegroup`,`sfa_student`.`gender`,`sfa_student`.`isparticipant`,`sfa_student`.`age`,`sfa_student`.`phone`,`sfa_student`.`emergencycontact`,`sfa_student`.`dob`FROM `sfa_student` INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student` INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student` INNER JOIN `sfa_sportscategory` ON `sfa_sportcategorystudent`.`sportscategory` = `sfa_sportscategory`.`id` $where GROUP BY `sfa_student`.`id`")->result();
 		return $query;
 	}
 		

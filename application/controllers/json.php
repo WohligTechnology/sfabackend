@@ -1640,10 +1640,29 @@ $this->load->view("json",$data);
  }
  
  
+ 
  public function studentSearchById()
  {
       $id = $this->input->get("id");
       $query=$this->db->query("SELECT * FROM `sfa_student` WHERE `id`='$id'");
+	 
+	 if($query->num_rows() == 0)
+	 {
+		 $data["message"]=false;
+	 }
+	 else
+	 {
+		 $data["message"]=$query->row();
+	 }
+		 
+	 
+      $this->load->view("json",$data);
+ }
+ 
+ public function schoolSearchById()
+ {
+      $id = $this->input->get("id");
+      $query=$this->db->query("SELECT * FROM `sfa_school` WHERE `id`='$id'");
 	 
 	 if($query->num_rows() == 0)
 	 {
