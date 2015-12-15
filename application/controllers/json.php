@@ -1798,168 +1798,179 @@ $this->load->view("json",$data);
             $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_mediaitem`","WHERE `sfa_mediaitem`.`sport` = '$sport' AND `sfa_mediaitem`.`id`='$mediaid'");
             $this->load->view("json",$data);
  }
-// public function getschedule(){
-//        $sport=$this->input->get_post("sport");
-//        $sportscategory=$this->input->get_post("sportscategory");
-//        $gender=$this->input->get_post("gender");
-//        $agegroup=$this->input->get_post("agegroup");
-//        $where="";
-//        if($sport!=""){
-//            $where .=" `sfa_match`.`sports`='$sport' AND";
-//        }
-//     if($sportscategory!=""){
-//            $where .=" `sfa_match`.`sportscategory`='$sportscategory' AND";
-//        }
-//     if($gender!=""){
-//            $where .=" `sfa_match`.`gender`='$gender' AND";
-//        }
-//     if($agegroup!=""){
-//            $where .=" `sfa_match`.`agegroup`='$agegroup' AND";
-//        }
-//     $where .=" 1";
-//        $elements[0]=new stdClass();
-//        $elements[0]->field="`sfa_match`.`id`";
-//        $elements[0]->sort="1";
-//        $elements[0]->header="ID";
-//        $elements[0]->alias="id";
-//
-//        $elements[1]=new stdClass();
-//        $elements[1]->field="`sfa_match`.`sports`";
-//        $elements[1]->sort="1";
-//        $elements[1]->header="Sports";
-//        $elements[1]->alias="sports";
-//
-//        $elements[2]=new stdClass();
-//        $elements[2]->field="`sfa_match`.`sportscategory`";
-//        $elements[2]->sort="1";
-//        $elements[2]->header="Sports Category";
-//        $elements[2]->alias="sportscategory";
-//
-//        $elements[3]=new stdClass();
-//        $elements[3]->field="`sfa_match`.`agegroup`";
-//        $elements[3]->sort="1";
-//        $elements[3]->header="Age group";
-//        $elements[3]->alias="agegroup";
-//
-//        $elements[4]=new stdClass();
-//        $elements[4]->field="`sfa_match`.`status`";
-//        $elements[4]->sort="1";
-//        $elements[4]->header="Status";
-//        $elements[4]->alias="status";
-//
-//        $elements[5]=new stdClass();
-//        $elements[5]->field="`sfa_match`.`timestamp`";
-//        $elements[5]->sort="1";
-//        $elements[5]->header="Time stamp";
-//        $elements[5]->alias="timestamp";
-//
-//        $elements[6]=new stdClass();
-//        $elements[6]->field="`sfa_match`.`resulttimestamp`";
-//        $elements[6]->sort="1";
-//        $elements[6]->header="Result timestamp";
-//        $elements[6]->alias="resulttimestamp";
-//
-//        $elements[7]=new stdClass();
-//        $elements[7]->field="`sfa_match`.`matchresult`";
-//        $elements[7]->sort="1";
-//        $elements[7]->header="Match Result";
-//        $elements[7]->alias="matchresult";
-//     
-//        $elements[8]=new stdClass();
-//        $elements[8]->field="`sfa_match`.`name`";
-//        $elements[8]->sort="1";
-//        $elements[8]->header="name";
-//        $elements[8]->alias="name";
-//     
-//        $elements[9]=new stdClass();
-//        $elements[9]->field="`sfa_match`.`starttime`";
-//        $elements[9]->sort="1";
-//        $elements[9]->header="starttime";
-//        $elements[9]->alias="starttime";
-//     
-//        $elements[10]=new stdClass();
-//        $elements[10]->field="`sfa_match`.`endtime`";
-//        $elements[10]->sort="1";
-//        $elements[10]->header="endtime";
-//        $elements[10]->alias="endtime";
-//     
-//        $elements[11]=new stdClass();
-//        $elements[11]->field="`sfa_match`.`matchdate`";
-//        $elements[11]->sort="1";
-//        $elements[11]->header="matchdate";
-//        $elements[11]->alias="matchdate";
-//     
-//        $elements[12]=new stdClass();
-//        $elements[12]->field="`sfa_match`.`round`";
-//        $elements[12]->sort="1";
-//        $elements[12]->header="round";
-//        $elements[12]->alias="round";
-//     
-//        $elements[13]=new stdClass();
-//        $elements[13]->field="`sfa_matchplayed`.`student`";
-//        $elements[13]->sort="1";
-//        $elements[13]->header="student";
-//        $elements[13]->alias="student";
-//     
-//        $elements[14]=new stdClass();
-//        $elements[14]->field="`sfa_student`.`id`";
-//        $elements[14]->sort="1";
-//        $elements[14]->header="studentid";
-//        $elements[14]->alias="studentid";
-//     
-//        $elements[15]=new stdClass();
-//        $elements[15]->field="`sfa_student`.`name`";
-//        $elements[15]->sort="1";
-//        $elements[15]->header="studentname";
-//        $elements[15]->alias="studentname";
-//     
-//        $elements[16]=new stdClass();
-//        $elements[16]->field="`sfa_student`.`school`";
-//        $elements[16]->sort="1";
-//        $elements[16]->header="school";
-//        $elements[16]->alias="school";
-//     
-//        $elements[17]=new stdClass();
-//        $elements[17]->field="`sfa_school`.`name`";
-//        $elements[17]->sort="1";
-//        $elements[17]->header="schoolname";
-//        $elements[17]->alias="schoolname";
-//     
-//        $elements[18]=new stdClass();
-//        $elements[18]->field="`sfa_matchplayed`.`team`";
-//        $elements[18]->sort="1";
-//        $elements[18]->header="team";
-//        $elements[18]->alias="team";
-//     
-//        $elements[19]=new stdClass();
-//        $elements[19]->field="`sfa_team`.`id`";
-//        $elements[19]->sort="1";
-//        $elements[19]->header="teamid";
-//        $elements[19]->alias="teamid";
-//     
-//        $elements[20]=new stdClass();
-//        $elements[20]->field="`sfa_team`.`name`";
-//        $elements[20]->sort="1";
-//        $elements[20]->header="teamname";
-//        $elements[20]->alias="teamname";
-//
-//        $search=$this->input->get_post("search");
-//        $pageno=$this->input->get_post("pageno");
-//        $orderby=$this->input->get_post("orderby");
-//        $orderorder=$this->input->get_post("orderorder");
-//        $maxrow=$this->input->get_post("maxrow");
-//        if($maxrow=="")
-//        {
-//        }
-//        if($orderby=="")
-//        {
-//        $orderby="id";
-//        $orderorder="ASC";
-//        }
-//        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`team`=`sfa_team`.`id`","WHERE $where");
-//        $this->load->view("json",$data);
-//
-//     
-// }
-// 
+ public function getschedule(){
+        $sport=$this->input->get_post("sport");
+        $sportscategory=$this->input->get_post("sportscategory");
+        $gender=$this->input->get_post("gender");
+        $agegroup=$this->input->get_post("agegroup");
+        $where="";
+        if($sport!=""){
+            $where .=" `sfa_match`.`sports`='$sport' AND";
+        }
+     if($sportscategory!=""){
+            $where .=" `sfa_match`.`sportscategory`='$sportscategory' AND";
+        }
+     if($gender!=""){
+            $where .=" `sfa_match`.`gender`='$gender' AND";
+        }
+     if($agegroup!=""){
+            $where .=" `sfa_match`.`agegroup`='$agegroup' AND";
+        }
+     $where .=" 1";
+        $elements[0]=new stdClass();
+        $elements[0]->field="`sfa_match`.`matchresult`";
+        $elements[0]->sort="1";
+        $elements[0]->header="matchresult";
+        $elements[0]->alias="matchresult";
+
+        $elements[1]=new stdClass();
+        $elements[1]->field="`sfa_match`.`starttime`";
+        $elements[1]->sort="1";
+        $elements[1]->header="starttime";
+        $elements[1]->alias="starttime";
+
+        $elements[2]=new stdClass();
+        $elements[2]->field="`sfa_match`.`endtime`";
+        $elements[2]->sort="1";
+        $elements[2]->header="endtime";
+        $elements[2]->alias="endtime";
+
+        $elements[3]=new stdClass();
+        $elements[3]->field="`sfa_match`.`matchdate`";
+        $elements[3]->sort="1";
+        $elements[3]->header="matchdate";
+        $elements[3]->alias="matchdate";
+
+        $elements[4]=new stdClass();
+        $elements[4]->field="`team1`.`student`";
+        $elements[4]->sort="1";
+        $elements[4]->header="team1Student";
+        $elements[4]->alias="team1Student";
+
+        $elements[5]=new stdClass();
+        $elements[5]->field="`team1`.`team`";
+        $elements[5]->sort="1";
+        $elements[5]->header="team1Team";
+        $elements[5]->alias="team1Team";
+
+        $elements[6]=new stdClass();
+        $elements[6]->field="`team2`.`student`";
+        $elements[6]->sort="1";
+        $elements[6]->header="team2Student";
+        $elements[6]->alias="team2Student";
+
+        $elements[7]=new stdClass();
+        $elements[7]->field="`team2`.`team`";
+        $elements[7]->sort="1";
+        $elements[7]->header="team2Team";
+        $elements[7]->alias="team2Team";
+     
+        $elements[8]=new stdClass();
+        $elements[8]->field="`student1`.`name`";
+        $elements[8]->sort="1";
+        $elements[8]->header="student1name";
+        $elements[8]->alias="student1name";
+     
+        $elements[9]=new stdClass();
+        $elements[9]->field="`student2`.`name`";
+        $elements[9]->sort="1";
+        $elements[9]->header="student2name";
+        $elements[9]->alias="student2name";
+     
+        $elements[10]=new stdClass();
+        $elements[10]->field="`sfa_team1`.`title`";
+        $elements[10]->sort="1";
+        $elements[10]->header="team1name";
+        $elements[10]->alias="team1name";
+     
+        $elements[11]=new stdClass();
+        $elements[11]->field="`sfa_team2`.`title`";
+        $elements[11]->sort="1";
+        $elements[11]->header="team2name";
+        $elements[11]->alias="team2name";
+     
+        $elements[12]=new stdClass();
+        $elements[12]->field="`school1`.`id`";
+        $elements[12]->sort="1";
+        $elements[12]->header="school1id";
+        $elements[12]->alias="school1id";
+     
+        $elements[13]=new stdClass();
+        $elements[13]->field="`school2`.`id`";
+        $elements[13]->sort="1";
+        $elements[13]->header="school2id";
+        $elements[13]->alias="school2id";
+     
+        $elements[14]=new stdClass();
+        $elements[14]->field="`school1`.`name`";
+        $elements[14]->sort="1";
+        $elements[14]->header="school1name";
+        $elements[14]->alias="school1name";
+     
+        $elements[15]=new stdClass();
+        $elements[15]->field="`school2`.`name`";
+        $elements[15]->sort="1";
+        $elements[15]->header="school2name";
+        $elements[15]->alias="school2name";
+     
+        $elements[16]=new stdClass();
+        $elements[16]->field="CONCAT('SFATE',LPAD(`sfa_team1`.`id`,6,0))";
+        $elements[16]->sort="1";
+        $elements[16]->header="team1sfaid";
+        $elements[16]->alias="team1sfaid";
+     
+        $elements[17]=new stdClass();
+        $elements[17]->field="CONCAT('SFATE',LPAD(`sfa_team2`.`id`,6,0))";
+        $elements[17]->sort="1";
+        $elements[17]->header="team2sfaid";
+        $elements[17]->alias="team2sfaid";
+     
+        $elements[18]=new stdClass();
+        $elements[18]->field="CONCAT('SFAST',LPAD(`student1`.`id`,6,0))";
+        $elements[18]->sort="1";
+        $elements[18]->header="student1sfaid";
+        $elements[18]->alias="student1sfaid";
+     
+        $elements[19]=new stdClass();
+        $elements[19]->field="CONCAT('SFAST',LPAD(`student2`.`id`,6,0))";
+        $elements[19]->sort="1";
+        $elements[19]->header="student2sfaid";
+        $elements[19]->alias="student2sfaid";
+     
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+        }
+        if($orderby=="")
+        {
+        $orderby="id";
+        $orderorder="ASC";
+        }
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_match` 
+INNER JOIN (SELECT `team`,`student`,`match` FROM `sfa_matchplayed` LIMIT 0,1) as `team1` ON `sfa_match`.`id` = `team1`.`match`
+INNER JOIN (SELECT `team`,`student`,`match` FROM `sfa_matchplayed` LIMIT 1,1) as `team2` ON `sfa_match`.`id` = `team2`.`match`
+LEFT OUTER JOIN `sfa_student` as `student1` ON `student1`.`id` = `team1`.`student`
+LEFT OUTER JOIN `sfa_student` as `student2` ON `student2`.`id` = `team2`.`student`
+LEFT OUTER JOIN `sfa_team` as `sfa_team1` ON `sfa_team1`.`id` = `team1`.`team`
+LEFT OUTER JOIN `sfa_team` as `sfa_team2` ON `sfa_team2`.`id` = `team2`.`team`
+LEFT OUTER JOIN `sfa_school` as `school1` ON `school1`.`id` = `student1`.`school`
+LEFT OUTER JOIN `sfa_school` as `school2` ON `school2`.`id` = `student2`.`school`","WHERE $where");
+        $this->load->view("json",$data);
+
+     
+ }
+//SELECT `sfa_match`.`matchresult`,`sfa_match`.`starttime`,`sfa_match`.`endtime`,`sfa_match`.`matchdate`,`team1`.`student` As `team1Student`,`team1`.`team` As `team1Team`,`team2`.`student` As `team2Student`,`team2`.`team` As `team2Team`, `student1`.`name` as `student1name`, `student2`.`name` as `student2name`,`sfa_team1`.`title` as `team1name`,`sfa_team2`.`title` as `team2name`,`school1`.`id` as `school1id`,`school2`.`id` as `school2id`,`school1`.`name` as `school1name`,`school2`.`name` as `school2name`,`sfa_team1`.`id` as `team1id`
+//FROM `sfa_match` 
+//INNER JOIN (SELECT `team`,`student`,`match` FROM `sfa_matchplayed` LIMIT 0,1) as `team1` ON `sfa_match`.`id` = `team1`.`match`
+//INNER JOIN (SELECT `team`,`student`,`match` FROM `sfa_matchplayed` LIMIT 1,1) as `team2` ON `sfa_match`.`id` = `team2`.`match`
+//LEFT OUTER JOIN `sfa_student` as `student1` ON `student1`.`id` = `team1`.`student`
+//LEFT OUTER JOIN `sfa_student` as `student2` ON `student2`.`id` = `team2`.`student`
+//LEFT OUTER JOIN `sfa_team` as `sfa_team1` ON `sfa_team1`.`id` = `team1`.`team`
+//LEFT OUTER JOIN `sfa_team` as `sfa_team2` ON `sfa_team2`.`id` = `team2`.`team`
+//LEFT OUTER JOIN `sfa_school` as `school1` ON `school1`.`id` = `student1`.`school`
+//LEFT OUTER JOIN `sfa_school` as `school2` ON `school2`.`id` = `student2`.`school`
 } ?>
