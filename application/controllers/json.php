@@ -1961,9 +1961,7 @@ LEFT OUTER JOIN `sfa_school` as `school1` ON `school1`.`id` = `student1`.`school
 LEFT OUTER JOIN `sfa_school` as `school2` ON `school2`.`id` = `student2`.`school`","WHERE $where");
         $this->load->view("json",$data);
 
-     
- }
-//SELECT `sfa_match`.`matchresult`,`sfa_match`.`starttime`,`sfa_match`.`endtime`,`sfa_match`.`matchdate`,`team1`.`student` As `team1Student`,`team1`.`team` As `team1Team`,`team2`.`student` As `team2Student`,`team2`.`team` As `team2Team`, `student1`.`name` as `student1name`, `student2`.`name` as `student2name`,`sfa_team1`.`title` as `team1name`,`sfa_team2`.`title` as `team2name`,`school1`.`id` as `school1id`,`school2`.`id` as `school2id`,`school1`.`name` as `school1name`,`school2`.`name` as `school2name`,`sfa_team1`.`id` as `team1id`
+//        SELECT `sfa_match`.`matchresult`,`sfa_match`.`starttime`,`sfa_match`.`endtime`,`sfa_match`.`matchdate`,`team1`.`student` As `team1Student`,`team1`.`team` As `team1Team`,`team2`.`student` As `team2Student`,`team2`.`team` As `team2Team`, `student1`.`name` as `student1name`, `student2`.`name` as `student2name`,`sfa_team1`.`title` as `team1name`,`sfa_team2`.`title` as `team2name`,`school1`.`id` as `school1id`,`school2`.`id` as `school2id`,`school1`.`name` as `school1name`,`school2`.`name` as `school2name`,CONCAT('SFATE',LPAD(`sfa_team1`.`id`,6,0)) as `team1sfaid`,CONCAT('SFATE',LPAD(`sfa_team2`.`id`,6,0)) as `team2sfaid`,CONCAT('SFAST',LPAD(`student1`.`id`,6,0)) as `student1sfaid`,CONCAT('SFAST',LPAD(`student2`.`id`,6,0)) as `student2sfaid`
 //FROM `sfa_match` 
 //INNER JOIN (SELECT `team`,`student`,`match` FROM `sfa_matchplayed` LIMIT 0,1) as `team1` ON `sfa_match`.`id` = `team1`.`match`
 //INNER JOIN (SELECT `team`,`student`,`match` FROM `sfa_matchplayed` LIMIT 1,1) as `team2` ON `sfa_match`.`id` = `team2`.`match`
@@ -1973,4 +1971,6 @@ LEFT OUTER JOIN `sfa_school` as `school2` ON `school2`.`id` = `student2`.`school
 //LEFT OUTER JOIN `sfa_team` as `sfa_team2` ON `sfa_team2`.`id` = `team2`.`team`
 //LEFT OUTER JOIN `sfa_school` as `school1` ON `school1`.`id` = `student1`.`school`
 //LEFT OUTER JOIN `sfa_school` as `school2` ON `school2`.`id` = `student2`.`school`
+ }
+
 } ?>
