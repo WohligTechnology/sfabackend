@@ -194,7 +194,17 @@ $where GROUP BY `sfa_agegroups`.`name`")->result();
 	 }
 	 $where .= " 1 ";
 		
-		$query=$this->db->query("SELECT `sfa_sportscategory`.`title`,`sfa_student`.`id`,`sfa_student`.`name`,`sfa_student`.`school`,`sfa_student`.`email`,`sfa_student`.`image`,`sfa_student`.`location`,`sfa_student`.`address`,`sfa_student`.`content`,`sfa_student`.`sports`,`sfa_student`.`sportscategory`,`sfa_student`.`agegroup`,`sfa_student`.`gender`,`sfa_student`.`isparticipant`,`sfa_student`.`age`,`sfa_student`.`phone`,`sfa_student`.`emergencycontact`,`sfa_student`.`dob`FROM `sfa_student` INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student` INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student` INNER JOIN `sfa_sportscategory` ON `sfa_sportcategorystudent`.`sportscategory` = `sfa_sportscategory`.`id` $where GROUP BY `sfa_student`.`id`")->result();
+		$query=$this->db->query("SELECT `sfa_sportscategory`.`title`,`sfa_student`.`id`,`sfa_student`.`name`,`sfa_student`.`school`,`sfa_student`.`email`,`sfa_student`.`image`,`sfa_student`.`location`,`sfa_student`.`address`,`sfa_student`.`content`,`sfa_student`.`sports`,`sfa_student`.`sportscategory`,`sfa_student`.`agegroup`,`sfa_student`.`gender`,`sfa_student`.`isparticipant`,
+`sfa_student`.`age`,`sfa_student`.`phone`,`sfa_student`.`emergencycontact`,`sfa_student`.`dob`,`sfa_team`.`id` as `team`,`sfa_team`.`title` as `teamname`
+FROM `sfa_student` 
+INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student` 
+INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student` 
+INNER JOIN `sfa_sportscategory` ON `sfa_sportcategorystudent`.`sportscategory` = `sfa_sportscategory`.`id`
+LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`student` = `sfa_student`.`id`
+LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id` = `sfa_teamstudents`.`team`
+LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`sports` = 1
+LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match` = `sfa_match`.`id`
+$where GROUP BY `sfa_student`.`id`")->result();
 		return $query;
 	}
 		
