@@ -102,10 +102,50 @@ public function getbannersliders()
 		return $query;
 	}
 	
+	public function scheduleAgeGroup($category, $sport, $gender){
+		
+		$where = "WHERE 1 AND ";
+	 
+	 if($category != "") {
+		 $where.=" `sfa_sportcategorystudent`.`sportscategory` = $category  AND" ;
+	 }
+	 else {
+		 $where.=" " ;
+	 }
+		
+	 if($sport != "") {
+		 $where.="  `sfa_sports`.`id` = $sport AND " ;
+	 }
+	 else {
+		 $where.=" " ;
+	 }
+		
+	 if($gender != "") {
+		 $where.="  `sfa_student`.`gender` = $gender AND " ;
+	 }
+	 else {
+		 $where.=" " ;
+	 }
+	 
+	 $where .= " 1 ";
+		
+		$query=$this->db->query("SELECT `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`,`sfa_agegroups`.`name` from `sfa_sports` 
+INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` 
+INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id`
+INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student`
+INNER JOIN `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` 
+$where GROUP BY `sfa_agegroups`.`name`")->result();
+		return $query;
+	}
+	
 	public function getSportsCategory($id, $sport, $agegroup){
 		
 		$where = "WHERE 1 AND ";
-		$where.= " `sfa_school`.`id` = $id AND ";
+		if($id != "") {
+			$where.= " `sfa_school`.`id` = $id AND ";
+		}else{
+			$where.=" ";
+		}
 	 
 	 if($sport != "") {
 		 $where.="  `sfa_sportcategorystudent`.`sport` = $sport AND " ;

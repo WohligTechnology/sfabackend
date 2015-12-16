@@ -1542,6 +1542,15 @@ $this->load->view("json",$data);
         $this->load->view("json",$data);
  }
  
+ public function scheduleAgeGroup()
+ {
+        $category=$this->input->get_post("category");
+        $sport=$this->input->get_post("sport");
+        $gender=$this->input->get_post("gender");
+	   $data["message"]=$this->restapi_model->getAgeGroup($category,$sport,$gender);
+        $this->load->view("json",$data);
+ }
+ 
  public function getSportsCategory()
  {
         $id=$this->input->get_post("id");
