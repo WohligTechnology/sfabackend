@@ -2118,5 +2118,14 @@ LEFT OUTER JOIN `sfa_school` as `school2` ON `school2`.`id` = `student2`.`school
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student` LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` ","WHERE `sfa_match`.`sports`=2 $where");
         $this->load->view("json",$data);
  }
+ public function getDraw()
+ {
+        $sport=$this->input->get_post("sport");
+        $sportscategory=$this->input->get_post("sportscategory");
+        $gender=$this->input->get_post("gender");
+        $agegroup=$this->input->get_post("agegroup");
+        $data['message']=$this->restapi_model->getDraw($sport,$sportscategory,$gender,$agegroup);
+        $this->load->view("json",$data);
+ }
 
 } ?>
