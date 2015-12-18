@@ -148,22 +148,22 @@ return $query;
         foreach ($file as $row)
         {
             
-            $name=$row['name'];
-            $school=$row['school'];
-            $address=$row['address'];
-            $content=$row['content'];
-            $email=$row['email'];
-            $image=$row['image'];
-            $location=$row['location'];
-            $sports=$row['sports'];
-            $sportscategory=$row['sportscategory'];
-            $agegroup=$row['agegroup'];
-            $gender=$row['gender'];
-            $phone=$row['phone'];
-            $emergencycontact=$row['emergencycontact'];
-            $dob=$row['dob'];
-            $team=$row['team'];
-            $year=$row['year'];
+            $name=trim($row['name']);
+            $school=trim($row['school']);
+            $address=trim($row['address']);
+            $content=trim($row['content']);
+            $email=trim($row['email']);
+            $image=trim($row['image']);
+            $location=trim($row['location']);
+            $sports=trim($row['sports']);
+            $sportscategory=trim($row['sportscategory']);
+            $agegroup=trim($row['agegroup']);
+            $gender=trim($row['gender']);
+            $phone=trim($row['phone']);
+            $emergencycontact=trim($row['emergencycontact']);
+            $dob=trim($row['dob']);
+            $team=trim($row['team']);
+            $year=trim($row['year']);
             $from = new DateTime($dob);
             $to   = new DateTime('today');
             $calculatedage=$from->diff($to)->y;
