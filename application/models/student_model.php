@@ -772,6 +772,25 @@ $timestamp=new DateTime();
             redirect(base_url("csvgenerated/studentfile_$timestamp.csv"), 'refresh');
              echo 'File written!';
         }
+	} 
+    function exportstudentsportcsv()
+	{
+		$this->load->dbutil();
+		$query=$this->db->query("SELECT CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `Student sfa id`,`sfa_student`.`name` as `Name`,GROUP_CONCAT(`sfa_sports`.`name`) as `Sports Name` FROM `sfa_student` LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`student`=`sfa_student`.`id` LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_studentsport`.`sport` GROUP BY `sfa_student`.`id`");
+
+       $content= $this->dbutil->csv_from_result($query);
+        //$data = 'Some file data';
+$timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+        if ( ! write_file("./csvgenerated/studentfile_$timestamp.csv", $content))
+        {
+             echo 'Unable to write the file';
+        }
+        else
+        {
+            redirect(base_url("csvgenerated/studentfile_$timestamp.csv"), 'refresh');
+             echo 'File written!';
+        }
 	}
 }
 ?>

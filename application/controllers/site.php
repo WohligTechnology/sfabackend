@@ -5504,6 +5504,14 @@ public function deleteenquiries()
         $data['redirect']="site/viewschool";
         $this->load->view("redirect",$data);
 	}
+    public function exportstudentsportcsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->student_model->exportstudentsportcsv();
+        $data['redirect']="site/viewstudent1";
+        $this->load->view("redirect",$data);
+	}
     
 public function getSportCategoryBySport() {
         $sport=$this->input->get_post("sport");
