@@ -2000,17 +2000,6 @@ LEFT OUTER JOIN `sfa_team` as `sfa_team2` ON `sfa_team2`.`id` = `team2`.`team`
 LEFT OUTER JOIN `sfa_school` as `school1` ON `school1`.`id` = `student1`.`school`
 LEFT OUTER JOIN `sfa_school` as `school2` ON `school2`.`id` = `student2`.`school`","WHERE $where");
         $this->load->view("json",$data);
-
-//        SELECT `sfa_match`.`matchresult`,`sfa_match`.`starttime`,`sfa_match`.`endtime`,`sfa_match`.`matchdate`,`team1`.`student` As `team1Student`,`team1`.`team` As `team1Team`,`team2`.`student` As `team2Student`,`team2`.`team` As `team2Team`, `student1`.`name` as `student1name`, `student2`.`name` as `student2name`,`sfa_team1`.`title` as `team1name`,`sfa_team2`.`title` as `team2name`,`school1`.`id` as `school1id`,`school2`.`id` as `school2id`,`school1`.`name` as `school1name`,`school2`.`name` as `school2name`,CONCAT('SFATE',LPAD(`sfa_team1`.`id`,6,0)) as `team1sfaid`,CONCAT('SFATE',LPAD(`sfa_team2`.`id`,6,0)) as `team2sfaid`,CONCAT('SFAST',LPAD(`student1`.`id`,6,0)) as `student1sfaid`,CONCAT('SFAST',LPAD(`student2`.`id`,6,0)) as `student2sfaid`
-//FROM `sfa_match` 
-//INNER JOIN (SELECT `team`,`student`,`match` FROM `sfa_matchplayed` LIMIT 0,1) as `team1` ON `sfa_match`.`id` = `team1`.`match`
-//INNER JOIN (SELECT `team`,`student`,`match` FROM `sfa_matchplayed` LIMIT 1,1) as `team2` ON `sfa_match`.`id` = `team2`.`match`
-//LEFT OUTER JOIN `sfa_student` as `student1` ON `student1`.`id` = `team1`.`student`
-//LEFT OUTER JOIN `sfa_student` as `student2` ON `student2`.`id` = `team2`.`student`
-//LEFT OUTER JOIN `sfa_team` as `sfa_team1` ON `sfa_team1`.`id` = `team1`.`team`
-//LEFT OUTER JOIN `sfa_team` as `sfa_team2` ON `sfa_team2`.`id` = `team2`.`team`
-//LEFT OUTER JOIN `sfa_school` as `school1` ON `school1`.`id` = `student1`.`school`
-//LEFT OUTER JOIN `sfa_school` as `school2` ON `school2`.`id` = `student2`.`school`
  }
  public function getAllSwimmingMatch(){
         $sportscategory=$this->input->get_post("sportscategory");
@@ -2126,6 +2115,40 @@ LEFT OUTER JOIN `sfa_school` as `school2` ON `school2`.`id` = `student2`.`school
         $agegroup=$this->input->get_post("agegroup");
         $data['message']=$this->restapi_model->getDraw($sport,$sportscategory,$gender,$agegroup);
         $this->load->view("json",$data);
+ } 
+public function getScore()
+{
+        $sport=$this->input->get_post("sport");
+        $sportscategory=$this->input->get_post("sportscategory");
+        $gender=$this->input->get_post("gender");
+        $agegroup=$this->input->get_post("agegroup");
+    
+        $elements[0]=new stdClass();
+        $elements[0]->field="`sfa_match`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="matchid";
+        $elements[0]->alias="matchid";
+     
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+        }
+        if($orderby=="")
+        {
+        $orderby="id";
+        $orderorder="ASC";
+        }
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_match`","WHERE `sports`='$sport' AND `sportscategory`='$sportscategory' AND `gender`='$gender' AND `agegroup`='$agegroup'");
+        foreach($data["message"]->queryresult as $row)
+        {
+            $matchid=$row->matchid;
+            $row->players=$this->db->query("SELECT `sfa_matchplayed`.`id`, `sfa_matchplayed`.`team`,`sfa_matchplayed`.`student`,`sfa_matchplayed`.`reason` as `result`,`sfa_matchplayed`.`round`,`sfa_student`.`id`,`sfa_student`.`name`,CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `studentsfaid`,`sfa_team`.`id`,`sfa_team`.`title`,CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `teamsfaid` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student` LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` WHERE `match`=$matchid")->result();
+        }
+        $this->load->view("json",$data);
  }
-
+ 
 } ?>

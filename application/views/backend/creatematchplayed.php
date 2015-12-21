@@ -56,10 +56,10 @@ Match Played Details
 <?php echo form_dropdown("round",$round,set_value('round'),"class='chzn-select form-control'");?>
 </div>
 </div>
-<div class=" form-group">
-<label class="col-sm-2 control-label" for="normal-field">Reason</label>
-<div class="col-sm-8">
-<textarea name="reason" id="" cols="20" rows="10" class="form-control tinymce"><?php echo set_value( 'reason');?></textarea>
+  <div class="form-group">
+<label class="col-sm-2 control-label" for="normal-field">Result</label>
+<div class="col-sm-4">
+<input type="text" id="normal-field" class="form-control" name="reason" value='<?php echo set_value('reason');?>'>
 </div>
 </div>
 <div class="form-group">
