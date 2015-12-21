@@ -45,9 +45,9 @@ public function getbannersliders()
         if($id)
         return 1;
         else
-        return 0;    
+        return 0;
     }
-	
+
 //	public function get
     public function getschoolprofile($id){
 //      $query['school']=$this->db->query("SELECT `id`, `name`, `email`, `contact`, `image`, `address`, `location`, `biography`, `authority` FROM `sfa_school` WHERE `id`='$id'")->row();
@@ -58,31 +58,31 @@ public function getbannersliders()
 //            $query['sportname']=array();
 //            $query2=$this->db->query("SELECT `id`, `name`, `status`, `order`, `icon`, `about`, `eligibility`, `rules`, `json` FROM `sfa_sports` WHERE `id`=$row->sports")->row();
 //            array_push($query['sportname'],$query2);
-//            
+//
 //        }
-	    
+
 	    $query['school'] = $this->db->query("SELECT *,CONCAT('SFASC',LPAD(`sfa_school`.`id`,6,0)) as `sfaschoolid` FROM `sfa_school` WHERE `id` = $id")->row();
-	    
+
 	    $query['participant'] = $this->db->query("SELECT count(`sfa_student`.`id`) as `studentcount` FROM `sfa_student` INNER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` where `sfa_school`.`id` = $id")->row();
-	    
+
 	    $query['sportname'] = $this->db->query("SELECT distinct `sfa_sports`.`id`, `sfa_sports`.`name` FROM `sfa_sports` INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` WHERE `sfa_student`.`school` = $id")->result();
-	    
+
 	    $query['agegroup'] = $this->db->query("SELECT `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`, `sfa_agegroups`.`name` from `sfa_sports` INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` INNER JOIN `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` WHERE `sfa_student`.`school` = $id GROUP BY `sfa_agegroups`.`name`")->result();
-	
+
         return $query;
-        
+
     }
-	
+
 	public function isStudentSports(){
 			$query= $this->db->query("SELECT distinct `sfa_sports`.`id`, `sfa_sports`.`name` FROM `sfa_sports` INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id`")->result();
-		
+
 		return $query;
 	}
-	
+
 	public function getAgeGroup($id, $sport){
-		
+
 		$where = "WHERE 1 AND ";
-	 
+
 	 if($id != "") {
 		 $where.=" `sfa_student`.`school` = $id  AND" ;
 	 }
@@ -95,97 +95,97 @@ public function getbannersliders()
 	 else {
 		 $where.=" " ;
 	 }
-	 
+
 	 $where .= " 1 ";
-		
+
 		$query=$this->db->query("SELECT `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`,`sfa_agegroups`.`name` from `sfa_sports` INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` INNER JOIN `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` $where GROUP BY `sfa_agegroups`.`name`")->result();
 		return $query;
 	}
-	
+
 	public function scheduleAgeGroup($category, $sport, $gender){
-		
+
 		$where = "WHERE 1 AND ";
-	 
+
 	 if($category != "") {
 		 $where.=" `sfa_sportcategorystudent`.`sportscategory` = $category  AND" ;
 	 }
 	 else {
 		 $where.=" " ;
 	 }
-		
+
 	 if($sport != "") {
 		 $where.="  `sfa_sports`.`id` = $sport AND " ;
 	 }
 	 else {
 		 $where.=" " ;
 	 }
-		
+
 	 if($gender != "") {
 		 $where.="  `sfa_student`.`gender` = $gender AND " ;
 	 }
 	 else {
 		 $where.=" " ;
 	 }
-	 
+
 	 $where .= " 1 ";
-		
-		$query=$this->db->query("SELECT `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`,`sfa_agegroups`.`name` from `sfa_sports` 
-INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` 
+
+		$query=$this->db->query("SELECT `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`,`sfa_agegroups`.`name` from `sfa_sports`
+INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport`
 INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id`
 INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student`
-INNER JOIN `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` 
+INNER JOIN `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id`
 $where GROUP BY `sfa_agegroups`.`name`")->result();
 		return $query;
 	}
-	
+
 	public function getSportsCategory($id, $sport, $agegroup){
-		
+
 		$where = "WHERE 1 AND ";
 		if($id != "") {
 			$where.= " `sfa_school`.`id` = $id AND ";
 		}else{
 			$where.=" ";
 		}
-	 
+
 	 if($sport != "") {
 		 $where.="  `sfa_sportcategorystudent`.`sport` = $sport AND " ;
 	 }
 	 else {
 		 $where.=" " ;
 	 }
-		
+
 	 if($agegroup != "") {
 		 $where.="  `sfa_student`.`agegroup` = $agegroup AND " ;
 	 }
 	 else {
 		 $where.=" " ;
 	 }
-	 
+
 	 $where .= " 1 ";
-		
+
 		$query=$this->db->query("SELECT `sfa_sportscategory`.`id`,`sfa_sportscategory`.`title` FROM `sfa_sportscategory` INNER JOIN `sfa_sportcategorystudent` ON `sfa_sportscategory`.`id` = `sfa_sportcategorystudent`.`sportscategory` INNER JOIN `sfa_student` ON `sfa_sportcategorystudent`.`student` = `sfa_student`.`id` INNER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` $where GROUP BY `id`")->result();
 		return $query;
 	}
-	
+
 	public function getSchoolSports($id,$sport,$agegroup,$category){
-	
+
 		$where = "WHERE 1 AND ";
 		$where.= " `sfa_student`.`school` = $id AND ";
-	 
+
 	 if($sport != "") {
 		 $where.="  `sfa_studentsport`.`sport` = $sport AND " ;
 	 }
 	 else {
 		 $where.=" " ;
 	 }
-	 
+
 	 if($agegroup != "") {
 		 $where.="  `sfa_student`.`agegroup` = $agegroup AND " ;
 	 }
 	 else {
 		 $where.="";
 	 }
-		
+
 	 if($category != "") {
 		 $where.="  `sfa_sportcategorystudent`.`sportscategory` = $category AND " ;
 	 }
@@ -193,23 +193,23 @@ $where GROUP BY `sfa_agegroups`.`name`")->result();
 		 $where.="";
 	 }
 	 $where .= " 1 ";
-		
+
 		$query=$this->db->query("SELECT `sfa_sportscategory`.`title`,`sfa_student`.`id`,`sfa_student`.`name`,`sfa_student`.`school`,`sfa_student`.`email`,`sfa_student`.`image`,`sfa_student`.`location`,`sfa_student`.`address`,`sfa_student`.`content`,`sfa_student`.`sports`,`sfa_student`.`sportscategory`,`sfa_student`.`agegroup`,`sfa_student`.`gender`,`sfa_student`.`isparticipant`,
 `sfa_student`.`age`,`sfa_student`.`phone`,`sfa_student`.`emergencycontact`,`sfa_student`.`dob`,`sfa_team`.`id` as `team`,`sfa_team`.`title` as `teamname`
-FROM `sfa_student` 
-INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student` 
-INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student` 
+FROM `sfa_student`
+INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student`
+INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student`
 INNER JOIN `sfa_sportscategory` ON `sfa_sportcategorystudent`.`sportscategory` = `sfa_sportscategory`.`id`
 LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`student` = `sfa_student`.`id`
 LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id` = `sfa_teamstudents`.`team`
-LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`sports` = 1
+LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`sports` = $sport
 LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match` = `sfa_match`.`id`
 $where GROUP BY `sfa_student`.`id`")->result();
 		return $query;
 	}
-		
- 
-    
+
+
+
     public function createEnquiries($name,$email,$mobile,$person)
 {
 $data=array("name" => $name,"email" => $email,"mobile" => $mobile,"person" => $person);
@@ -219,12 +219,12 @@ if(!$query)
 return  0;
 else
 return  1;
-}  
+}
     public function getAllSports()
 {
          $query=$this->db->query("SELECT `id`, `name`, `status`, `order`, `icon`, `about`, `eligibility`, `rules`, `json` FROM `sfa_sports` WHERE 1")->result();
         return $query;
-}  
+}
     public function getStudentProfile($id)
 {
          $query['studentprofile']=$this->db->query("SELECT `sfa_student`.`id`,CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `sfastudentid`, `sfa_student`.`name`, `sfa_student`.`school`, `sfa_student`.`address`, `sfa_student`.`content`, `sfa_student`.`email`, `sfa_student`.`image`, `sfa_student`.`location`, `sfa_student`.`sports`, `sfa_student`.`sportscategory`, `sfa_student`.`agegroup`, `sfa_student`.`gender`, `sfa_student`.`isparticipant`, `sfa_student`.`age`, `sfa_student`.`phone`, `sfa_student`.`emergencycontact`, `sfa_student`.`dob`,`sfa_school`.`id` as `schoolid`,`sfa_school`.`name` as `schoolname`,`sfa_agegroups`.`id` as `agegroupid`,`sfa_agegroups`.`name` as `agegroupname`
@@ -232,12 +232,12 @@ return  1;
          LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`
          LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_student`.`agegroup`
          WHERE `sfa_student`.`id`='$id'")->row();
-        
+
         $query['sportsparticipated']=$this->db->query("SELECT DISTINCT(`sfa_sports`.`id`), `sfa_sports`.`name` FROM `sfa_sports` LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`sport`=`sfa_sports`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_studentsport`.`student` WHERE `sfa_student`.`id`='$id'")->result();
-        
+
         return $query;
 }
-	
+
 	public function filtergames($games){
 		$query = $this->db->query("SELECT `id`, `name` FROM `sfa_sports` WHERE `id` IN ($games)")->result();
 		foreach($query as $row){
@@ -251,7 +251,7 @@ return  1;
         foreach($round as $rou)
         {
             $rou->match=$this->db->query("SELECT `id`, `sports`, `sportscategory`, `agegroup`, `timestamp`, `status`, `resulttimestamp`, `matchresult`, `name`, `starttime`, `endtime`, `gender`, `matchdate`, `round` FROM `sfa_match` WHERE `round`=$rou->id AND `sports`='$sport' AND `sportscategory`='$sportscategory' AND `sfa_match`.`gender`='$gender' AND `sfa_match`.`agegroup`='$agegroup'")->result();
-           
+
             foreach($rou->match as $match)
             {
                 $match->player = $this->db->query("SELECT `sfa_student`.`id` as `studentid`,CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `sfastudentid`,`sfa_student`.`name` as `studentname`,`sfa_school`.`name` as `schoolname`,`sfa_team`.`id` as `teamid`,CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `teamsfaid`,`sfa_team`.`title` as `teamname`
@@ -261,12 +261,12 @@ LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student`
 LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team`
 LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`
 WHERE `sfa_match`.`id`=$match->id")->result();
-                
+
             }
         }
             return $round;
 	}
-    
-    
+
+
 }
 ?>
