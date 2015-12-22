@@ -1540,7 +1540,7 @@ public function editmediaitem()
     $data["sport"]=$this->sports_model->getsportsdropdown();
      $data['selectedstudent']=$this->media_model->getmediastudent($this->input->get_post('id'));
 	$data["title"]="Edit mediaitem";
-	print_r($data["before"]);
+//	print_r($data["before"]);
 	$this->load->view("template",$data);
 }
 public function editmediaitemsubmit()

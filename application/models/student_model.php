@@ -592,7 +592,7 @@ return $query;
                
             //agegroups
             $query10=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
-            print_r($query10);
+//            print_r($query10);
             if(empty($query10))
             {
                 echo $agegroup;
