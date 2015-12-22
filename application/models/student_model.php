@@ -184,7 +184,7 @@ return $query;
             $query1=$this->db->query("SELECT * FROM `sfa_school` WHERE `id`= '$schoolproperid'")->row();
             $schoolid=$query1->id;
            
-            $checkstudent=$this->db->query("SELECT * FROM `sfa_student` WHERE `name`= '$name' AND `school`='$schoolid'  AND `gender`='$genderid' AND `dob`='$dob'")->row();
+            $checkstudent=$this->db->query("SELECT * FROM `sfa_student` WHERE `name`= '$name' AND `school`='$schoolid'")->row();
             if(empty($checkstudent))
             {
             
@@ -347,7 +347,7 @@ return $query;
               if($agegroup !="") {
             //agegroups
             $query10=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
-            print_r($query10);
+         
             if(empty($query10))
             {
                 echo $agegroup;
