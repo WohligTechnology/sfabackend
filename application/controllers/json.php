@@ -1841,6 +1841,7 @@ $this->load->view("json",$data);
 
  public function getAllSwimmingMatch(){
         $sportscategory=$this->input->get_post("sportscategory");
+        $sport=$this->input->get_post("sport");
         $gender=$this->input->get_post("gender");
         $agegroup=$this->input->get_post("agegroup");
         $where="";
@@ -1853,6 +1854,9 @@ $this->load->view("json",$data);
         }
      if($agegroup!=""){
             $where .="AND `sfa_match`.`agegroup`='$agegroup'";
+        }
+     if($sport!=""){
+            $where .="AND `sfa_match`.`sports`='$sport'";
         }
      $where .="AND 1";
         $elements[0]=new stdClass();
@@ -1948,7 +1952,7 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student` LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` ","WHERE `sfa_match`.`sports`=2 $where");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student` LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` ","WHERE $where");
        
         $this->load->view("json",$data);
  }
@@ -1959,6 +1963,15 @@ $this->load->view("json",$data);
         $gender=$this->input->get_post("gender");
         $agegroup=$this->input->get_post("agegroup");
         $data['message']=$this->restapi_model->getDraw($sport,$sportscategory,$gender,$agegroup);
+        $this->load->view("json",$data);
+ } 
+ public function getSwimmingDraw()
+ {
+        $sportscategory=$this->input->get_post("sportscategory");
+        $sports=$this->input->get_post("sports");
+        $gender=$this->input->get_post("gender");
+        $agegroup=$this->input->get_post("agegroup");
+        $data['message']=$this->restapi_model->getSwimmingDraw($sportscategory,$gender,$agegroup,$sports);
         $this->load->view("json",$data);
  } 
 public function getScore()

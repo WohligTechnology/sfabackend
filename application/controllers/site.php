@@ -4164,6 +4164,8 @@ public function editmatchplayed()
 	$data["result"]=$this->matchplayed_model->getresultdropdown();
 	$data["match"]=$this->match_model->getmatchdropdown();
 	$data["before"]=$this->matchplayed_model->beforeedit($this->input->get("id"));
+    $matchid=$data["before"]->match;
+    $data['checkifswim']=$this->matchplayed_model->getsport($this->input->get('matchid'));
 	$this->load->view("template",$data);
 }
 public function editmatchplayedsubmit()
@@ -4204,6 +4206,7 @@ public function editmatchplayedsubmit()
 			$result=$this->input->get_post("result");
 			$round=$this->input->get_post("round");
 			$reason=$this->input->get_post("reason");
+//                print_r($_POST);
 			if($this->matchplayed_model->edit($id,$match,$type,$order,$team,$student,$result,$round,$reason)==0)
 			$data["alerterror"]="New matchplayed could not be Updated.";
 			else

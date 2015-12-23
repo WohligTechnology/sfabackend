@@ -77,6 +77,22 @@ public function delete($id)
 $query=$this->db->query("DELETE FROM `sfa_matchplayed` WHERE `id`='$id'");
 return $query;
 }
+    public function getsport($id)
+{
+    $getswimming=$this->db->query("SELECT * FROM `sfa_sports` WHERE `name` LIKE '%swimming%'")->row();
+    $getothersport=$this->db->query("SELECT `sports` FROM `sfa_match` WHERE `id`= '$id'")->row();
+    $getothersportid=$getothersport->sports;
+        
+    $swimmingid=$getswimming->id;
+    if($getothersportid==$swimmingid)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 		public function gettypedropdown()
 	{
 		$type=array(

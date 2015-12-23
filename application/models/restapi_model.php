@@ -267,6 +267,22 @@ WHERE `sfa_match`.`id`=$match->id")->result();
         }
             return $round;
 	}
+    public function getSwimmingDraw($sportscategory,$gender,$agegroup,$sports)
+    {
+         $round = $this->db->query("SELECT `id`, `sports`, `sportcategory`, `year`, `agegroup`, `level` as `roundname`, `root` FROM `sfa_round` WHERE 1")->result();
+        foreach($round as $rou)
+        {
+       $rou->match = $this->db->query("SELECT `id`, `sports`, `sportscategory`, `agegroup`, `timestamp`, `status`, `resulttimestamp`, `matchresult`, `name`, `starttime`, `endtime`, `gender`, `matchdate`, `round` FROM `sfa_match` WHERE `sports`=$sports AND `sportscategory`=$sportscategory AND `gender`=$gender AND `agegroup`=$agegroup AND `round`=$rou->id ")->result();
+        if(!empty($rou->match))
+        {
+            foreach($rou->match as $row)
+            {
+            $row->matchplayers = $this->db->query("SELECT `id`, `type`, `order`, `team`, `student`, `match`, `result`, `reason` as `scoretime`, `round` FROM `sfa_matchplayed` WHERE `match`='$row->id' AND `reason`<>''")->result();
+            }
+        }
+        }
+        return $round;
+	}
 
 
 }
