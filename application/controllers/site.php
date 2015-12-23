@@ -4206,13 +4206,13 @@ public function editmatchplayedsubmit()
 			$result=$this->input->get_post("result");
 			$round=$this->input->get_post("round");
 			$reason=$this->input->get_post("reason");
-//                print_r($_POST);
+                print_r($_POST);
 			if($this->matchplayed_model->edit($id,$match,$type,$order,$team,$student,$result,$round,$reason)==0)
 			$data["alerterror"]="New matchplayed could not be Updated.";
 			else
 			$data["alertsuccess"]="matchplayed Updated Successfully.";
-			$data["redirect"]="site/viewmatchplayed?id=".$match;
-			$this->load->view("redirect2",$data);
+//			$data["redirect"]="site/viewmatchplayed?id=".$match;
+//			$this->load->view("redirect2",$data);
 		}
 }
 public function deletematchplayed()

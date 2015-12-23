@@ -52,7 +52,7 @@
             <div class="form-group" style="display:none">
                         <label class="col-sm-2 control-label" for="normal-field">Score</label>
                         <div class="col-sm-4">
-                            <input type="text" id="normal-field" id="reason" class="form-control" name="reason" value='<?php echo set_value(' reason ',$before->reason);?>'>
+                            <input type="text" id="normal-field" id="score" class="form-control" name="reason" value='<?php echo set_value(' reason ',$before->reason);?>'>
                         </div>
                     </div>
                 <?php } else { ?>
@@ -100,7 +100,7 @@
         // HOUR AND MINUTES
          function changestarttime() {
             console.log("Changed");
-            $("#reason").val($(".combodate select.minutes").val() + ":" + $(".combodate select.seconds").val() + ":" + $(".combodate select.milliseconds").val());
+            $("#score").val($(".combodate select.minutes").val() + ":" + $(".combodate select.seconds").val() + ":" + $(".combodate select.milliseconds").val());
 //             console.log($(".combodate select.minutes").val());
 //             console.log($(".combodate select.seconds").val());
 //             console.log($(".combodate select.milliseconds").val());
