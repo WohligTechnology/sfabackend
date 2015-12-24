@@ -277,7 +277,7 @@ WHERE `sfa_match`.`id`=$match->id")->result();
         {
             foreach($rou->match as $row)
             {
-            $row->matchplayers = $this->db->query("SELECT `id`, `type`, `order`, `team`, `student`, `match`, `result`, `reason` as `scoretime`, `round` FROM `sfa_matchplayed` WHERE `match`='$row->id' AND `reason`<>''")->result();
+            $row->matchplayers = $this->db->query("SELECT `id`, `type`, `order`, `team`, `student`, `match`, `result`, `reason` as `scoretime`, `round`,`timeformat` FROM `sfa_matchplayed` WHERE `match`='$row->id' AND `reason`<>'' ORDER BY `scoretime`")->result();
             }
         }
         }

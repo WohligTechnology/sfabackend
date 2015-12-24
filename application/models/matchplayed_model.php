@@ -3,11 +3,27 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class matchplayed_model extends CI_Model
 {
-public function create($match,$type,$order,$team,$student,$result,$round,$reason)
+public function create($match,$type,$order,$team,$student,$result,$round,$reason,$minute,$second,$millisecond)
 {
-$data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"round" => $round,"reason" => $reason);
+     $totalmilliseconds=$minute*60000 +$second*1000 +$millisecond*1;
+    $propertimeformat=$minute.":".$second.":".$millisecond;
+    $getswimming=$this->db->query("SELECT * FROM `sfa_sports` WHERE `name` LIKE '%swimming%'")->row();
+     $swimmingid=$getswimming->id;
+     $getothersport=$this->db->query("SELECT `sports` FROM `sfa_match` WHERE `id`= '$match'")->row();
+    $getothersportid=$getothersport->sports;
+    if($swimmingid==$getothersportid){
+        echo "in swim";
+        $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"round" => $round,"reason" => $totalmilliseconds,"timeformat" => $propertimeformat);
 $query=$this->db->insert( "sfa_matchplayed", $data );
 $id=$this->db->insert_id();
+    }
+    else{
+        echo "xxxx";
+         $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"round" => $round,"reason" => $reason);
+$query=$this->db->insert( "sfa_matchplayed", $data );
+$id=$this->db->insert_id();
+    }
+
 if(!$query)
 return  0;
 else
@@ -24,9 +40,11 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_matchplayed")->row();
 return $query;
 }
-public function edit($id,$match,$type,$order,$team,$student,$result,$round,$reason)
+public function edit($id,$match,$type,$order,$team,$student,$result,$round,$reason,$minute,$second,$millisecond)
 {
-    $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"round" => $round,"reason" => $reason);
+    $totalmilliseconds=$minute*60000 +$second*1000 +$millisecond*1;
+    $propertimeformat=$minute.":".$second.":".$millisecond;
+    $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"round" => $round,"reason" => $totalmilliseconds,"timeformat" => $propertimeformat);
     $this->db->where( "id", $id );
     $query=$this->db->update( "sfa_matchplayed", $data );
     

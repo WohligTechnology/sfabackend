@@ -4105,6 +4105,8 @@ $data["before2"]=$this->input->get("id");
 	$data["result"]=$this->matchplayed_model->getresultdropdown();
 	$data["match"]=$this->match_model->getmatchdropdown();
 	$data["match"]=$this->match_model->getmatchdropdown();
+    $data['checkifswim']=$this->matchplayed_model->getsport($this->input->get('id'));
+    
 	$data["title"]="Create matchplayed";
 	$this->load->view("templatewith2",$data);
 }
@@ -4143,7 +4145,11 @@ public function creatematchplayedsubmit()
 			$result=$this->input->get_post("result");
 			$round=$this->input->get_post("round");
 			$reason=$this->input->get_post("reason");
-			if($this->matchplayed_model->create($match,$type,$order,$team,$student,$result,$round,$reason)==0)
+                $minute=$this->input->get_post("min");
+			$second=$this->input->get_post("second");
+			$millisecond=$this->input->get_post("millisecond");
+                print_r($_POST);
+			if($this->matchplayed_model->create($match,$type,$order,$team,$student,$result,$round,$reason,$minute,$second,$millisecond)==0)
 			$data["alerterror"]="New matchplayed could not be created.";
 			else
 			$data["alertsuccess"]="matchplayed created Successfully.";
@@ -4165,6 +4171,8 @@ public function editmatchplayed()
 	$data["match"]=$this->match_model->getmatchdropdown();
 	$data["before"]=$this->matchplayed_model->beforeedit($this->input->get("id"));
     $matchid=$data["before"]->match;
+    $timeformat=$data["before"]->timeformat;
+    $data['timearray']=explode(":",$timeformat);
     $data['checkifswim']=$this->matchplayed_model->getsport($this->input->get('matchid'));
 	$this->load->view("template",$data);
 }
@@ -4206,13 +4214,15 @@ public function editmatchplayedsubmit()
 			$result=$this->input->get_post("result");
 			$round=$this->input->get_post("round");
 			$reason=$this->input->get_post("reason");
-                print_r($_POST);
-			if($this->matchplayed_model->edit($id,$match,$type,$order,$team,$student,$result,$round,$reason)==0)
+			$minute=$this->input->get_post("min");
+			$second=$this->input->get_post("second");
+			$millisecond=$this->input->get_post("millisecond");
+			if($this->matchplayed_model->edit($id,$match,$type,$order,$team,$student,$result,$round,$reason,$minute,$second,$millisecond)==0)
 			$data["alerterror"]="New matchplayed could not be Updated.";
 			else
 			$data["alertsuccess"]="matchplayed Updated Successfully.";
-//			$data["redirect"]="site/viewmatchplayed?id=".$match;
-//			$this->load->view("redirect2",$data);
+			$data["redirect"]="site/viewmatchplayed?id=".$match;
+			$this->load->view("redirect2",$data);
 		}
 }
 public function deletematchplayed()
