@@ -1541,16 +1541,16 @@ $this->load->view("json",$data);
 	   $data["message"]=$this->restapi_model->getAgeGroup($id,$sport);
         $this->load->view("json",$data);
  }
- 
+
  public function scheduleAgeGroup()
  {
         $category=$this->input->get_post("category");
         $sport=$this->input->get_post("sport");
         $gender=$this->input->get_post("gender");
-	   $data["message"]=$this->restapi_model->getAgeGroup($category,$sport,$gender);
+	   $data["message"]=$this->restapi_model->scheduleAgeGroup($category,$sport,$gender);
         $this->load->view("json",$data);
  }
- 
+
  public function getSportsCategory()
  {
         $id=$this->input->get_post("id");
@@ -1559,7 +1559,7 @@ $this->load->view("json",$data);
 	   $data["message"]=$this->restapi_model->getSportsCategory($id,$sport,$agegroup);
         $this->load->view("json",$data);
  }
- 
+
  public function isStudentSports()
  {
 	   $data["message"]=$this->restapi_model->isStudentSports();
@@ -1602,7 +1602,7 @@ $this->load->view("json",$data);
         $elements[3]->sort="1";
         $elements[3]->header="Dob";
         $elements[3]->alias="dob";
-	 
+
         $elements[4]=new stdClass();
         $elements[4]->field="`sfa_student`.`dob`";
         $elements[4]->sort="1";
@@ -1614,7 +1614,7 @@ $this->load->view("json",$data);
         $elements[5]->sort="1";
         $elements[5]->header="School";
         $elements[5]->alias="school";
-	 
+
         $elements[6]=new stdClass();
         $elements[6]->field="`sfa_school`.`id`";
         $elements[6]->sort="1";
@@ -1626,19 +1626,19 @@ $this->load->view("json",$data);
         $orderby=$this->input->get_post("orderby");
         $orderorder=$this->input->get_post("orderorder");
         $maxrow=$this->input->get_post("maxrow");
-	 
-	 $school = $this->input->get("school");	
-	 $studentname = $this->input->get("studentname");	
-	 
+
+	 $school = $this->input->get("school");
+	 $studentname = $this->input->get("studentname");
+
 	 $where = "WHERE 1 AND ";
-	 
+
 	 if($school != "") {
 		 $where.="  `sfa_school`.`name` LIKE '%$school%' AND " ;
 	 }
 	 else {
 		 $where.=" " ;
 	 }
-	 
+
 	 if($studentname != "" ) {
 		 $where.="  `sfa_student`.`name` LIKE '%$studentname%' AND " ;
 	 }
@@ -1646,7 +1646,7 @@ $this->load->view("json",$data);
 		 $where.="";
 	 }
 	 $where .= " 1 ";
-	 
+
         if($maxrow=="")
         {
         }
@@ -1655,18 +1655,18 @@ $this->load->view("json",$data);
         $orderby="id";
         $orderorder="ASC";
         }
-	 
+
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_student` inner join `sfa_school` on `sfa_student`.`school` = `sfa_school`.`id`",$where);
         $this->load->view("json",$data);
  }
- 
- 
- 
+
+
+
  public function studentSearchById()
  {
       $id = $this->input->get("id");
       $query=$this->db->query("SELECT * FROM `sfa_student` WHERE `id`='$id'");
-	 
+
 	 if($query->num_rows() == 0)
 	 {
 		 $data["message"]=false;
@@ -1675,16 +1675,16 @@ $this->load->view("json",$data);
 	 {
 		 $data["message"]=$query->row();
 	 }
-		 
-	 
+
+
       $this->load->view("json",$data);
  }
- 
+
  public function schoolSearchById()
  {
       $id = $this->input->get("id");
       $query=$this->db->query("SELECT * FROM `sfa_school` WHERE `id`='$id'");
-	 
+
 	 if($query->num_rows() == 0)
 	 {
 		 $data["message"]=false;
@@ -1693,11 +1693,11 @@ $this->load->view("json",$data);
 	 {
 		 $data["message"]=$query->row();
 	 }
-		 
-	 
+
+
       $this->load->view("json",$data);
  }
- 
+
 
  public function createEnquiries(){
 		$name=$this->input->get_post('name');
@@ -1845,7 +1845,7 @@ $this->load->view("json",$data);
         $gender=$this->input->get_post("gender");
         $agegroup=$this->input->get_post("agegroup");
         $where="";
-      
+
      if($sportscategory!=""){
             $where .="AND `sfa_match`.`sportscategory`='$sportscategory'";
         }
@@ -1864,7 +1864,7 @@ $this->load->view("json",$data);
         $elements[0]->sort="1";
         $elements[0]->header="matchresult";
         $elements[0]->alias="matchresult";
-     
+
         $elements[1]=new stdClass();
         $elements[1]->field="`sfa_match`.`matchid`";
         $elements[1]->sort="1";
@@ -1888,57 +1888,57 @@ $this->load->view("json",$data);
         $elements[4]->sort="1";
         $elements[4]->header="matchdate";
         $elements[4]->alias="matchdate";
-     
+
         $elements[4]=new stdClass();
         $elements[4]->field="`sfa_team`.`id`";
         $elements[4]->sort="1";
         $elements[4]->header="teamid";
         $elements[4]->alias="teamid";
-     
+
         $elements[5]=new stdClass();
         $elements[5]->field="CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0))";
         $elements[5]->sort="1";
         $elements[5]->header="teamsfaid";
         $elements[5]->alias="teamsfaid";
-     
+
         $elements[6]=new stdClass();
         $elements[6]->field="`sfa_student`.`id`";
         $elements[6]->sort="1";
         $elements[6]->header="studentid";
         $elements[6]->alias="studentid";
-     
+
         $elements[7]=new stdClass();
         $elements[7]->field="CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0))";
         $elements[7]->sort="1";
         $elements[7]->header="studentsfaid";
         $elements[7]->alias="studentsfaid";
-     
+
         $elements[8]=new stdClass();
         $elements[8]->field="`sfa_student`.`name`";
         $elements[8]->sort="1";
         $elements[8]->header="studentname";
         $elements[8]->alias="studentname";
-     
+
         $elements[9]=new stdClass();
         $elements[9]->field="`sfa_school`.`name`";
         $elements[9]->sort="1";
         $elements[9]->header="schoolname";
         $elements[9]->alias="schoolname";
-        
+
         $elements[10]=new stdClass();
         $elements[10]->field="`sfa_match`.`id`";
         $elements[10]->sort="1";
         $elements[10]->header="matchid";
         $elements[10]->alias="matchid";
-     
+
         $elements[11]=new stdClass();
         $elements[11]->field="`sfa_team`.`title`";
         $elements[11]->sort="1";
         $elements[11]->header="teamname";
         $elements[11]->alias="teamname";
 
-       
-     
+
+
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -1953,7 +1953,7 @@ $this->load->view("json",$data);
         $orderorder="ASC";
         }
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student` LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` ","WHERE $where");
-       
+
         $this->load->view("json",$data);
  }
  public function getDraw()
@@ -1964,7 +1964,7 @@ $this->load->view("json",$data);
         $agegroup=$this->input->get_post("agegroup");
         $data['message']=$this->restapi_model->getDraw($sport,$sportscategory,$gender,$agegroup);
         $this->load->view("json",$data);
- } 
+ }
  public function getSwimmingDraw()
  {
         $sportscategory=$this->input->get_post("sportscategory");
@@ -1973,20 +1973,20 @@ $this->load->view("json",$data);
         $agegroup=$this->input->get_post("agegroup");
         $data['message']=$this->restapi_model->getSwimmingDraw($sportscategory,$gender,$agegroup,$sports);
         $this->load->view("json",$data);
- } 
+ }
 public function getScore()
 {
         $sport=$this->input->get_post("sport");
         $sportscategory=$this->input->get_post("sportscategory");
         $gender=$this->input->get_post("gender");
         $agegroup=$this->input->get_post("agegroup");
-    
+
         $elements[0]=new stdClass();
         $elements[0]->field="`sfa_match`.`id`";
         $elements[0]->sort="1";
         $elements[0]->header="matchid";
         $elements[0]->alias="matchid";
-     
+
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -2049,8 +2049,8 @@ public function getScore()
         $elements[3]->field="`sfa_match`.`matchdate`";
         $elements[3]->sort="1";
         $elements[3]->header="matchdate";
-        $elements[3]->alias="matchdate"; 
-      
+        $elements[3]->alias="matchdate";
+
         $elements[3]=new stdClass();
         $elements[3]->field="`sfa_match`.`matchresult`";
         $elements[3]->sort="1";
@@ -2078,5 +2078,5 @@ public function getScore()
         }
         $this->load->view("json",$data);
  }
- 
+
 } ?>

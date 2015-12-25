@@ -98,8 +98,11 @@ public function getbannersliders()
 
 	 $where .= " 1 ";
 
-		$query=$this->db->query("SELECT `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`,`sfa_agegroups`.`name` from `sfa_sports` INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport` INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id` INNER JOIN `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` $where GROUP BY `sfa_agegroups`.`name`")->result();
-		return $query;
+   $query=$this->db->query("SELECT `sfa_sports`.`id`, `sfa_sports`.`name`, `sfa_student`.`agegroup`,`sfa_agegroups`.`name`
+   from `sfa_sports` INNER JOIN `sfa_studentsport` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport`
+   INNER JOIN `sfa_student` ON `sfa_studentsport`.`student` = `sfa_student`.`id`
+   INNER JOIN `sfa_agegroups` ON `sfa_student`.`agegroup` = `sfa_agegroups`.`id` $where GROUP BY `sfa_agegroups`.`name`")->result();
+   return $query;
 	}
 
 	public function scheduleAgeGroup($category, $sport, $gender){
@@ -198,7 +201,7 @@ $where GROUP BY `sfa_agegroups`.`name`")->result();
       `sfa_student`.`email`,`sfa_student`.`image`,`sfa_student`.`location`,`sfa_student`.`address`,`sfa_student`.`content`,
       `sfa_student`.`sports`,`sfa_student`.`sportscategory`,`sfa_student`.`agegroup`,`sfa_student`.`gender`,
       `sfa_student`.`isparticipant`,`sfa_student`.`age`,`sfa_student`.`phone`,`sfa_student`.`emergencycontact`,
-      `sfa_student`.`dob`,`sfa_team`.`id` as `team`,`sfa_team`.`title` as `teamname` 
+      `sfa_student`.`dob`,`sfa_team`.`id` as `team`,`sfa_team`.`title` as `teamname`
     FROM `sfa_student`
 INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student`
 INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student`
