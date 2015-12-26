@@ -50,7 +50,10 @@
                         <div class=" form-group">
                             <label class="col-sm-2 control-label" for="normal-field">Age group</label>
                             <div class="col-sm-4">
-                                <?php echo form_dropdown("agegroup",$agegroup,set_value('agegroup'),"class='chzn-select form-control'");?>
+<!--                                <?php echo form_dropdown("agegroup",$agegroup,set_value('agegroup'),"class='chzn-select form-control'");?>-->
+                                   <select class="agegroup form-control" name="agegroup">
+
+                                </select>
                             </div>
                         </div>
                         <div class=" form-group">
@@ -116,10 +119,18 @@
             for (var i = 0; i < data.length; i++) {
                 $select.append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
             }
+        } 
+         function populate1(data, $select) {
+            $select.html("");
+            $select.append("<option value=''>Choose Age Groups</option>");
+            for (var i = 0; i < data.length; i++) {
+                $select.append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+            }
         }
         $(document).ready(function () {
 
             var $sportscategory = $("select.sportscategory");
+            var $agegroup = $("select.agegroup");
             var new_base_url = "<?php echo site_url(); ?>";
             $("#sportid").change(function () {
                 $.getJSON(new_base_url + '/site/getSportCategoryBySport', {
@@ -127,6 +138,13 @@
                 }, function (data) {
                     console.log("abc");
                     populate(data, $sportscategory);
+                });  
+                
+                $.getJSON(new_base_url + '/site/getAgeGroupBySport', {
+                    sport: $('select[name=sports]').val()
+                }, function (data) {
+                    console.log("abc");
+                    populate1(data, $agegroup);
                 });
             });
         });

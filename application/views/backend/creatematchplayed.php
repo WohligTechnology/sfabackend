@@ -16,7 +16,7 @@ Match Played Details
 <div class=" form-group" style="display:none">
 <label class="col-sm-2 control-label" for="normal-field">Match</label>
 <div class="col-sm-4">
-<?php echo form_dropdown("match",$match,set_value('match',$this->input->get('id')),"class='chzn-select form-control'");?>
+<?php echo form_dropdown("match",$match,set_value('match',$this->input->get('id')), "class='chzn-select form-control'");?>
 </div>
 </div>
 <div class=" form-group">
@@ -35,7 +35,10 @@ Match Played Details
 <div class=" form-group student box">
 <label class="col-sm-2 control-label" for="normal-field">Student</label>
 <div class="col-sm-4">
-<?php echo form_dropdown("student",$student,set_value('student'),"class='chzn-select form-control'");?>
+<!--<?php echo form_dropdown("student",$student,set_value('student'),"class='chzn-select form-control'");?>-->
+        <select class="student form-control" name="student">
+
+                                </select>
 </div>
 </div>
     <div class="form-group">
@@ -108,12 +111,24 @@ Match Played Details
             for (var i = 0; i < data.length; i++) {
                 $select.append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
             }
+        }  
+     function populate1(data, $select) {
+            $select.html("");
+            $select.append("<option value=''>Choose Student</option>");
+            for (var i = 0; i < data.length; i++) {
+                $select.append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+            }
         }
         $(document).ready(function () {
-
+              var new_base_url = "<?php echo site_url(); ?>";
+          
+            
             // FOR SHOW HIDE
             
     $("#typeid").change(function(){
+        
+        console.log("ABC");
+        
         $(this).find("option:selected").each(function(){
             if($(this).attr("value")=="0"){
                 $(".box").not(".student").hide();
@@ -128,9 +143,18 @@ Match Played Details
                 $(".box").hide();
             }
         });
-    }).change();
+        console.log("BCD");
+         // STUDENT BY SPORTS
+             $.getJSON(new_base_url + '/site/getStudentByMatch', {
+                    match: $('select[name=match]').val()
+                }, function (data) {
+                    console.log("abc");
+                    populate1(data, $student);
+                });
+    });
             
             var $sportscategory = $("select.sportscategory");
+            var $student = $("select.student");
             var new_base_url = "<?php echo site_url(); ?>";
             $("#hj").change(function () {
                 $.getJSON(new_base_url + '/site/getType', {
@@ -139,6 +163,8 @@ Match Played Details
                     console.log("abc");
                     populate(data, $sportscategory);
                 });
+                
+                 
             });
         });
     </script>

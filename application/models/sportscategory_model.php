@@ -54,6 +54,18 @@ public function getsportscategorydropdown()
 	    $query=$this->db->query("SELECT `sfa_sportscategory`.`id`, `sfa_sportscategory`.`title` as `name` FROM `sfa_sports` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`sports`=`sfa_sports`.`id` WHERE `sfa_sportscategory`.`sports`='$sport'")->result();
 	
 		return $query;
+	} 
+    public function getAgeGroupBySport($sport)
+	{
+	    $query=$this->db->query("SELECT `sfa_agegroups`.`id`, `sfa_agegroups`.`name` FROM `sfa_agegroups` WHERE `sfa_agegroups`.`id` IN (SELECT DISTINCT(`agegroup`) FROM `sfa_student` WHERE `sports`='$sport')")->result();
+	
+		return $query;
+	} 
+    public function getStudentByMatch($match)
+	{
+	    $query=$this->db->query("SELECT `id`,`name` FROM `sfa_student` WHERE `sports` = (SELECT `sports` FROM `sfa_match` WHERE `id`='$match')")->result();
+	
+		return $query;
 	}
 	
 	

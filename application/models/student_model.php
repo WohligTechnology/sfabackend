@@ -3,7 +3,7 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class student_model extends CI_Model
 {
-public function create($name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)
+public function create($name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob,$isverified)
 {
     if($age !="")
     {
@@ -14,7 +14,7 @@ public function create($name,$school,$email,$image,$location,$address,$content,$
         $age=$from->diff($to)->y;
     }
     
-$data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location, "agegroup" => $agegroup[0],"address" => $address,"content" => $content,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob);
+$data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location, "agegroup" => $agegroup[0],"address" => $address,"content" => $content,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob,"isverified" => $isverified);
 $query=$this->db->insert( "sfa_student", $data );
 	$studentid=$this->db->insert_id();
     foreach($sports AS $key=>$value)
@@ -76,7 +76,7 @@ return $query;
 }
 	
 public function
-edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)
+edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob,$isverified)
 {
     if($age !="")
     {
@@ -86,7 +86,7 @@ edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sports
         $to   = new DateTime('today');
         $age=$from->diff($to)->y;
     }
-$data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location, "agegroup" => $agegroup[0],"address" => $address,"content" => $content,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob);
+$data=array("name" => $name,"school" => $school,"email" => $email,"image" => $image,"location" => $location, "agegroup" => $agegroup[0],"address" => $address,"content" => $content,"gender" => $gender,"isparticipant" => $isparticipant,"age" => $age,"phone" => $phone,"emergencycontact" => $emergencycontact,"dob" => $dob,"isverified" => $isverified);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_student", $data );
     $this->db->query("DELETE FROM `sfa_studentagegroup` WHERE `student`='$id'");
@@ -126,15 +126,27 @@ return $query;
 		
 		return $student;
 	}
-	public function getstudentdropdownbyschool($media)
+    public function getstudentdropdownbyschool()
 	{
-	    $query=$this->db->query("select `sfa_student`.`id`, `sfa_student`.`name` from `sfa_student` inner join `sfa_media` ON `sfa_student`.`school` = `sfa_media`.`school` where `sfa_media`.`id` = $media ORDER BY `id` ASC")->result();
+	    $query=$this->db->query("SELECT * FROM `sfa_student`  ORDER BY `id` ASC")->result();
 		$student=array(
+            "" => "Choose Student"
 		);
 		foreach($query as $row)
 		{
 			$student[$row->id]=$row->name;
 		}
+		
+		return $student;
+	}
+	public function getisverifieddropdown()
+	{
+		$student=array(
+            "" => "Choose Verification",
+            "1" => "Yes",
+            "2" => "No"
+            
+		);
 		
 		return $student;
 	}
@@ -164,6 +176,7 @@ return $query;
             $dob=trim($row['dob']);
             $team=trim($row['team']);
             $year=trim($row['year']);
+            $isverified=trim($row['isverified']);
             $from = new DateTime($dob);
             $to   = new DateTime('today');
             $calculatedage=$from->diff($to)->y;
@@ -177,6 +190,14 @@ return $query;
             $genderid=1;
             }else{
             $genderid=2;
+            }
+            
+            // IS VERIFIED
+            
+            if($isverified=="yes"){
+            $isverified=1;
+            }else{
+            $isverified=2;
             }
              $schoolfetch= substr($school, 8, 3);
              $schoolproperid=intval($schoolfetch);
@@ -203,7 +224,8 @@ return $query;
 			'phone' => $phone,
 			'emergencycontact' => $emergencycontact,
 			'gender' => $genderid,
-			'dob' => $dob
+			'dob' => $dob,
+			'isverified' => $isverified
 		);
 		$query=$this->db->insert( 'sfa_student', $data );
 		$id=$this->db->insert_id();
@@ -447,7 +469,8 @@ return $query;
                 'location' => $location,
                 'isparticipant' => 1,
                 'phone' => $phone,
-                'emergencycontact' => $emergencycontact
+                'emergencycontact' => $emergencycontact,
+                'isverified' => $isverified
                 );
 
                 $this->db->where('id', $id);

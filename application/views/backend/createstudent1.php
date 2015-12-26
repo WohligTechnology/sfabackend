@@ -104,6 +104,15 @@ Student Details
 <input type="date" id="normal-field" class="form-control" name="dob" value='<?php echo set_value('dob');?>'>
 </div>
 </div>
+     <div class=" form-group">
+				  <label class="col-sm-2 control-label">Verified</label>
+				  <div class="col-sm-4">
+					<?php
+						
+						echo form_dropdown('isverified',$isverified,set_value('isverified'),'class="chzn-select form-control" 	data-placeholder="Choose a Logintype..."');
+					?>
+				  </div>
+				</div>
 <div class="form-group">
 <label class="col-sm-2 control-label" for="normal-field">&nbsp;</label>
 <div class="col-sm-4">

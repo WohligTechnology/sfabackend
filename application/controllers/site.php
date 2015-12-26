@@ -3054,6 +3054,7 @@ public function createstudent()
 	$this->checkaccess($access);
 	$data["page"]="createstudent";
     $data["gender"]=$this->student_model->getgenderdropdown();
+    $data["isverified"]=$this->student_model->getisverifieddropdown();
 	$data["school"]=$this->school_model->getschooldropdown();
 	$data["isparticipant"]=$this->student_model->getisparticipantdropdown();
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
@@ -3078,6 +3079,7 @@ public function createstudentsubmit()
 			$data["alerterror"]=validation_errors();
 			$data["page"]="createstudent";
             $data["gender"]=$this->student_model->getgenderdropdown();
+                $data["isverified"]=$this->student_model->getisverifieddropdown();
             $data["sports"]=$this->sports_model->getsportsdropdown();
 			$data["school"]=$this->school_model->getschooldropdown();
             $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
@@ -3153,6 +3155,7 @@ public function editstudent()
 	$data["page"]="editstudent";
 	$data["page2"]="block/teamblock";
 	$data["school"]=$this->school_model->getschooldropdown();
+    $data["isverified"]=$this->student_model->getisverifieddropdown();
 	$data["gender"]=$this->student_model->getgenderdropdown();
     $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
@@ -3190,6 +3193,7 @@ public function editstudentsubmit()
 			$data["page"]="editstudent";
 			$data["title"]="Edit student";
             $data["gender"]=$this->student_model->getgenderdropdown();
+            $data["isverified"]=$this->student_model->getisverifieddropdown();
 			$data["school"]=$this->school_model->getschooldropdown();
             $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
             $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
@@ -5532,6 +5536,24 @@ public function getSportCategoryBySport() {
         $data["message"] = $data1;
         $this->load->view("json", $data);
     }
+    public function getAgeGroupBySport() {
+        $sport=$this->input->get_post("sport");
+        $data1 = $this->sportscategory_model->getAgeGroupBySport($sport);
+        $data["message"] = $data1;
+        $this->load->view("json", $data);
+    } 
+    public function getStudentBySport() {
+        $sport=$this->input->get_post("sport");
+        $data1 = $this->sportscategory_model->getStudentBySport($sport);
+        $data["message"] = $data1;
+        $this->load->view("json", $data);
+    }
+    public function getStudentByMatch() {
+        $match=$this->input->get_post("match");
+        $data1 = $this->sportscategory_model->getStudentByMatch($match);
+        $data["message"] = $data1;
+        $this->load->view("json", $data);
+    }
     public function getStudentCount() {
         $school=$this->input->get_post("school");
         $gender=$this->input->get_post("gender");
@@ -5790,6 +5812,7 @@ public function createstudent1()
 	$this->checkaccess($access);
 	$data["page"]="createstudent1";
     $data["gender"]=$this->student_model->getgenderdropdown();
+    $data["isverified"]=$this->student_model->getisverifieddropdown();
 	$data["school"]=$this->school_model->getschooldropdown();
 	$data["isparticipant"]=$this->student_model->getisparticipantdropdown();
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
@@ -5814,6 +5837,7 @@ public function createstudentsubmit1()
 			$data["alerterror"]=validation_errors();
 			$data["page"]="createstudent1";
             $data["gender"]=$this->student_model->getgenderdropdown();
+                $data["isverified"]=$this->student_model->getisverifieddropdown();
             $data["sports"]=$this->sports_model->getsportsdropdown();
 			$data["school"]=$this->school_model->getschooldropdown();
             $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
@@ -5889,6 +5913,7 @@ public function editstudent1()
 	$data["page"]="editstudent1";
 	$data["school"]=$this->school_model->getschooldropdown();
 	$data["gender"]=$this->student_model->getgenderdropdown();
+    $data["isverified"]=$this->student_model->getisverifieddropdown();
     $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
     $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdownwithsport();
@@ -5921,6 +5946,7 @@ public function editstudentsubmit1()
 			$data["page"]="editstudent1";
 			$data["title"]="Edit student";
             $data["gender"]=$this->student_model->getgenderdropdown();
+                $data["isverified"]=$this->student_model->getisverifieddropdown();
 			$data["school"]=$this->school_model->getschooldropdown();
             $data["isparticipant"]=$this->student_model->getisparticipantdropdown();
             $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
