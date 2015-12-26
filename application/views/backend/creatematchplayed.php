@@ -151,7 +151,7 @@ Match Played Details
                     console.log("abc");
                     populate1(data, $student);
                 });
-    });
+    }).change();
             
             var $sportscategory = $("select.sportscategory");
             var $student = $("select.student");
