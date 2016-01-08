@@ -1,0 +1,4 @@
+name,school,address,content,email,image,location,sports,sportscategory,agegroup,gender,phone,emergencycontact,dob,team,year,isverified
+Mehta Krish Sandeep,SFASC000013,,,"krishmehta324@gmail.com,skmehta7@gmail.com",abc.jpeg,,badminton,single,,male,8845454447 / 24222552,,10/16/2001,,,yes
+Patil Aniket Sandeep,SFASC000012,,,"abc324@gmail.com,skmehta7@gmail.com",xyz.png,,squash,double,,male,77323534447 / 24222552,,10/16/2002,,,
+Mehta Pooja ,SFASC000011,,,"xyz324@gmail.com,skmehta7@gmail.com",ashdjs.jpg,,swimming,freestyle,,female,0225434447 / 24222552,,11/17/1990,,,no

@@ -188,7 +188,7 @@ return $query;
             
             if($gender=="male"){
             $genderid=1;
-            }else{
+            }else if($gender=="female"){
             $genderid=2;
             }
             
@@ -196,8 +196,10 @@ return $query;
             
             if($isverified=="yes"){
             $isverified=1;
-            }else{
+            }else if($isverified=="no"){
             $isverified=2;
+            }else if($isverified==""){
+            $isverified='';
             }
              $schoolfetch= substr($school, 8, 3);
              $schoolproperid=intval($schoolfetch);
