@@ -472,7 +472,8 @@ return $query;
                 'isparticipant' => 1,
                 'phone' => $phone,
                 'emergencycontact' => $emergencycontact,
-                'isverified' => $isverified
+                'isverified' => $isverified,
+                'image' => $image
                 );
 
                 $this->db->where('id', $id);
