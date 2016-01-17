@@ -802,7 +802,12 @@ $timestamp=new DateTime();
     function exportstudentsportcsv()
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `Student sfa id`,`sfa_student`.`name` as `Name`,GROUP_CONCAT(DISTINCT(`sfa_sports`.`name`)) as `Sports Name` FROM `sfa_student` LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`student`=`sfa_student`.`id` LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_studentsport`.`sport` GROUP BY `sfa_student`.`id`");
+		$query=$this->db->query("SELECT CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `Student sfa id`,`sfa_student`.`name` as `Name`,GROUP_CONCAT(DISTINCT(`sfa_sports`.`name`)) as `Sports Name` ,CONCAT('SFASC',LPAD(`sfa_school`.`id`,6,0)) as `School sfa id`,`sfa_school`.`name` as `School Name`
+FROM `sfa_student`
+LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`student`=`sfa_student`.`id` 
+LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_studentsport`.`sport`
+LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` 
+GROUP BY `sfa_student`.`id`");
 
        $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
