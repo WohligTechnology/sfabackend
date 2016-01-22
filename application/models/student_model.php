@@ -802,11 +802,15 @@ $timestamp=new DateTime();
     function exportstudentsportcsv()
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `Student sfa id`,`sfa_student`.`name` as `Name`,GROUP_CONCAT(DISTINCT(`sfa_sports`.`name`)) as `Sports Name` ,CONCAT('SFASC',LPAD(`sfa_school`.`id`,6,0)) as `School sfa id`,`sfa_school`.`name` as `School Name`
+		$query=$this->db->query("SELECT CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `Student sfa id`,`sfa_student`.`name` as `Name`,GROUP_CONCAT(DISTINCT(`sfa_sports`.`name`)) as `Sports Name`,GROUP_CONCAT(DISTINCT(`sfa_sportscategory`.`title`)) as `Sports Category Name` ,CONCAT('SFASC',LPAD(`sfa_school`.`id`,6,0)) as `School sfa id`,`sfa_school`.`name` as `School Name`,`sfa_student`.`address` as `address`,`sfa_student`.`content` as `content`,`sfa_student`.`email` as `email`,`sfa_student`.`image`,`sfa_student`.`location`,`sfa_student`.`age`,`sfa_student`.`phone`,`sfa_student`.`emergencycontact`,`sfa_student`.`dob`,`sfa_agegroups`.`name` as `Age Group Name`
 FROM `sfa_student`
 LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`student`=`sfa_student`.`id` 
 LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_studentsport`.`sport`
 LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` 
+LEFT OUTER JOIN `sfa_sportcategorystudent` ON `sfa_sportcategorystudent`.`student`=`sfa_student`.`id` 
+LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_sportcategorystudent`.`sportscategory`
+LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_student`.`agegroup` 
+
 GROUP BY `sfa_student`.`id`");
 
        $content= $this->dbutil->csv_from_result($query);
