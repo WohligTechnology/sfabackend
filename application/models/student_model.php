@@ -473,7 +473,11 @@ return $query;
                 'phone' => $phone,
                 'emergencycontact' => $emergencycontact,
                 'isverified' => $isverified,
-                'image' => $image
+                'image' => $image,
+                'email' => $email,
+                'gender' => $gender,
+                'age' => $calculatedage,
+                'dob' => $dob
                 );
 
                 $this->db->where('id', $id);
