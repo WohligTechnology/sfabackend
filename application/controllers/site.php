@@ -5512,6 +5512,14 @@ public function deleteenquiries()
         $data['redirect']="site/viewschool";
         $this->load->view("redirect",$data);
 	}
+    public function exportschedulecsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->match_model->exportschedulecsv();
+        $data['redirect']="site/viewmatch";
+        $this->load->view("redirect",$data);
+	}
 //    STUDENT CSV
     public function exportstudentcsv()
 	{

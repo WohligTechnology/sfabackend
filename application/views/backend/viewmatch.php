@@ -5,6 +5,7 @@
     <div class="col-md-2">
 		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadmatchcsv'); ?>"><i class="icon-trash"></i>Upload CSV</a> &nbsp; 
 	</div>
+	    <div><a class="btn btn-primary" href="<?php echo site_url('site/exportschedulecsv'); ?>"target="_blank"><i class="icon-plus"></i>Export to CSV </a></div>
 </div>
 <div class="row">
 <div class="col-lg-12">

@@ -24,6 +24,31 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_match")->row();
 return $query;
 }
+    function exportschedulecsv()
+	{
+		$this->load->dbutil();
+		$query=$this->db->query("SELECT `sfa_match` .`id` as `Matchid`, `sfa_sports`.`name` as `sports`, `sfa_sportscategory`.`title` as `sportscategory`, `sfa_agegroups`.`name` as `agegroup`, `sfa_match`.`timestamp`, `sfa_match`.`matchresult`, `sfa_match`.`name` as `courtname`, `sfa_match`.`starttime`, `sfa_match`.`endtime`, `gender`.`name` as `gender`, `sfa_match`.`matchdate`, `sfa_round`.`level` as `round` FROM `sfa_match` 
+LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports`
+LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_match`.`sportscategory`
+LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_match`.`agegroup`
+LEFT OUTER JOIN `gender` ON `gender`.`id`=`sfa_match`.`gender`
+LEFT OUTER JOIN `sfa_round` ON `sfa_round`.`id`=`sfa_match`.`round`
+WHERE 1");
+
+       $content= $this->dbutil->csv_from_result($query);
+        //$data = 'Some file data';
+$timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+        if ( ! write_file("./uploads/matchfile_$timestamp.csv", $content))
+        {
+             echo 'Unable to write the file';
+        }
+        else
+        {
+            redirect(base_url("uploads/matchfile_$timestamp.csv"), 'refresh');
+             echo 'File written!';
+        }
+	}
 public function edit($id,$sports,$sportscategory,$agegroup,$status,$timestamp,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round)
 {
 $data=array("sports" => $sports,"sportscategory" => $sportscategory,"agegroup" => $agegroup,"status" => $status,"timestamp" => $timestamp,"resulttimestamp" => $resulttimestamp,"matchresult" => $matchresult,"name" => $name,"starttime" => $starttime,"endtime" => $endtime,"gender" => $gender,"matchdate" => $matchdate,"round" => $round);
