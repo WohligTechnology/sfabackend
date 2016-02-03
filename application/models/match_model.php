@@ -87,6 +87,8 @@ return $query;
             $endtime=trim($row['endtime']);
             $sports=trim($row['sports']);
             $sportscategory=trim($row['sportscategory']);
+            $won=trim($row['won']);
+            $lost=trim($row['lost']);
 //            $team1=trim($row['team1']);
              $last_key = key( array_slice( $row, -1, 1, TRUE ) );
             $noofcount = substr($last_key, 4);
@@ -155,13 +157,30 @@ return $query;
                 if($checkstud != "TE")
                 {
                       // //////////////////////////// STUDENT
-   
-                    $getid= substr($team, 5, 6);
+                 
+
+                    $team=explode(",",$team);
+                    $getid= substr($team[0], 5, 6);
                     $getid=intval($getid);
+                    
+
+                    if($team[2] =="won"){
+                        $result=1;
+                    }
+                    else if($team[2] =="lost"){
+
+                        $result=2;
+                    }
+                    else if($team[2] =="draw"){
+
+                        $result=3;
+                    }
                     
                      $data  = array(
                     'match' => $id,
-                     'student' =>$getid
+                     'student' =>$getid,
+                     'reason' =>$team[1],
+                     'result' => $result
                     );
                     $query=$this->db->insert( 'sfa_matchplayed', $data );
                     $matchplayedid=$this->db->insert_id();
@@ -169,13 +188,27 @@ return $query;
                 else
                 {
                           ////////////////////////////// it is a TEAM
-               
-                    $getid= substr($team, 5, 6);
+                    $team=explode(",",$team);
+                    $getid= substr($team[0], 5, 6);
                     $getid=intval($getid);
+
+                    if($team[2] =="won"){
+                        $result=1;
+                    }
+                    else if($team[2] =="lost"){
+
+                        $result=2;
+                    }
+                    else if($team[2] =="draw"){
+
+                        $result=3;
+                    }
 
                          $data  = array(
                     'match' => $id,
-                    'team' =>$getid
+                    'team' =>$getid,
+                    'reason' =>$team[1],
+                    'result' => $result
                     );
                     $query=$this->db->insert( 'sfa_matchplayed', $data );
                     $matchplayedid=$this->db->insert_id();

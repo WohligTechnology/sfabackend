@@ -1,0 +1,4 @@
+matchdate,court,round,agegroup,gender,starttime,endtime,sports,sportscategory,team1,team2,team3
+24-12-2015,court 2,round 1,U-16,male,7:00,8:00,basketball,Single,"SFAST000002,18,won","SFAST000003,17,lost","SFAST000003,17,lost"
+24-12-2015,court 2,round 2,U-16,male,7:00,8:00,basketball,Single,"SFAST000002,34,lost","SFAST000003,54,won","SFAST000003,54,won"
+24-12-2015,court 2,round3,U-16,male,7:00,8:00,basketball,Single,"SFAST000002,12,lost","SFAST000003,23,draw","SFAST000003,23,draw"
