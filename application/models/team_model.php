@@ -49,6 +49,25 @@ public function getteamdropdown()
 		
 		return $team;
 	}
+    public function exportteamstudentcsv()
+	{
+	    $this->load->dbutil();
+		$query=$this->db->query("SELECT CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `Sfa Team id`, `sfa_team`.`title` as `Team Name`,GROUP_CONCAT(`sfa_student`.`name`) as `Team Students` FROM `sfa_team` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_team`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_teamstudents`.`student` WHERE 1 GROUP BY `sfa_team`.`id`");
+
+       $content= $this->dbutil->csv_from_result($query);
+        //$data = 'Some file data';
+$timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+        if ( ! write_file("./uploads/teamfile_$timestamp.csv", $content))
+        {
+             echo 'Unable to write the file';
+        }
+        else
+        {
+            redirect(base_url("uploads/teamfile_$timestamp.csv"), 'refresh');
+             echo 'File written!';
+        }
+	}
     
      public function createbycsv($file)
 	{
