@@ -46,13 +46,16 @@ public function getteamdropdown()
 		{
 			$team[$row->id]=$row->title;
 		}
-		
+
 		return $team;
 	}
     public function exportteamstudentcsv()
 	{
 	    $this->load->dbutil();
-		$query=$this->db->query("SELECT CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `Sfa Team id`, `sfa_team`.`title` as `Team Name`,GROUP_CONCAT(`sfa_student`.`name`) as `Team Students` FROM `sfa_team` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_team`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_teamstudents`.`student` WHERE 1 GROUP BY `sfa_team`.`id`");
+		$query=$this->db->query("SELECT CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `Sfa Team id`, `sfa_team`.`title` as `Team Name`,GROUP_CONCAT(`sfa_student`.`name`) as `Team Students`,`sfa_agegroups`.`name` as `Age group` FROM `sfa_team` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_team`.`id`
+LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_teamstudents`.`student`
+LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_team`.`agegroup`
+WHERE 1 GROUP BY `sfa_team`.`id`");
 
        $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
@@ -68,7 +71,7 @@ $timestamp=new DateTime();
              echo 'File written!';
         }
 	}
-    
+
      public function createbycsv($file)
 	{
         foreach ($file as $row)
@@ -77,16 +80,16 @@ $timestamp=new DateTime();
             $agegroup=$row['agegroup'];
             $year=$row['year'];
             $title=$row['title'];
-            
+
             $query1=$this->db->query("SELECT `id` FROM `sfa_sportscategory` WHERE `title` LIKE '$sportscategory'")->row();
             $sportscategoryid=$query1->id;
-            
+
             $query2=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` LIKE '$agegroup'")->row();
             $agegroupid=$query2->id;
-            
+
             $query3=$this->db->query("SELECT `id` FROM `sfa_year` WHERE `name` LIKE '$year'")->row();
             $yearid=$query3->id;
-            
+
 		$data  = array(
 			'sportscategory' => $sportscategoryid,
 			'agegroup' => $agegroupid,
@@ -95,8 +98,8 @@ $timestamp=new DateTime();
 		);
 		$query=$this->db->insert( 'sfa_team', $data );
 		$id=$this->db->insert_id();
-         
-            
+
+
         }
 			return  1;
 	}
