@@ -27,13 +27,16 @@ return $query;
     function exportschedulecsv()
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `sfa_match` .`id` as `Matchid`, `sfa_sports`.`name` as `sports`, `sfa_sportscategory`.`title` as `sportscategory`, `sfa_agegroups`.`name` as `agegroup`, `sfa_match`.`timestamp`, `sfa_match`.`matchresult`, `sfa_match`.`name` as `courtname`, `sfa_match`.`starttime`, `sfa_match`.`endtime`, `gender`.`name` as `gender`, `sfa_match`.`matchdate`, `sfa_round`.`level` as `round` FROM `sfa_match` 
+		$query=$this->db->query("SELECT `sfa_match`.`id` as `matchid`,`sfa_sports`.`name` as `sports`, `sfa_sportscategory`.`title` as `sportscategory`, `sfa_agegroups`.`name` as `agegroup`, `sfa_match`.`timestamp`, `sfa_match`.`matchresult`, `sfa_match`.`name` as `courtname`, `sfa_match`.`starttime`, `sfa_match`.`endtime`, `gender`.`name` as `gender`, `sfa_match`.`matchdate`, `sfa_round`.`level` as `round`,GROUP_CONCAT(`sfa_team`.`title`) as `No of Teams`,GROUP_CONCAT(`sfa_student`.`name`) as `No of Students` FROM `sfa_match`
 LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports`
 LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_match`.`sportscategory`
 LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_match`.`agegroup`
 LEFT OUTER JOIN `gender` ON `gender`.`id`=`sfa_match`.`gender`
 LEFT OUTER JOIN `sfa_round` ON `sfa_round`.`id`=`sfa_match`.`round`
-WHERE 1");
+LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id`
+LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student`
+LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team`
+GROUP BY `sfa_match`.`id`");
 
        $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
@@ -70,14 +73,14 @@ return $query;
 		{
 			$match[$row->id]=$row->name;
 		}
-		
+
 		return $match;
 	}
      public function createbycsv($file)
 	{
         foreach ($file as $row)
         {
-           
+
             $matchdate=trim($row['matchdate']);
             $court=trim($row['court']);
             $round=trim($row['round']);
@@ -92,8 +95,8 @@ return $query;
 //            $team1=trim($row['team1']);
              $last_key = key( array_slice( $row, -1, 1, TRUE ) );
             $noofcount = substr($last_key, 4);
-         
-            
+
+
             if($gender=="male"){
                 $genderid=1;
             } else{
@@ -101,17 +104,17 @@ return $query;
             }
             $matchdate = date_create($matchdate);
             $matchdate=date_format($matchdate, 'Y-m-d');
-            
+
             $query1=$this->db->query("SELECT `id` FROM `sfa_agegroups` WHERE `name` = '$agegroup'")->row();
             $agegroupid=$query1->id;
-            
+
             $query2=$this->db->query("SELECT `id` FROM `sfa_sports` WHERE `name` = '$sports'")->row();
             $sportsid=$query2->id;
-            
+
             $query3=$this->db->query("SELECT `id` FROM `sfa_sportscategory` WHERE `title` = '$sportscategory' AND `sports`='$sportsid'")->row();
             $sportscategoryid=$query3->id;
-            
-            
+
+
 		$data  = array(
 			'matchdate' => $matchdate,
 			'name' => $court,
@@ -126,30 +129,30 @@ return $query;
 		);
 		$query=$this->db->insert( 'sfa_match', $data );
 		$id=$this->db->insert_id();
-            
+
           $query5=$this->db->query("SELECT `id` FROM `sfa_round` WHERE `level` LIKE '$round'")->row();
             $roundid=$query5->id;
-            
+
                 $data=array("round" => $roundid);
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_match", $data );
-            
+
             if(empty($query5)){
                  $data  = array(
                 'level' => $round
                 );
                 $query=$this->db->insert( 'sfa_round', $data );
                 $roundid=$this->db->insert_id();
-                
-                
+
+
                 $data=array("round" => $roundid);
                 $this->db->where( "id", $id );
                 $query=$this->db->update( "sfa_match", $data );
-                
+
             }
             // MATCH TEAM OR STUDENTS
-            
-            
+
+
             for($i=1;$i<=$noofcount;$i++)
             {
                 $team=trim($row["team$i"]);
@@ -157,12 +160,12 @@ return $query;
                 if($checkstud != "TE")
                 {
                       // //////////////////////////// STUDENT
-                 
+
 
                     $team=explode(",",$team);
                     $getid= substr($team[0], 5, 6);
                     $getid=intval($getid);
-                    
+
 
                     if($team[2] =="won"){
                         $result=1;
@@ -175,7 +178,7 @@ return $query;
 
                         $result=3;
                     }
-                    
+
                      $data  = array(
                     'match' => $id,
                      'student' =>$getid,
@@ -214,7 +217,7 @@ return $query;
                     $matchplayedid=$this->db->insert_id();
                 }
             }
-             
+
         }
 			return  1;
 }
