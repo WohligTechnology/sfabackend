@@ -1962,7 +1962,7 @@ $this->load->view("json",$data);
         $sportscategory=$this->input->get_post("sportscategory");
         $gender=$this->input->get_post("gender");
         $agegroup=$this->input->get_post("agegroup");
-        $data['message']=$this->restapi_model->getDraw($sport,$sportscategory,$gender,$agegroup);
+        $data['message']=$this->restapi_model->getDrawold($sport,$sportscategory,$gender,$agegroup);
         $this->load->view("json",$data);
  }
  public function getSwimmingDraw()
