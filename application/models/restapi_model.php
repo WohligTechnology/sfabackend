@@ -206,10 +206,10 @@ $where GROUP BY `sfa_agegroups`.`name`")->result();
 INNER JOIN `sfa_studentsport` ON `sfa_student`.`id` = `sfa_studentsport`.`student`
 INNER JOIN `sfa_sportcategorystudent` ON `sfa_student`.`id` = `sfa_sportcategorystudent`.`student`
 INNER JOIN `sfa_sportscategory` ON `sfa_sportcategorystudent`.`sportscategory` = `sfa_sportscategory`.`id`
-LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`student` = `sfa_student`.`id`
-LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id` = `sfa_teamstudents`.`team`
-LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`sports` = $sport
-LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match` = `sfa_match`.`id` $where GROUP BY `sfa_student`.`id`")->result();
+INNER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`student` = `sfa_student`.`id`
+INNER JOIN `sfa_team` ON `sfa_team`.`id` = `sfa_teamstudents`.`team`
+INNER JOIN `sfa_match` ON `sfa_match`.`sports` = $sport $where GROUP BY `sfa_student`.`id`,`sfa_team`.`id`")->result();
+
 		return $query;
 	}
 
