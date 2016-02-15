@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class match_model extends CI_Model
 {
-public function create($sports,$sportscategory,$agegroup,$status,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round)
+public function create($sports,$sportscategory,$agegroup,$status,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round,$url)
 {
-$data=array("sports" => $sports,"sportscategory" => $sportscategory,"agegroup" => $agegroup,"status" => $status,"resulttimestamp" => $resulttimestamp,"matchresult" => $matchresult,"name" => $name,"starttime" => $starttime,"endtime" => $endtime,"gender" => $gender,"matchdate" => $matchdate,"round" => $round);
+$data=array("sports" => $sports,"sportscategory" => $sportscategory,"agegroup" => $agegroup,"status" => $status,"resulttimestamp" => $resulttimestamp,"matchresult" => $matchresult,"name" => $name,"starttime" => $starttime,"endtime" => $endtime,"gender" => $gender,"matchdate" => $matchdate,"round" => $round,"url" => $url);
 $query=$this->db->insert( "sfa_match", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -52,9 +52,9 @@ $timestamp=new DateTime();
              echo 'File written!';
         }
 	}
-public function edit($id,$sports,$sportscategory,$agegroup,$status,$timestamp,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round)
+public function edit($id,$sports,$sportscategory,$agegroup,$status,$timestamp,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round,$url)
 {
-$data=array("sports" => $sports,"sportscategory" => $sportscategory,"agegroup" => $agegroup,"status" => $status,"timestamp" => $timestamp,"resulttimestamp" => $resulttimestamp,"matchresult" => $matchresult,"name" => $name,"starttime" => $starttime,"endtime" => $endtime,"gender" => $gender,"matchdate" => $matchdate,"round" => $round);
+$data=array("sports" => $sports,"sportscategory" => $sportscategory,"agegroup" => $agegroup,"status" => $status,"timestamp" => $timestamp,"resulttimestamp" => $resulttimestamp,"matchresult" => $matchresult,"name" => $name,"starttime" => $starttime,"endtime" => $endtime,"gender" => $gender,"matchdate" => $matchdate,"round" => $round,"url" => $url);
 $this->db->where( "id", $id );
 $query=$this->db->update( "sfa_match", $data );
 return 1;
@@ -221,5 +221,23 @@ return $query;
         }
 			return  1;
 }
+    
+    
+     public function createvideobycsv($file)
+	{
+        foreach ($file as $row)
+        {
+
+            $matchid=trim($row['matchid']);
+            $url=trim($row['url']);
+            
+            $data=array("url" => $url);
+            $this->db->where( "id", $matchid );
+            $query=$this->db->update( "sfa_match", $data );
+
+         }
+          
+			return  1;
+     }
 }
 ?>

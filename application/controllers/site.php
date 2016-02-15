@@ -3923,7 +3923,8 @@ public function creatematchsubmit()
 			$gender=$this->input->get_post("gender");
 			$matchdate=$this->input->get_post("matchdate");
 			$round=$this->input->get_post("round");
-			if($this->match_model->create($sports,$sportscategory,$agegroup,$status,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round)==0)
+			$url=$this->input->get_post("url");
+			if($this->match_model->create($sports,$sportscategory,$agegroup,$status,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round,$url)==0)
 			$data["alerterror"]="New match could not be created.";
 			else
 			$data["alertsuccess"]="match created Successfully.";
@@ -3993,7 +3994,8 @@ public function editmatchsubmit()
 			$gender=$this->input->get_post("gender");
             $matchdate=$this->input->get_post("matchdate");
                 $round=$this->input->get_post("round");
-			if($this->match_model->edit($id,$sports,$sportscategory,$agegroup,$status,$timestamp,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round)==0)
+                $url=$this->input->get_post("url");
+			if($this->match_model->edit($id,$sports,$sportscategory,$agegroup,$status,$timestamp,$resulttimestamp,$matchresult,$name,$starttime,$endtime,$gender,$matchdate,$round,$url)==0)
 			$data["alerterror"]="New match could not be Updated.";
 			else
 			$data["alertsuccess"]="match Updated Successfully.";
@@ -5588,6 +5590,14 @@ public function getSportCategoryBySport() {
 		$data[ 'title' ] = 'Upload school';
 		$this->load->view( 'template', $data );
 	}
+    function uploadvideocsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data[ 'page' ] = 'uploadvideocsv';
+		$data[ 'title' ] = 'Upload Video';
+		$this->load->view( 'template', $data );
+	}
     function uploadmatchcsvsubmit()
 	{
         $access = array("1");
@@ -5612,6 +5622,34 @@ public function getSportCategoryBySport() {
         $data['alerterror']="New match could not be Uploaded.";
 		else
 		$data['alertsuccess']="match Uploaded Successfully.";
+        
+        $data['redirect']="site/viewmatch";
+        $this->load->view("redirect",$data);
+    }
+    function uploadvideocsvsubmit()
+	{
+        $access = array("1");
+		$this->checkaccess($access);
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = '*';
+        $this->load->library('upload', $config);
+        $filename="file";
+        $file="";
+        if (  $this->upload->do_upload($filename))
+        {
+            $uploaddata = $this->upload->data();
+            $file=$uploaddata['file_name'];
+            $filepath=$uploaddata['file_path'];
+        }
+        $fullfilepath=$filepath."".$file;
+        $file = $this->csvreader->parse_file($fullfilepath);
+        $id1=$this->match_model->createvideobycsv($file);
+//        echo $id1;
+        
+        if($id1==0)
+        $data['alerterror']="New video could not be Uploaded.";
+		else
+		$data['alertsuccess']="Video Uploaded Successfully.";
         
         $data['redirect']="site/viewmatch";
         $this->load->view("redirect",$data);

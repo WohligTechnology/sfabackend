@@ -101,10 +101,16 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-2 control-label" for="normal-field">Url</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="normal-field" class="form-control" name="url" value='<?php echo set_value(' url ');?>'>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-2 control-label" for="normal-field">&nbsp;</label>
                             <div class="col-sm-4">
                                 <button type="submit" class="btn btn-primary">Save</button>
-                                <a href="<?php echo site_url(" site/viewmatch "); ?>" class="btn btn-secondary">Cancel</a>
+                                <a href="<?php echo site_url("site/viewmatch"); ?>" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
                 </form>

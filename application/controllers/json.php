@@ -1746,25 +1746,38 @@ $this->load->view("json",$data);
  }
 
   public function getgalleryimage(){
-     $id=$this->input->get_post("id");
+        $schoolid=$this->input->get_post("schoolid");
         $sport=$this->input->get_post("sport");
-//        $students=$this->db->query("SELECT `id` FROM `sfa_student` WHERE `school`='$id' AND `sports`='$sport'")->result();
-//     $studentsids="(";
-//            foreach($students as $key=>$value){
-////            $catid=$row->id;
-//                if($key==0)
-//                {
-//                    $studentsids.=$value->id;
-//                }
-//                else
-//                {
-//                    $studentsids.=",".$value->id;
-//                }
-//            }
-//            $studentsids.=")";
-//     if($studentsids=="()"){
-//             $studentsids="(0)";
-//            }
+        $studentid=$this->input->get_post("studentid");
+        $sportscategory=$this->input->get_post("sportscategory");
+      
+      
+      
+        $where = "WHERE 1 AND ";
+		$where.= " `sfa_student`.`school` = $id AND ";
+
+         if($sport != "") {
+             $where.="  `sfa_studentsport`.`sport` = $sport AND " ;
+         }
+         else {
+             $where.=" " ;
+         }
+
+         if($agegroup != "") {
+             $where.="  `sfa_student`.`agegroup` = $agegroup AND " ;
+         }
+         else {
+             $where.="";
+         }
+
+         if($category != "") {
+             $where.="  `sfa_sportcategorystudent`.`sportscategory` = $category AND " ;
+         }
+         else {
+             $where.="";
+         }
+         $where .= " 1 ";
+      
         $elements=array();
         $elements[0]=new stdClass();
         $elements[0]->field="`sfa_mediaitem`.`id`";
