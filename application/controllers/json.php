@@ -1750,49 +1750,41 @@ $this->load->view("json",$data);
         $sport=$this->input->get_post("sport");
         $studentid=$this->input->get_post("studentid");
         $sportscategory=$this->input->get_post("sportscategory");
-      
-      
+        $year=$this->input->get_post("year");
       
         $where = "WHERE 1 AND ";
 		$where.= " `sfa_student`.`school` = $id AND ";
 
-         if($sport != "") {
-             $where.="  `sfa_studentsport`.`sport` = $sport AND " ;
+         if($schoolid != "") {
+             $where.="  `sfa_student`.`school` = $sport AND " ;
+         }
+         else {
+             $where.=" " ;
+         } 
+      if($studentid != "") {
+             $where.="  `sfa_student`.`id` = $studentid OR `sfa_teamstudents`.`student`= $studentid " ;
          }
          else {
              $where.=" " ;
          }
 
-         if($agegroup != "") {
-             $where.="  `sfa_student`.`agegroup` = $agegroup AND " ;
+         if($sport != "") {
+             $where.="  `sfa_studentsport`.`sport` IN ($sport) AND " ;
          }
          else {
              $where.="";
          }
 
-         if($category != "") {
-             $where.="  `sfa_sportcategorystudent`.`sportscategory` = $category AND " ;
+         if($sportscategory != "") {
+             $where.="  `sfa_sportcategorystudent`.`sportscategory` IN ($sportscategory) AND " ;
          }
          else {
              $where.="";
          }
          $where .= " 1 ";
       
-        $elements=array();
-        $elements[0]=new stdClass();
-        $elements[0]->field="`sfa_mediaitem`.`id`";
-        $elements[0]->sort="1";
-        $elements[0]->header="ID";
-        $elements[0]->alias="id";
-
-        $elements[1]=new stdClass();
-        $elements[1]->field="`sfa_mediaitem`.`thumbnail`";
-        $elements[1]->sort="1";
-        $elements[1]->header="thumbnail";
-        $elements[1]->alias="thumbnail";
-
-
-
+        $this->chintantable->createelement('`sfa_match`.`url`', '1', 'url', 'url');
+     
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -1803,10 +1795,16 @@ $this->load->view("json",$data);
         }
         if($orderby=="")
         {
-        $orderby="id";
-        $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_mediaitem` inner join `sfa_media` ON `sfa_mediaitem`.`media` = `sfa_media`.`id`"," where `sfa_media`.`school` = $id and `sfa_mediaitem`.`sport` = $sport");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"from `sfa_match`
+        left outer join `sfa_matchplayed` on `sfa_matchplayed`.`match`=`sfa_match`.`id`
+        left outer join `sfa_student` on `sfa_student`.`id`=`sfa_matchplayed`.`student`
+        left outer join `sfa_teamstudents` on `sfa_teamstudents`.`student`=`sfa_student`.`id`
+        left outer join `sfa_team` on `sfa_team`.`id`=`sfa_teamstudents`.`team`
+        left outer join `sfa_team` on `sfa_team`.`id`=`sfa_matchplayed`.`team`
+        left outer join `sfa_sportcategorystudent` on `sfa_sportcategorystudent`.`student`=`sfa_student`.`id`
+         left outer join `sfa_sportcategorystudent` on `sfa_sportcategorystudent`.`sportscategory`=`sfa_match`.`sportscategory`
+        ");
         $this->load->view("json",$data);
  }
 
