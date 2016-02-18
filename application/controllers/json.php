@@ -1397,6 +1397,17 @@ $this->load->view("json",$data);
 $data["message"]=$this->restapi_model->getschoolprofile($id);
 $this->load->view("json",$data);
  }
+
+ public function getschoolgallery(){
+     $schoolid=$this->input->get_post("schoolid");
+     $studentid=$this->input->get_post("studentid");
+     $sportid=$this->input->get_post("sportid");
+    $year=$this->input->get_post("year");
+    $sportscategory=$this->input->get_post("sportscategory");
+$data["message"]=$this->restapi_model->getschoolgallery($schoolid,$studentid,$sportid,$year,$sportscategory);
+$this->load->view("json",$data);
+ }
+
  public function getStudentProfile(){
      $id=$this->input->get_post("id");
 $data["message"]=$this->restapi_model->getStudentProfile($id);
@@ -1751,7 +1762,7 @@ $this->load->view("json",$data);
         $studentid=$this->input->get_post("studentid");
         $sportscategory=$this->input->get_post("sportscategory");
         $year=$this->input->get_post("year");
-      
+
         $where = "WHERE 1 AND ";
 		$where.= " `sfa_student`.`school` = $id AND ";
 
@@ -1760,7 +1771,7 @@ $this->load->view("json",$data);
          }
          else {
              $where.=" " ;
-         } 
+         }
       if($studentid != "") {
              $where.="  `sfa_student`.`id` = $studentid OR `sfa_teamstudents`.`student`= $studentid " ;
          }
@@ -1782,9 +1793,9 @@ $this->load->view("json",$data);
              $where.="";
          }
          $where .= " 1 ";
-      
+
         $this->chintantable->createelement('`sfa_match`.`url`', '1', 'url', 'url');
-     
+
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");

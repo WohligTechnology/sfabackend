@@ -213,11 +213,32 @@ INNER JOIN `sfa_match` ON `sfa_match`.`sports` = $sport $where GROUP BY `sfa_stu
 		return $query;
 	}
 
+	public function getschoolgallery($schoolid,$studentid,$sportid,$year,$sportscategory){
+    	$where = "WHERE 1";
+      if($schoolid != "") {
+        $where.=" AND `sfa_school`.`id` = $schoolid" ;
+      }
+      if($studentid != "") {
+        $where.=" AND `sfa_student`.`id` = $studentid" ;
+      }
+    if($sportid != "") {
+      $where.=" AND `sfa_match`.`sports` = $sportid" ;
+    }
+    if($year != "") {
+      $where.=" AND year(`sfa_match`.`matchdate`) = $year " ;
+    }
+    if($sportscategory != "") {
+      $where.=" AND `sfa_match`.`sportscategory` = $sportscategory " ;
+    }
 
+//$query=$this->db->query("SELECT `url` FROM `sfa_match` $where")->result();
+$query=$this->db->query("SELECT DISTINCT `sfa_match`.`url` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.`match` = `sfa_match`.`id` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team` = `sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` $where")->result();
+    return $query;
+  }
 
     public function createEnquiries($name,$email,$mobile,$person){
 $data=array("name" => $name,"email" => $email,"mobile" => $mobile,"person" => $person);
-$query=$this->db->insert( "enquiries", $data );
+$query=$this->db->insert("enquiries", $data);
 $id=$this->db->insert_id();
 if(!$query)
 return  0;
@@ -255,9 +276,9 @@ return  1;
         $tempround = array();
 
         foreach($round as $rou)
-        {   
+        {
            $rou->match=$this->db->query("SELECT `id`, `sports`, `sportscategory`, `agegroup`, `timestamp`, `status`, `resulttimestamp`, `matchresult`, `name`, `starttime`, `endtime`, `gender`, `matchdate`, `round` FROM `sfa_match` WHERE `round`=$rou->id AND `sports`='$sport' AND `sportscategory`='$sportscategory' AND `sfa_match`.`gender`='$gender' AND `sfa_match`.`agegroup`='$agegroup'")->result();
-            
+
             if(count($rou->match)!=0)
             {
                           foreach($rou->match as $match)
@@ -272,11 +293,11 @@ return  1;
 
                     }
                 array_push($tempround,$rou);
-                    
+
             }
 
            }
-          
+
 //        }
             return $tempround;
 	}
