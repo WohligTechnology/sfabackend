@@ -227,21 +227,49 @@ INNER JOIN `sfa_match` ON `sfa_match`.`sports` = $sport $where GROUP BY `sfa_stu
       $where.=" AND `sfa_match`.`sportscategory` = $sportscategory " ;
     }
 
-//$query=$this->db->query("SELECT `url` FROM `sfa_match` $where")->result();
 if($schoolid != "") {
   $where.=" AND `sfa_school`.`id` = $schoolid" ;
   $query=$this->db->query("SELECT DISTINCT `sfa_match`.`url` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team` = `sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` $where")->result();
-
 }
 
 if($studentid != "") {
   $where.=" AND `sfa_student`.`id` = $studentid" ;
   $query=$this->db->query("SELECT DISTINCT `sfa_match`.`url` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student` $where")->result();
-
-
 }
-
     return $query;
+  }
+
+  public function getStatistics($sportid,$sportscategory,$gender,$agegroup)
+  {
+    $where = "WHERE 1";
+
+
+  if($sportid != "") {
+    $where.=" AND `sfa_match`.`sports` = $sportid" ;
+  }
+  if($sportscategory != "") {
+    $where.=" AND `sfa_match`.`sportscategory` = $sportscategory" ;
+  }
+  if($gender != "") {
+    $where.=" AND `sfa_match`.`gender` = $gender " ;
+  }
+  if($agegroup != "") {
+    $where.=" AND `sfa_match`.`agegroup` = $agegroup " ;
+  }
+// $query=$this->db->query("SELECT `sfa_match`.`id`, year(`sfa_match`.`matchdate`) AS 'year', `sfa_matchplayed`.`team`,`sfa_matchplayed`.`reason`AS 'score', `sfa_matchplayed`.`result` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` $where ")->result();
+$query=$this->db->query("SELECT year(`sfa_match`.`matchdate`) AS 'year', GROUP_CONCAT(`sfa_team`.`title`) AS `team`,GROUP_CONCAT(`sfa_matchplayed`.`reason` SEPARATOR '-') AS 'score', `sfa_matchplayed`.`result` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team`  $where GROUP BY `sfa_match`.`id` ")->result();
+return $query;
+
+
+
+// $return->matchid = $this->db->query("SELECT `id`, year(`matchdate`) AS 'year' FROM `sfa_match` $where ")->result();
+//
+// foreach($return->matchid  as $match)
+//   {
+//       $match->detail = $this->db->query("SELECT  `sfa_matchplayed`.`team`,`sfa_matchplayed`.`reason`AS 'score', `sfa_matchplayed`.`result` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.`match`=`sfa_match`.`id`  where `sfa_matchplayed`.`match`= '$match->id' ")->result();
+//
+//     }
+//   return $return;
   }
 
     public function createEnquiries($name,$email,$mobile,$person){
