@@ -215,12 +215,8 @@ INNER JOIN `sfa_match` ON `sfa_match`.`sports` = $sport $where GROUP BY `sfa_stu
 
 	public function getschoolgallery($schoolid,$studentid,$sportid,$year,$sportscategory){
     	$where = "WHERE 1";
-      if($schoolid != "") {
-        $where.=" AND `sfa_school`.`id` = $schoolid" ;
-      }
-      if($studentid != "") {
-        $where.=" AND `sfa_student`.`id` = $studentid" ;
-      }
+
+
     if($sportid != "") {
       $where.=" AND `sfa_match`.`sports` = $sportid" ;
     }
@@ -232,7 +228,19 @@ INNER JOIN `sfa_match` ON `sfa_match`.`sports` = $sport $where GROUP BY `sfa_stu
     }
 
 //$query=$this->db->query("SELECT `url` FROM `sfa_match` $where")->result();
-$query=$this->db->query("SELECT DISTINCT `sfa_match`.`url` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.`match` = `sfa_match`.`id` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team` = `sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` $where")->result();
+if($schoolid != "") {
+  $where.=" AND `sfa_school`.`id` = $schoolid" ;
+  $query=$this->db->query("SELECT DISTINCT `sfa_match`.`url` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team` = `sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` $where")->result();
+
+}
+
+if($studentid != "") {
+  $where.=" AND `sfa_student`.`id` = $studentid" ;
+  $query=$this->db->query("SELECT DISTINCT `sfa_match`.`url` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student` $where")->result();
+
+
+}
+
     return $query;
   }
 
