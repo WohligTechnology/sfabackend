@@ -243,6 +243,7 @@ if($studentid != "") {
   {
     $where = "WHERE 1";
 
+//$where.=" AND `sfa_matchplayed`.`team` = "" ;
 
   if($sportid != "") {
     $where.=" AND `sfa_match`.`sports` = $sportid" ;
@@ -257,7 +258,7 @@ if($studentid != "") {
     $where.=" AND `sfa_match`.`agegroup` = $agegroup " ;
   }
 // $query=$this->db->query("SELECT `sfa_match`.`id`, year(`sfa_match`.`matchdate`) AS 'year', `sfa_matchplayed`.`team`,`sfa_matchplayed`.`reason`AS 'score', `sfa_matchplayed`.`result` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` $where ")->result();
-$query=$this->db->query("SELECT year(`sfa_match`.`matchdate`) AS 'year', GROUP_CONCAT(`sfa_team`.`title`) AS `team`,GROUP_CONCAT(`sfa_matchplayed`.`reason` SEPARATOR '-') AS 'score', `sfa_matchplayed`.`result` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team`  $where GROUP BY `sfa_match`.`id` ")->result();
+$query=$this->db->query("SELECT year(`sfa_match`.`matchdate`) AS 'year', GROUP_CONCAT(DISTINCT `sfa_school`.`name`) AS `team`,GROUP_CONCAT(DISTINCT `sfa_matchplayed`.`reason` SEPARATOR '-') AS 'score',  GROUP_CONCAT(DISTINCT `sfa_matchplayed`.`result`) AS 'result' FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team` = `sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  $where GROUP BY `sfa_match`.`id` ")->result();
 return $query;
 
 
