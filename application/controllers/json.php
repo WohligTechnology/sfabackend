@@ -1403,17 +1403,17 @@ $this->load->view("json",$data);
      $studentid=$this->input->get_post("studentid");
      $sportid=$this->input->get_post("sportid");
     $year=$this->input->get_post("year");
+    $agegroup=$this->input->get_post("agegroup");
     $sportscategory=$this->input->get_post("sportscategory");
-$data["message"]=$this->restapi_model->getschoolgallery($schoolid,$studentid,$sportid,$year,$sportscategory);
+$data["message"]=$this->restapi_model->getschoolgallery($schoolid,$studentid,$sportid,$year,$agegroup,$sportscategory);
 $this->load->view("json",$data);
  }
 
  public function getStatistics(){
-       $sportid=$this->input->get_post("sportid");
-      $sportscategory=$this->input->get_post("sportscategory");
-      $gender=$this->input->get_post("gender");
-      $agegroup=$this->input->get_post("agegroup");
-$data["message"]=$this->restapi_model->getStatistics($sportid,$sportscategory,$gender,$agegroup);
+	 $schoolid=$this->input->get_post("schoolid");
+	 $studentid=$this->input->get_post("studentid");
+    $sportscategory=$this->input->get_post("sportscategory");
+$data["message"]=$this->restapi_model->getStatistics($schoolid,$studentid,$sportscategory);
 $this->load->view("json",$data);
  }
 
