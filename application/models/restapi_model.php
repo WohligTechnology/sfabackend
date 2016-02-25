@@ -371,7 +371,6 @@ if(!empty($query1['matches1']) && !empty($query2['matches2']))
 $chkstudentid = $this->db->query("SELECT * FROM `sfa_matchplayed` WHERE `student`=$studentid")->result();
 if (!empty($chkstudentid))
 {
-
   $query1['medals1']=$this->db->query("SELECT DISTINCT year(`sfa_match`.`matchdate`) AS 'year',`sfa_sports`.`name` AS 'sport',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory',`sfa_matchplayed`.`medal` FROM `sfa_match`
   LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student` $where")->result();
 
@@ -397,7 +396,7 @@ $query1['matches1'] = $matchid;
 $chkteam = $this->db->query("SELECT * FROM `sfa_matchplayed` WHERE `student`=0")->result();
 if (!empty($chkteam))
 {
-
+// echo"in team student";
   $query2['medals2']=$this->db->query("SELECT DISTINCT  year(`sfa_match`.`matchdate`) AS 'year',`sfa_sports`.`name` AS 'sport',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory',`sfa_matchplayed`.`medal` FROM `sfa_match`
   LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` $where")->result();
 
