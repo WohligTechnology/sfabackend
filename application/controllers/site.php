@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Site extends CI_Controller 
+class Site extends CI_Controller
 {
 	public function __construct( )
 	{
 		parent::__construct();
-		
+
 		$this->is_logged_in();
 	}
 	function is_logged_in( )
@@ -33,7 +33,7 @@ class Site extends CI_Controller
         $data['schoolcount']=$this->user_model->getschoolcount();
         $data['studentcount']=$this->user_model->getstudentcount();
 		$data[ 'title' ] = 'Welcome';
-		$this->load->view( 'template', $data );	
+		$this->load->view( 'template', $data );
 	}
 	public function createuser()
 	{
@@ -45,7 +45,7 @@ class Site extends CI_Controller
 //        $data['category']=$this->category_model->getcategorydropdown();
 		$data[ 'page' ] = 'createuser';
 		$data[ 'title' ] = 'Create User';
-		$this->load->view( 'template', $data );	
+		$this->load->view( 'template', $data );
 	}
 	function createusersubmit()
 	{
@@ -60,7 +60,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('socialid','Socialid','trim');
 		$this->form_validation->set_rules('logintype','logintype','trim');
 		$this->form_validation->set_rules('json','json','trim');
-		if($this->form_validation->run() == FALSE)	
+		if($this->form_validation->run() == FALSE)
 		{
 			$data['alerterror'] = validation_errors();
 			$data['accesslevel']=$this->user_model->getaccesslevels();
@@ -69,7 +69,7 @@ class Site extends CI_Controller
             $data['category']=$this->category_model->getcategorydropdown();
             $data[ 'page' ] = 'createuser';
             $data[ 'title' ] = 'Create User';
-            $this->load->view( 'template', $data );	
+            $this->load->view( 'template', $data );
 		}
 		else
 		{
@@ -82,7 +82,7 @@ class Site extends CI_Controller
             $logintype=$this->input->post('logintype');
             $json=$this->input->post('json');
 //            $category=$this->input->post('category');
-            
+
             $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
@@ -92,7 +92,7 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -101,13 +101,13 @@ class Site extends CI_Controller
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -115,9 +115,9 @@ class Site extends CI_Controller
                     $image=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
-            
+
 			if($this->user_model->create($name,$email,$password,$accesslevel,$status,$socialid,$logintype,$image,$json)==0)
 			$data['alerterror']="New user could not be created.";
 			else
@@ -132,67 +132,67 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
 		$data['page']='viewusers';
         $data['base_url'] = site_url("site/viewusersjson");
-        
+
 		$data['title']='View Users';
 		$this->load->view('template',$data);
-	} 
+	}
     function viewusersjson()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-        
-        
+
+
         $elements=array();
         $elements[0]=new stdClass();
         $elements[0]->field="`user`.`id`";
         $elements[0]->sort="1";
         $elements[0]->header="ID";
         $elements[0]->alias="id";
-        
-        
+
+
         $elements[1]=new stdClass();
         $elements[1]->field="`user`.`name`";
         $elements[1]->sort="1";
         $elements[1]->header="Name";
         $elements[1]->alias="name";
-        
+
         $elements[2]=new stdClass();
         $elements[2]->field="`user`.`email`";
         $elements[2]->sort="1";
         $elements[2]->header="Email";
         $elements[2]->alias="email";
-        
+
         $elements[3]=new stdClass();
         $elements[3]->field="`user`.`socialid`";
         $elements[3]->sort="1";
         $elements[3]->header="SocialId";
         $elements[3]->alias="socialid";
-        
+
         $elements[4]=new stdClass();
         $elements[4]->field="`logintype`.`name`";
         $elements[4]->sort="1";
         $elements[4]->header="Logintype";
         $elements[4]->alias="logintype";
-        
+
         $elements[5]=new stdClass();
         $elements[5]->field="`user`.`json`";
         $elements[5]->sort="1";
         $elements[5]->header="Json";
         $elements[5]->alias="json";
-       
+
         $elements[6]=new stdClass();
         $elements[6]->field="`accesslevel`.`name`";
         $elements[6]->sort="1";
         $elements[6]->header="Accesslevel";
         $elements[6]->alias="accesslevelname";
-       
+
         $elements[7]=new stdClass();
         $elements[7]->field="`statuses`.`name`";
         $elements[7]->sort="1";
         $elements[7]->header="Status";
         $elements[7]->alias="status";
-       
-        
+
+
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -202,19 +202,19 @@ class Site extends CI_Controller
         {
             $maxrow=20;
         }
-        
+
         if($orderby=="")
         {
             $orderby="id";
             $orderorder="ASC";
         }
-       
+
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `user` LEFT OUTER JOIN `logintype` ON `logintype`.`id`=`user`.`logintype` LEFT OUTER JOIN `accesslevel` ON `accesslevel`.`id`=`user`.`accesslevel` LEFT OUTER JOIN `statuses` ON `statuses`.`id`=`user`.`status`");
-        
+
 		$this->load->view("json",$data);
-	} 
-    
-    
+	}
+
+
 	function edituser()
 	{
 		$access = array("1");
@@ -232,7 +232,7 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		
+
 		$this->form_validation->set_rules('name','Name','trim|required|max_length[30]');
 		$this->form_validation->set_rules('email','Email','trim|required|valid_email');
 		$this->form_validation->set_rules('password','Password','trim|min_length[6]|max_length[30]');
@@ -242,7 +242,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('socialid','Socialid','trim');
 		$this->form_validation->set_rules('logintype','logintype','trim');
 		$this->form_validation->set_rules('json','json','trim');
-		if($this->form_validation->run() == FALSE)	
+		if($this->form_validation->run() == FALSE)
 		{
 			$data['alerterror'] = validation_errors();
 			$data[ 'status' ] =$this->user_model->getstatusdropdown();
@@ -256,7 +256,7 @@ class Site extends CI_Controller
 		}
 		else
 		{
-            
+
             $id=$this->input->get_post('id');
             $name=$this->input->get_post('name');
             $email=$this->input->get_post('email');
@@ -267,7 +267,7 @@ class Site extends CI_Controller
             $logintype=$this->input->get_post('logintype');
             $json=$this->input->get_post('json');
 //            $category=$this->input->get_post('category');
-            
+
             $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
@@ -277,7 +277,7 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -286,13 +286,13 @@ class Site extends CI_Controller
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -300,28 +300,28 @@ class Site extends CI_Controller
                     $image=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
-            
+
             if($image=="")
             {
             $image=$this->user_model->getuserimagebyid($id);
                // print_r($image);
                 $image=$image->image;
             }
-            
+
 			if($this->user_model->edit($id,$name,$email,$password,$accesslevel,$status,$socialid,$logintype,$image,$json)==0)
 			$data['alerterror']="User Editing was unsuccesful";
 			else
 			$data['alertsuccess']="User edited Successfully.";
-			
+
 			$data['redirect']="site/viewusers";
 			//$data['other']="template=$template";
 			$this->load->view("redirect",$data);
-			
+
 		}
 	}
-	
+
 	function deleteuser()
 	{
 		$access = array("1");
@@ -344,9 +344,9 @@ class Site extends CI_Controller
         $data['other']="template=$template";
         $this->load->view("redirect",$data);
 	}
-    
-    
-    
+
+
+
     public function viewbanner()
 {
 	$access=array("1");
@@ -406,7 +406,7 @@ public function createbanner()
 	$data["title"]="Create banner";
 	$this->load->view("template",$data);
 }
-public function createbannersubmit() 
+public function createbannersubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -562,7 +562,7 @@ public function createbannerslides()
 	$data["title"]="Create bannerslides";
 	$this->load->view("template",$data);
 }
-public function createbannerslidessubmit() 
+public function createbannerslidessubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -793,7 +793,7 @@ public function createarticles()
 	$data["title"]="Create articles";
 	$this->load->view("template",$data);
 }
-public function createarticlessubmit() 
+public function createarticlessubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -836,13 +836,13 @@ public function createarticlessubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -915,13 +915,13 @@ public function editarticlessubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -1025,7 +1025,7 @@ public function createmodules()
 	$data["title"]="Create modules";
 	$this->load->view("template",$data);
 }
-public function createmodulessubmit() 
+public function createmodulessubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -1183,7 +1183,7 @@ public function createmedia()
 	$data["title"]="Create media";
 	$this->load->view("template",$data);
 }
-public function createmediasubmit() 
+public function createmediasubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -1230,13 +1230,13 @@ public function createmediasubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -1317,13 +1317,13 @@ public function editmediasubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -1454,7 +1454,7 @@ public function createmediaitem()
 	$data["title"]="Create mediaitem";
 	$this->load->view("template",$data);
 }
-public function createmediaitemsubmit() 
+public function createmediaitemsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -1495,7 +1495,7 @@ public function createmediaitemsubmit()
 			{
 				$uploaddata = $this->upload->data();
 				$thumbnail=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -1504,13 +1504,13 @@ public function createmediaitemsubmit()
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -1518,7 +1518,7 @@ public function createmediaitemsubmit()
                     $thumbnail=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
 			if($this->mediaitem_model->create($title,$thumbnail,$type,$link,$order,$json,$media,$student,$sport)==0)
 			$data["alerterror"]="New mediaitem could not be created.";
@@ -1587,7 +1587,7 @@ public function editmediaitemsubmit()
 			{
 				$uploaddata = $this->upload->data();
 				$thumbnail=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -1596,13 +1596,13 @@ public function editmediaitemsubmit()
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -1610,9 +1610,9 @@ public function editmediaitemsubmit()
                     $thumbnail=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
-            
+
             if($thumbnail=="")
             {
             $thumbnail=$this->mediaitem_model->getimagebyid($id);
@@ -1699,7 +1699,7 @@ public function createagegroups()
 	$data["title"]="Create agegroups";
 	$this->load->view("template",$data);
 }
-public function createagegroupssubmit() 
+public function createagegroupssubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -1839,7 +1839,7 @@ public function createyear()
 	$data["title"]="Create year";
 	$this->load->view("template",$data);
 }
-public function createyearsubmit() 
+public function createyearsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -2000,7 +2000,7 @@ public function createsports()
 	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 	$this->load->view("template",$data);
 }
-public function createsportssubmit() 
+public function createsportssubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -2050,13 +2050,13 @@ public function createsportssubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -2141,13 +2141,13 @@ public function editsportssubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -2233,7 +2233,7 @@ function viewsportscategoryjson()
 	$elements[6]->sort="1";
 	$elements[6]->header="Json";
 	$elements[6]->alias="json";
-	
+
 	$elements[7]=new stdClass();
 	$elements[7]->field="`sfa_sportscategory`.`sports`";
 	$elements[7]->sort="1";
@@ -2268,7 +2268,7 @@ public function createsportscategory()
 	$data["title"]="Create sportscategory";
 	$this->load->view("template",$data);
 }
-public function createsportscategorysubmit() 
+public function createsportscategorysubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -2467,16 +2467,16 @@ function viewsportsgalleryitemjson()
 public function createsportsgalleryselect()
 {
 	$access=array("1");
-	$this->checkaccess($access);	
+	$this->checkaccess($access);
 	$data["page"]="createsportsgalleryselect";
 	$data["sports"]=$this->sports_model->getsportsdropdown();
 	$data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdown();
 	$data["year"]=$this->year_model->getyeardropdown();
 	$data["title"]="Create sportsgalleryselect";
 	$this->load->view("template",$data);
-	
+
 }
-		public function createsportsgalleryselectsubmit() 
+		public function createsportsgalleryselectsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -2518,7 +2518,7 @@ public function createsportsgalleryselect()
 	$data["title"]="Create sportsgalleryitem";
 	$this->load->view("template",$data);
 }
-public function createsportsgalleryitemsubmit() 
+public function createsportsgalleryitemsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -2570,13 +2570,13 @@ else
 					$config_r['quality']    = 100;
 					//end of configs
 
-					$this->load->library('image_lib', $config_r); 
+					$this->load->library('image_lib', $config_r);
 					$this->image_lib->initialize($config_r);
 					if(!$this->image_lib->resize())
 					{
 						echo "Failed." . $this->image_lib->display_errors();
 						//return false;
-					}  
+					}
 					else
 					{
 						//print_r($this->image_lib->dest_image);
@@ -2586,7 +2586,7 @@ else
 					}
 
 				}
-            
+
 	if($this->sportsgalleryitem_model->create($sports,$sportscategory,$year,$type,$order,$status,$image,$title)==0)
 	$data["alerterror"]="New sportsgalleryitem could not be created.";
 	else
@@ -2666,13 +2666,13 @@ public function editsportsgalleryitemsubmit()
 					$config_r['quality']    = 100;
 					//end of configs
 
-					$this->load->library('image_lib', $config_r); 
+					$this->load->library('image_lib', $config_r);
 					$this->image_lib->initialize($config_r);
 					if(!$this->image_lib->resize())
 					{
 						echo "Failed." . $this->image_lib->display_errors();
 						//return false;
-					}  
+					}
 					else
 					{
 						//print_r($this->image_lib->dest_image);
@@ -2792,7 +2792,7 @@ public function createschool()
 	$data["title"]="Create school";
 	$this->load->view("template",$data);
 }
-public function createschoolsubmit() 
+public function createschoolsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -2838,13 +2838,13 @@ public function createschoolsubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -2923,13 +2923,13 @@ public function editschoolsubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -3063,7 +3063,7 @@ public function createstudent()
 	$data["title"]="Create student";
 	$this->load->view("template",$data);
 }
-public function createstudentsubmit() 
+public function createstudentsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -3124,13 +3124,13 @@ public function createstudentsubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -3161,8 +3161,8 @@ public function editstudent()
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
     $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdownwithsport();
      $data['selectedsport']=$this->sports_model->getsportbystudent($this->input->get_post('id'));
-  
-    
+
+
      $data['selectedagegroup']=$this->sports_model->getagegroupbystudent($this->input->get_post('id'));
 
      $data['selectedsportscategory']=$this->sports_model->getsportcategorybystudent($this->input->get_post('id'));
@@ -3239,13 +3239,13 @@ public function editstudentsubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -3374,7 +3374,7 @@ public function createteam()
 	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 	$this->load->view("templatewith2",$data);
 }
-public function createteamsubmit() 
+public function createteamsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -3537,7 +3537,7 @@ public function createteamstudents()
 	$data["title"]="Create teamstudents";
 	$this->load->view("template",$data);
 }
-public function createteamstudentssubmit() 
+public function createteamstudentssubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -3676,7 +3676,7 @@ function viewroundjson()
 		}
 	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `sfa_round` LEFT OUTER JOIN `sfa_round` as `a` ON `a`.`id`=`sfa_round`.`root` LEFT OUTER JOIN `sfa_year` ON `sfa_year`.`id`=`sfa_round`.`year` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_round`.`agegroup` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_round`.`sportcategory` LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_round`.`sports`");
 	$this->load->view("json",$data);
-	
+
 }
 
 public function createround()
@@ -3692,7 +3692,7 @@ public function createround()
 	$data["title"]="Create round";
 	$this->load->view("template",$data);
 }
-public function createroundsubmit() 
+public function createroundsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -3883,7 +3883,7 @@ public function creatematch()
 	$data["title"]="Create match";
 	$this->load->view("template",$data);
 }
-public function creatematchsubmit() 
+public function creatematchsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -4072,7 +4072,7 @@ function viewmatchplayedjson()
 	$elements[8]->sort="1";
 	$elements[8]->header="Reason";
 	$elements[8]->alias="reason";
-    
+
     $elements[9]=new stdClass();
 	$elements[9]->field="`sfa_matchplayed`.`match`";
 	$elements[9]->sort="1";
@@ -4109,14 +4109,15 @@ $data["before2"]=$this->input->get("id");
 	$data["round"]=$this->round_model->getrounddropdown();
 	$data["type"]=$this->matchplayed_model->gettypedropdown();
 	$data["result"]=$this->matchplayed_model->getresultdropdown();
+	$data["medal"]=$this->matchplayed_model->getmedaldropdown();
 	$data["match"]=$this->match_model->getmatchdropdown();
 	$data["match"]=$this->match_model->getmatchdropdown();
     $data['checkifswim']=$this->matchplayed_model->getsport($this->input->get('id'));
-    
+
 	$data["title"]="Create matchplayed";
 	$this->load->view("templatewith2",$data);
 }
-public function creatematchplayedsubmit() 
+public function creatematchplayedsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -4150,12 +4151,13 @@ public function creatematchplayedsubmit()
 			$student=$this->input->get_post("student");
 			$result=$this->input->get_post("result");
 			$round=$this->input->get_post("round");
+			$medal=$this->input->get_post("medal");
 			$reason=$this->input->get_post("reason");
                 $minute=$this->input->get_post("min");
 			$second=$this->input->get_post("second");
 			$millisecond=$this->input->get_post("millisecond");
                 print_r($_POST);
-			if($this->matchplayed_model->create($match,$type,$order,$team,$student,$result,$round,$reason,$minute,$second,$millisecond)==0)
+			if($this->matchplayed_model->create($match,$type,$order,$team,$student,$result,$medal,$round,$reason,$minute,$second,$millisecond)==0)
 			$data["alerterror"]="New matchplayed could not be created.";
 			else
 			$data["alertsuccess"]="matchplayed created Successfully.";
@@ -4175,6 +4177,7 @@ public function editmatchplayed()
 	$data["type"]=$this->matchplayed_model->gettypedropdown();
 	$data["result"]=$this->matchplayed_model->getresultdropdown();
 	$data["match"]=$this->match_model->getmatchdropdown();
+		$data["medal"]=$this->matchplayed_model->getmedaldropdown();
 	$data["before"]=$this->matchplayed_model->beforeedit($this->input->get("id"));
     $matchid=$data["before"]->match;
     $timeformat=$data["before"]->timeformat;
@@ -4218,12 +4221,13 @@ public function editmatchplayedsubmit()
 			$team=$this->input->get_post("team");
 			$student=$this->input->get_post("student");
 			$result=$this->input->get_post("result");
+			$medal=$this->input->get_post("medal");
 			$round=$this->input->get_post("round");
 			$reason=$this->input->get_post("reason");
 			$minute=$this->input->get_post("min");
 			$second=$this->input->get_post("second");
 			$millisecond=$this->input->get_post("millisecond");
-			if($this->matchplayed_model->edit($id,$match,$type,$order,$team,$student,$result,$round,$reason,$minute,$second,$millisecond)==0)
+			if($this->matchplayed_model->edit($id,$match,$type,$order,$team,$student,$result,$medal,$round,$reason,$minute,$second,$millisecond)==0)
 			$data["alerterror"]="New matchplayed could not be Updated.";
 			else
 			$data["alertsuccess"]="matchplayed Updated Successfully.";
@@ -4297,7 +4301,7 @@ public function createmedal()
 	$data["title"]="Create medal";
 	$this->load->view("template",$data);
 }
-public function createmedalsubmit() 
+public function createmedalsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -4334,13 +4338,13 @@ public function createmedalsubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -4407,13 +4411,13 @@ public function editmedalsubmit()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -4525,7 +4529,7 @@ public function createmedalwon()
 	$data["title"]="Create medalwon";
 	$this->load->view("template",$data);
 }
-public function createmedalwonsubmit() 
+public function createmedalwonsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -4626,9 +4630,9 @@ public function deletemedalwon()
 	$data["redirect"]="site/viewmedalwon";
 	$this->load->view("redirect",$data);
 }
-    
+
     // registration sports
-    
+
   public function viewregistrationsports()
 {
 	$access=array("1");
@@ -4651,7 +4655,7 @@ function viewregistrationsportsjson()
 	$elements[1]->sort="1";
 	$elements[1]->header="Name";
 	$elements[1]->alias="name";
-	
+
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -4678,7 +4682,7 @@ public function createregistrationsports()
 	$data["title"]="Create registrationsports";
 	$this->load->view("template",$data);
 }
-public function createregistrationsportssubmit() 
+public function createregistrationsportssubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -4743,14 +4747,14 @@ public function deleteregistrationsports()
 	$this->registrationsports_model->delete($this->input->get("id"));
 	$data["redirect"]="site/viewregistrationsports";
 	$this->load->view("redirect",$data);
-}   
-    
-    
+}
+
+
     // registration sports end
-    
+
     //sponsor
-    
-    
+
+
     public function viewsponsor()
 {
         $access=array("1");
@@ -4768,31 +4772,31 @@ function viewsponsorjson()
 	$elements[0]->sort="1";
 	$elements[0]->header="ID";
 	$elements[0]->alias="id";
-    
+
 	$elements[1]=new stdClass();
 	$elements[1]->field="`sponsor`.`name`";
 	$elements[1]->sort="1";
 	$elements[1]->header="Name";
 	$elements[1]->alias="name";
-    
+
 	$elements[2]=new stdClass();
 	$elements[2]->field="`sponsor`.`order`";
 	$elements[2]->sort="1";
 	$elements[2]->header="Order";
 	$elements[2]->alias="order";
-    
+
 	$elements[3]=new stdClass();
 	$elements[3]->field="`sponsor`.`status`";
 	$elements[3]->sort="1";
 	$elements[3]->header="Status";
 	$elements[3]->alias="status";
-    
+
 	$elements[4]=new stdClass();
 	$elements[4]->field="`sponsor`.`image`";
 	$elements[4]->sort="1";
 	$elements[4]->header="Image";
 	$elements[4]->alias="image";
-	
+
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -4819,7 +4823,7 @@ function viewsponsorjson()
 	$data["title"]="Create sponsor";
 	$this->load->view("template",$data);
 }
-public function createsponsorsubmit() 
+public function createsponsorsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -4846,13 +4850,13 @@ public function createsponsorsubmit()
 					$config_r['quality']    = 100;
 					//end of configs
 
-					$this->load->library('image_lib', $config_r); 
+					$this->load->library('image_lib', $config_r);
 					$this->image_lib->initialize($config_r);
 					if(!$this->image_lib->resize())
 					{
 						echo "Failed." . $this->image_lib->display_errors();
 						//return false;
-					}  
+					}
 					else
 					{
 						//print_r($this->image_lib->dest_image);
@@ -4862,7 +4866,7 @@ public function createsponsorsubmit()
 					}
 
 				}
-            
+
 	if($this->sponsor_model->create($name,$description,$order,$status,$image)==0)
 	$data["alerterror"]="New sponsor could not be created.";
 	else
@@ -4887,7 +4891,7 @@ public function editsponsorsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
-	
+
 	$id=$this->input->get_post("id");
 	$name=$this->input->get_post("name");
 	$description=$this->input->get_post("description");
@@ -4913,13 +4917,13 @@ public function editsponsorsubmit()
 					$config_r['quality']    = 100;
 					//end of configs
 
-					$this->load->library('image_lib', $config_r); 
+					$this->load->library('image_lib', $config_r);
 					$this->image_lib->initialize($config_r);
 					if(!$this->image_lib->resize())
 					{
 						echo "Failed." . $this->image_lib->display_errors();
 						//return false;
-					}  
+					}
 					else
 					{
 						//print_r($this->image_lib->dest_image);
@@ -4943,7 +4947,7 @@ public function editsponsorsubmit()
 	$data["alertsuccess"]="sponsor Updated Successfully.";
 		$data["redirect"]="site/viewsponsor";
 	$this->load->view("redirect",$data);
-	
+
 }
 public function deletesponsor()
 {
@@ -4953,10 +4957,10 @@ public function deletesponsor()
 	$data["redirect"]="site/viewsponsor";
 	$this->load->view("redirect",$data);
 }
-    
+
     // school registration sports starts
-    
-    
+
+
     public function viewschoolregistrationsports()
 {
 	$access=array("1");
@@ -4987,8 +4991,8 @@ function viewschoolregistrationsportsjson()
 	$elements[2]->field="`registrationsports`.`name`";
 	$elements[2]->sort="1";
 	$elements[2]->header="Registration Sports";
-	$elements[2]->alias="registrationsports";	
-    
+	$elements[2]->alias="registrationsports";
+
     $elements[3]=new stdClass();
 	$elements[3]->field="`schoolregistrationsports`.`schoolregistration`";
 	$elements[3]->sort="1";
@@ -5024,7 +5028,7 @@ public function createschoolregistrationsports()
 	$data["title"]="Create schoolregistrationsports";
 	$this->load->view("templatewith2",$data);
 }
-public function createschoolregistrationsportssubmit() 
+public function createschoolregistrationsportssubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -5036,7 +5040,7 @@ public function createschoolregistrationsportssubmit()
     $data["alertsuccess"]="schoolregistrationsports created Successfully.";
     $data["redirect"]="site/viewschoolregistrationsports?id=".$schoolregistration;
     $this->load->view("redirect",$data);
-		
+
 }
 public function editschoolregistrationsports()
 {
@@ -5064,7 +5068,7 @@ public function editschoolregistrationsportssubmit()
 			$data["alertsuccess"]="schoolregistrationsports Updated Successfully.";
 			$data["redirect"]="site/viewschoolregistrationsports?id=".$schoolregistration;
 			$this->load->view("redirect2",$data);
-		
+
 }
 public function deleteschoolregistrationsports()
 {
@@ -5074,10 +5078,10 @@ public function deleteschoolregistrationsports()
 	$data["redirect"]="site/viewschoolregistrationsports?id=".$this->input->get('registerid');
 	$this->load->view("redirect2",$data);
 }
-    
+
     // SCHool registration form
-    
-    
+
+
     public function viewschoolregistration()
 {
 	$access=array("1");
@@ -5148,7 +5152,7 @@ public function createschoolregistration()
 	$data["title"]="Create schoolregistration";
 	$this->load->view("template",$data);
 }
-public function createschoolregistrationsubmit() 
+public function createschoolregistrationsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -5167,7 +5171,7 @@ public function createschoolregistrationsubmit()
 			$data["alertsuccess"]="schoolregistration created Successfully.";
 			$data["redirect"]="site/viewschoolregistration";
 			$this->load->view("redirect",$data);
-		
+
 }
 public function editschoolregistration()
 {
@@ -5185,7 +5189,7 @@ public function editschoolregistrationsubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
-			$id=$this->input->get_post("id");	
+			$id=$this->input->get_post("id");
             $name=$this->input->get_post("name");
 			$address=$this->input->get_post("address");
 			$establishdate=$this->input->get_post("establishdate");
@@ -5201,7 +5205,7 @@ public function editschoolregistrationsubmit()
 			$data["alertsuccess"]="schoolregistration Updated Successfully.";
 			$data["redirect"]="site/viewschoolregistration";
 			$this->load->view("redirect",$data);
-		
+
 }
 public function deleteschoolregistration()
 {
@@ -5211,10 +5215,10 @@ public function deleteschoolregistration()
 	$data["redirect"]="site/viewschoolregistration";
 	$this->load->view("redirect",$data);
 }
-    
-    
+
+
     //CSV FOR SCHOOL
-    
+
      function uploadschoolcsv()
 	{
 		$access = array("1");
@@ -5222,8 +5226,8 @@ public function deleteschoolregistration()
 		$data[ 'page' ] = 'uploadschoolcsv';
 		$data[ 'title' ] = 'Upload school';
 		$this->load->view( 'template', $data );
-	} 
-    
+	}
+
     function uploadschoolcsvsubmit()
 	{
         $access = array("1");
@@ -5243,18 +5247,18 @@ public function deleteschoolregistration()
         $file = $this->csvreader->parse_file($fullfilepath);
         $id1=$this->school_model->createbycsv($file);
 //        echo $id1;
-        
+
         if($id1==0)
         $data['alerterror']="New school could not be Uploaded.";
 		else
 		$data['alertsuccess']="school Uploaded Successfully.";
-        
+
         $data['redirect']="site/viewschool";
         $this->load->view("redirect",$data);
     }
-    
+
     //CSV FOR STUDENT
-    
+
      function uploadstudentcsv()
 	{
 		$access = array("1");
@@ -5262,8 +5266,8 @@ public function deleteschoolregistration()
 		$data[ 'page' ] = 'uploadstudentcsv';
 		$data[ 'title' ] = 'Upload student';
 		$this->load->view( 'template', $data );
-	} 
-    
+	}
+
     function uploadstudentcsvsubmit()
 	{
         $access = array("1");
@@ -5283,18 +5287,18 @@ public function deleteschoolregistration()
         $file = $this->csvreader->parse_file($fullfilepath);
         $id1=$this->student_model->createbycsv($file);
 //        echo $id1;
-        
+
         if($id1==0)
         $data['alerterror']="New student could not be Uploaded.";
 		else
 		$data['alertsuccess']="student Uploaded Successfully.";
-        
+
         $data['redirect']="site/viewschool";
         $this->load->view("redirect",$data);
     }
-    
+
     //CSV FOR TEAM
-    
+
      function uploadteamcsv()
 	{
 		$access = array("1");
@@ -5302,8 +5306,8 @@ public function deleteschoolregistration()
 		$data[ 'page' ] = 'uploadteamcsv';
 		$data[ 'title' ] = 'Upload team';
 		$this->load->view( 'template', $data );
-	} 
-    
+	}
+
     function uploadteamcsvsubmit()
 	{
         $access = array("1");
@@ -5323,16 +5327,16 @@ public function deleteschoolregistration()
         $file = $this->csvreader->parse_file($fullfilepath);
         $id1=$this->team_model->createbycsv($file);
 //        echo $id1;
-        
+
         if($id1==0)
         $data['alerterror']="New team could not be Uploaded.";
 		else
 		$data['alertsuccess']="team Uploaded Successfully.";
-        
+
         $data['redirect']="site/viewschool";
         $this->load->view("redirect",$data);
     }
-    
+
     public function viewnewsletter()
 {
     $access=array("1");
@@ -5448,7 +5452,7 @@ public function createenquiries()
 	$data["title"]="Create enquiries";
 	$this->load->view("template",$data);
 }
-public function createenquiriessubmit() 
+public function createenquiriessubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -5463,7 +5467,7 @@ public function createenquiriessubmit()
 			$data["alertsuccess"]="enquiries created Successfully.";
 			$data["redirect"]="site/viewenquiries";
 			$this->load->view("redirect",$data);
-		
+
 }
 public function editenquiries()
 {
@@ -5481,7 +5485,7 @@ public function editenquiriessubmit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
-			$id=$this->input->get_post("id");	
+			$id=$this->input->get_post("id");
             $name=$this->input->get_post("name");
 			$email=$this->input->get_post("email");
 			$mobile=$this->input->get_post("mobile");
@@ -5493,7 +5497,7 @@ public function editenquiriessubmit()
 			$data["alertsuccess"]="enquiries Updated Successfully.";
 			$data["redirect"]="site/viewenquiries";
 			$this->load->view("redirect",$data);
-		
+
 }
 public function deleteenquiries()
 {
@@ -5503,9 +5507,9 @@ public function deleteenquiries()
 	$data["redirect"]="site/viewenquiries";
 	$this->load->view("redirect",$data);
 }
-    
+
     // SCHOOL CSV
-    
+
     	public function exportschoolcsv()
 	{
 		$access = array("1");
@@ -5547,7 +5551,7 @@ public function deleteenquiries()
         $data['redirect']="site/viewstudent1";
         $this->load->view("redirect",$data);
 	}
-    
+
 public function getSportCategoryBySport() {
         $sport=$this->input->get_post("sport");
         $data1 = $this->sportscategory_model->getSportCategoryBySport($sport);
@@ -5559,7 +5563,7 @@ public function getSportCategoryBySport() {
         $data1 = $this->sportscategory_model->getAgeGroupBySport($sport);
         $data["message"] = $data1;
         $this->load->view("json", $data);
-    } 
+    }
     public function getStudentBySport() {
         $sport=$this->input->get_post("sport");
         $data1 = $this->sportscategory_model->getStudentBySport($sport);
@@ -5578,7 +5582,7 @@ public function getSportCategoryBySport() {
         $sport=$this->input->get_post("sport");
         $sportscategory=$this->input->get_post("sportscategory");
         $agegroup=$this->input->get_post("agegroup");
-       
+
 			$data["message"]=$this->student_model->getStudentCount($school,$gender,$sport,$sportscategory,$agegroup);
 			$this->load->view("json",$data);
     }
@@ -5617,12 +5621,12 @@ public function getSportCategoryBySport() {
         $file = $this->csvreader->parse_file($fullfilepath);
         $id1=$this->match_model->createbycsv($file);
 //        echo $id1;
-        
+
         if($id1==0)
         $data['alerterror']="New match could not be Uploaded.";
 		else
 		$data['alertsuccess']="match Uploaded Successfully.";
-        
+
         $data['redirect']="site/viewmatch";
         $this->load->view("redirect",$data);
     }
@@ -5645,12 +5649,12 @@ public function getSportCategoryBySport() {
         $file = $this->csvreader->parse_file($fullfilepath);
         $id1=$this->match_model->createvideobycsv($file);
 //        echo $id1;
-        
+
         if($id1==0)
         $data['alerterror']="New video could not be Uploaded.";
 		else
 		$data['alertsuccess']="Video Uploaded Successfully.";
-        
+
         $data['redirect']="site/viewmatch";
         $this->load->view("redirect",$data);
     }
@@ -5671,14 +5675,14 @@ function viewteam1json()
 	$elements[0]->sort="1";
 	$elements[0]->header="ID";
 	$elements[0]->alias="id";
-    
-    
+
+
 	$elements[1]=new stdClass();
 	$elements[1]->field="`sfa_team`.`title`";
 	$elements[1]->sort="1";
 	$elements[1]->header="Title";
 	$elements[1]->alias="title";
-	
+
 	$elements[2]=new stdClass();
 	$elements[2]->field="`sfa_team`.`id`";
 	$elements[2]->sort="1";
@@ -5715,7 +5719,7 @@ public function createteam1()
 	$data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
 	$this->load->view("template",$data);
 }
-public function createteam1submit() 
+public function createteam1submit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -5725,14 +5729,14 @@ public function createteam1submit()
 			$title=$this->input->get_post("title");
 //			$schoolid=$this->input->get("schoolid");
 			$sport=$this->input->get_post("sport");
-			$school=$this->input->get_post("school"); 
+			$school=$this->input->get_post("school");
 			if($this->team_model->create($sportscategory,$agegroup,$year,$title,$sport,$school)==0)
 			$data["alerterror"]="New team could not be created.";
 			else
 			$data["alertsuccess"]="team created Successfully.";
 			$data["redirect"]="site/viewteam1";
 			$this->load->view("redirect",$data);
-		
+
 }
 public function editteam1()
 {
@@ -5752,7 +5756,7 @@ public function editteam1submit()
 {
 	$access=array("1");
 	$this->checkaccess($access);
-	
+
 		$id=$this->input->get_post("id");
 		$sportscategory=$this->input->get_post("sportscategory");
 		$agegroup=$this->input->get_post("agegroup");
@@ -5766,7 +5770,7 @@ public function editteam1submit()
 		$data["alertsuccess"]="team Updated Successfully.";
 		$data["redirect"]="site/viewteam1";
 		$this->load->view("redirect",$data);
-		
+
 }
 public function deleteteam1()
 {
@@ -5776,9 +5780,9 @@ public function deleteteam1()
 	$data["redirect"]="site/viewteam1";
 	$this->load->view("redirect",$data);
 }
-    
-    // student table 
-    
+
+    // student table
+
     public function viewstudent1()
 {
 	$access=array("1");
@@ -5875,7 +5879,7 @@ public function createstudent1()
 	$data["title"]="Create student";
 	$this->load->view("template",$data);
 }
-public function createstudentsubmit1() 
+public function createstudentsubmit1()
 {
 	$access=array("1");
 	$this->checkaccess($access);
@@ -5936,13 +5940,13 @@ public function createstudentsubmit1()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -5972,8 +5976,8 @@ public function editstudent1()
     $data["agegroup"]=$this->agegroups_model->getagegroupsdropdown();
     $data["sportscategory"]=$this->sportscategory_model->getsportscategorydropdownwithsport();
      $data['selectedsport']=$this->sports_model->getsportbystudent($this->input->get_post('id'));
-  
-    
+
+
      $data['selectedagegroup']=$this->sports_model->getagegroupbystudent($this->input->get_post('id'));
 
      $data['selectedsportscategory']=$this->sports_model->getsportcategorybystudent($this->input->get_post('id'));
@@ -6046,13 +6050,13 @@ public function editstudentsubmit1()
 							$config_r['quality']    = 100;
 							//end of configs
 
-							$this->load->library('image_lib', $config_r); 
+							$this->load->library('image_lib', $config_r);
 							$this->image_lib->initialize($config_r);
 							if(!$this->image_lib->resize())
 							{
 								echo "Failed." . $this->image_lib->display_errors();
 								//return false;
-							}  
+							}
 							else
 							{
 								//print_r($this->image_lib->dest_image);
@@ -6085,7 +6089,7 @@ public function deletestudent1()
 	$data["redirect"]="site/viewstudent1";
 	$this->load->view("redirect",$data);
 }
-    
+
 
 
 }

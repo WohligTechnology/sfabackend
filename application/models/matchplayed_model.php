@@ -3,7 +3,7 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class matchplayed_model extends CI_Model
 {
-public function create($match,$type,$order,$team,$student,$result,$round,$reason,$minute,$second,$millisecond)
+public function create($match,$type,$order,$team,$student,$result,$medal,$round,$reason,$minute,$second,$millisecond)
 {
      $totalmilliseconds=$minute*60000 +$second*1000 +$millisecond*1;
     $propertimeformat=$minute.":".$second.":".$millisecond;
@@ -13,13 +13,13 @@ public function create($match,$type,$order,$team,$student,$result,$round,$reason
     $getothersportid=$getothersport->sports;
     if($swimmingid==$getothersportid){
         echo "in swim";
-        $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"round" => $round,"reason" => $totalmilliseconds,"timeformat" => $propertimeformat);
+        $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"medal" => $medal,"round" => $round,"reason" => $totalmilliseconds,"timeformat" => $propertimeformat);
 $query=$this->db->insert( "sfa_matchplayed", $data );
 $id=$this->db->insert_id();
     }
     else{
         echo "xxxx";
-         $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"round" => $round,"reason" => $reason);
+         $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"medal" => $medal,"round" => $round,"reason" => $reason);
 $query=$this->db->insert( "sfa_matchplayed", $data );
 $id=$this->db->insert_id();
     }
@@ -40,14 +40,14 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_matchplayed")->row();
 return $query;
 }
-public function edit($id,$match,$type,$order,$team,$student,$result,$round,$reason,$minute,$second,$millisecond)
+public function edit($id,$match,$type,$order,$team,$student,$result,$medal,$round,$reason,$minute,$second,$millisecond)
 {
     $totalmilliseconds=$minute*60000 +$second*1000 +$millisecond*1;
     $propertimeformat=$minute.":".$second.":".$millisecond;
-    $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"round" => $round,"reason" => $totalmilliseconds,"timeformat" => $propertimeformat);
+    $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"medal" => $medal,"round" => $round,"reason" => $totalmilliseconds,"timeformat" => $propertimeformat);
     $this->db->where( "id", $id );
     $query=$this->db->update( "sfa_matchplayed", $data );
-    
+
      $matchdetails=$this->db->query("SELECT `id`, `sports`, `sportscategory`, `agegroup`, `timestamp`, `status`, `resulttimestamp`, `matchresult`, `name`, `starttime`, `endtime`, `gender`, `matchdate`, `round` FROM `sfa_match` WHERE `id`='$match'")->row();
     $sports=$matchdetails->sports;
     $sportscategory=$matchdetails->sportscategory;
@@ -60,7 +60,7 @@ public function edit($id,$match,$type,$order,$team,$student,$result,$round,$reas
     $newround=$round+1;
     if($result==1)
     {
-      
+
             $checkplayercount=$this->db->query("SELECT `sfa_match`.`id`,count(`sfa_match`.`id`) as `count` FROM `sfa_match` INNER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id` WHERE `sfa_match`.`sports`=$sports AND `sfa_match`.`agegroup`=$agegroup AND `sfa_match`.`sportscategory`=$sportscategory GROUP BY `sfa_match`.`id` HAVING `count`=1");
 //        $c=$checkplayercount->num_rows();
 //        echo " palyer count ";
@@ -86,7 +86,7 @@ public function edit($id,$match,$type,$order,$team,$student,$result,$round,$reas
             $query=$this->db->insert( "sfa_matchplayed", $data );
             $id=$this->db->insert_id();
         }
-        
+
     }
 return 1;
 }
@@ -100,7 +100,7 @@ return $query;
     $getswimming=$this->db->query("SELECT * FROM `sfa_sports` WHERE `name` LIKE '%swimming%'")->row();
     $getothersport=$this->db->query("SELECT `sports` FROM `sfa_match` WHERE `id`= '$id'")->row();
     $getothersportid=$getothersport->sports;
-        
+
     $swimmingid=$getswimming->id;
     if($getothersportid==$swimmingid)
     {
@@ -122,9 +122,9 @@ return $query;
 //		{
 //			$return[$row->id]=$row->name;
 //		}
-		
+
 		return $type;
-	}	
+	}
 	public function getresultdropdown()
 	{
 		$type=array(
@@ -137,7 +137,17 @@ return $query;
 //		{
 //			$return[$row->id]=$row->name;
 //		}
-		
+
+		return $type;
+	}
+	public function getmedaldropdown()
+	{
+		$type=array(
+      "" => "Choose Medal",
+			"1" => "Gold",
+			"2" => "Silver",
+			"3" => "Bronze"
+		);
 		return $type;
 	}
 }

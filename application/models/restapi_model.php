@@ -252,8 +252,10 @@ if($studentid != "") {
 
   if($schoolid != "") {
   $where.=" AND `sfa_school`.`id` = $schoolid" ;
-  // $query=$this->db->query("SELECT DISTINCT `sfa_match`.`url` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team` = `sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` $where")->result();
-  $query['medals']=$this->db->query("SELECT DISTINCT year(`sfa_match`.`matchdate`) AS 'year',`sfa_sports`.`name` AS 'sport',`sfa_agegroups`.`name` AS 'agegroup',`sfa_sportscategory`.`title` AS 'sportscategory',`sfa_matchplayed`.`medal` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.match = `sfa_match`.`id` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_matchplayed`.`team`=`sfa_teamstudents`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_teamstudents`.`student`=`sfa_student`.`id` LEFT OUTER JOIN  `sfa_school` ON `sfa_student`.`school`=`sfa_school`.`id` INNER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports` INNER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_match`.`sportscategory` INNER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_match`.`agegroup` $where")->result();
+  $chkteam = $this->db->query("SELECT * FROM `sfa_matchplayed` WHERE `team`=0")->result();
+  if (!empty($chkteam))
+  {
+  $query1['medals1']=$this->db->query("SELECT DISTINCT year(`sfa_match`.`matchdate`) AS 'year',`sfa_sports`.`name` AS 'sport',`sfa_agegroups`.`name` AS 'agegroup',`sfa_sportscategory`.`title` AS 'sportscategory',`sfa_matchplayed`.`medal` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.match = `sfa_match`.`id` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_matchplayed`.`team`=`sfa_teamstudents`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_teamstudents`.`student`=`sfa_student`.`id` LEFT OUTER JOIN  `sfa_school` ON `sfa_student`.`school`=`sfa_school`.`id` INNER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports` INNER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_match`.`sportscategory` INNER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_match`.`agegroup` $where")->result();
 
   $match = $this->db->query("SELECT DISTINCT `sfa_matchplayed`.`match` FROM  `sfa_matchplayed` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student`
   LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_school`.`id`=$schoolid ")->result();
@@ -261,33 +263,79 @@ if($studentid != "") {
   $matchid = array();
   foreach ($match as  $value) {
   // array_push($matchid,$value->match);
-$query1['against']=$this->db->query("SELECT DISTINCT `sfa_school`.`name` FROM  `sfa_matchplayed` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student`
+$query1['against1']=$this->db->query("SELECT DISTINCT `sfa_school`.`name` FROM  `sfa_matchplayed` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student`
 LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_school`.`id` !=$schoolid AND  `sfa_matchplayed`.`match` =$value->match")->result();
 
 
-  $q="SELECT DISTINCT  year(`sfa_match`.`matchdate`) AS 'year',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory', `sfa_matchplayed`.`timeformat` AS 'against',GROUP_CONCAT(DISTINCT `sfa_matchplayed`.`reason` SEPARATOR '-') AS 'score',`sfa_matchplayed`.`result` FROM `sfa_match`
+  $q="SELECT DISTINCT  year(`sfa_match`.`matchdate`) AS 'year',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory', `sfa_matchplayed`.`timeformat` AS 'against',GROUP_CONCAT(DISTINCT `sfa_matchplayed`.`reason` SEPARATOR '-') AS 'score',`sfa_matchplayed`.`result`,`sfa_round`.`level` AS 'round',`sfa_match`.`url` FROM `sfa_match`
   LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student`
-  INNER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` $where AND `sfa_matchplayed`.`match` = $value->match  GROUP BY `sfa_match`.`id`";
+  INNER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` INNER JOIN `sfa_round` ON `sfa_round`.`id`=`sfa_matchplayed`.`round` $where AND `sfa_matchplayed`.`match` = $value->match  GROUP BY `sfa_match`.`id`";
   //echo $q;
   $match=$this->db->query($q)->row();
   array_push($matchid,$match);
   }
-  $query['matches'] = $matchid;
-if($query['matches'] && sizeof($query['matches']) > 0 && !$query['matches'][0]->year )
+  $query1['matches1'] = $matchid;
+if($query1['matches1'] && sizeof($query1['matches1']) > 0 && !$query1['matches1'][0]->year )
 {
-$query['matches'] = array();
+$query1['matches1'] = array();
 }
 else
 {
-for($i=0; $i < sizeof($query['matches']); $i++ )
+for($i=0; $i < sizeof($query1['matches1']); $i++ )
+{
+  $query1['matches1'][$i]->against = $query1['against1'][$i]->name;
+}
+
+}
+}
+$chkstudent = $this->db->query("SELECT * FROM `sfa_matchplayed` WHERE `student`=0")->result();
+if (!empty($chkstudent))
+{
+  $query2['medals2']=$this->db->query("SELECT DISTINCT year(`sfa_match`.`matchdate`) AS 'year',`sfa_sports`.`name` AS 'sport',`sfa_agegroups`.`name` AS 'agegroup',`sfa_sportscategory`.`title` AS 'sportscategory',`sfa_matchplayed`.`medal` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_matchplayed`.match = `sfa_match`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_matchplayed`.`student`=`sfa_student`.`id` LEFT OUTER JOIN  `sfa_school` ON `sfa_student`.`school`=`sfa_school`.`id` INNER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports` INNER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_match`.`sportscategory` INNER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_match`.`agegroup` $where")->result();
+
+  $match = $this->db->query("SELECT DISTINCT `sfa_matchplayed`.`match` FROM  `sfa_matchplayed` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student`
+  LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_school`.`id`=$schoolid ")->result();
+
+  $matchid = array();
+$query2['against2']= array();
+$query2['opponent2']= array();
+  foreach ($match as  $value) {
+  // array_push($matchid,$value->match);
+  $aq=$this->db->query("SELECT DISTINCT `sfa_school`.`name` FROM  `sfa_matchplayed`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student`
+  LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_school`.`id` !=$schoolid AND  `sfa_matchplayed`.`match` =$value->match")->row();
+
+  array_push($query2['against2'],$aq);
+
+  $opponent=$this->db->query("SELECT DISTINCT `sfa_student`.`name` FROM  `sfa_matchplayed`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student`
+  LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_school`.`id` !=$schoolid AND  `sfa_matchplayed`.`match` =$value->match")->row();
+
+  array_push($query2['opponent2'],$opponent);
+
+  $q="SELECT DISTINCT  year(`sfa_match`.`matchdate`) AS 'year',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory', `sfa_matchplayed`.`timeformat` AS 'against',`sfa_matchplayed`.`timeformat` AS 'opponent',GROUP_CONCAT(DISTINCT `sfa_matchplayed`.`reason` SEPARATOR '-') AS 'score',`sfa_matchplayed`.`result`,`sfa_round`.`level` AS 'round',`sfa_match`.`url` FROM `sfa_match`
+  LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student`
+  INNER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` INNER JOIN `sfa_round` ON `sfa_round`.`id`=`sfa_matchplayed`.`round` $where AND `sfa_matchplayed`.`match` = $value->match  GROUP BY `sfa_match`.`id`";
+  //echo $q;
+  $match=$this->db->query($q)->row();
+  array_push($matchid,$match);
+  }
+  $query2['matches2'] = $matchid;
+if($query2['matches2'] && sizeof($query2['matches2']) > 0 && !$query2['matches2'][0]->year )
+{
+$query2['matches2'] = array();
+}
+else
 {
 
-  $query['matches'][$i]->against = $query1['against'][$i]->name;
-
+for($i=0; $i < sizeof($query2['matches2']); $i++ )
+{
+  $query2['matches2'][$i]->against = $query2['against2'][$i]->name;
+  $query2['matches2'][$i]->opponent = $query2['opponent2'][$i]->name;
+}
+}
+$query['medals']=(array_merge($query1['medals1'],$query2['medals2']));
+$query['matches']=(array_merge($query1['matches1'],$query2['matches2']));
 }
 
-
-}
   }
 
   if($studentid != "") {
@@ -295,30 +343,63 @@ for($i=0; $i < sizeof($query['matches']); $i++ )
 $chkstudentid = $this->db->query("SELECT * FROM `sfa_matchplayed` WHERE `student`=$studentid")->result();
 if (!empty($chkstudentid))
 {
-  $query['medals']=$this->db->query("SELECT  year(`sfa_match`.`matchdate`) AS 'year',`sfa_sports`.`name` AS 'sport',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory',`sfa_matchplayed`.`medal` FROM `sfa_match`
+  $query1['medals1']=$this->db->query("SELECT DISTINCT year(`sfa_match`.`matchdate`) AS 'year',`sfa_sports`.`name` AS 'sport',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory',`sfa_matchplayed`.`medal` FROM `sfa_match`
   LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student` $where")->result();
 
-$match = $this->db->query("SELECT `match` FROM `sfa_matchplayed` WHERE `student`=$studentid ")->result();
+$match = $this->db->query("SELECT DISTINCT `match` FROM `sfa_matchplayed` WHERE `student`=$studentid ")->result();
 $matchid = array();
 foreach ($match as  $value) {
 // array_push($matchid,$value->match);
-$match=$this->db->query("SELECT  year(`sfa_match`.`matchdate`) AS 'year',(SELECT DISTINCT `sfa_school`.`name` AS 'against' FROM `sfa_match`
+$match=$this->db->query("SELECT DISTINCT year(`sfa_match`.`matchdate`) AS 'year',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory',(SELECT DISTINCT `sfa_school`.`name` AS 'against' FROM `sfa_match`
  LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student`
-LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_student`.`id` !=$studentid AND  `sfa_matchplayed`.`match` =$value->match ) AS 'against',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory',GROUP_CONCAT( `sfa_matchplayed`.`reason` SEPARATOR '-' ) AS 'score',`sfa_matchplayed`.`result` FROM `sfa_match`
+LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_student`.`id` !=$studentid AND  `sfa_matchplayed`.`match` =$value->match) AS 'against',(SELECT DISTINCT `sfa_student`.`name` AS 'opponent' FROM `sfa_match`
+ LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student`
+LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_student`.`id` !=$studentid AND  `sfa_matchplayed`.`match` =$value->match) AS 'opponent',GROUP_CONCAT( `sfa_matchplayed`.`reason` SEPARATOR '-' ) AS 'score',`sfa_matchplayed`.`result`,`sfa_round`.`level` AS 'round',`sfa_match`.`url` FROM `sfa_match`
 LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student`
-LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` WHERE `sfa_matchplayed`.`match` = $value->match GROUP BY `sfa_matchplayed`.`match` ORDER BY `sfa_matchplayed`.`student`")->row();
+LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` INNER JOIN `sfa_round` ON `sfa_round`.`id`=`sfa_matchplayed`.`round` WHERE `sfa_matchplayed`.`match` = $value->match GROUP BY `sfa_matchplayed`.`match` ORDER BY `sfa_matchplayed`.`student`")->row();
 array_push($matchid,$match);
 }
-$query['matches'] = $matchid;
+$query1['matches1'] = $matchid;
+}
+$chkteam = $this->db->query("SELECT * FROM `sfa_matchplayed` WHERE `student`=0")->result();
+if (!empty($chkteam))
+{
+  $query2['medals2']=$this->db->query("SELECT DISTINCT  year(`sfa_match`.`matchdate`) AS 'year',`sfa_sports`.`name` AS 'sport',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory',`sfa_matchplayed`.`medal` FROM `sfa_match`
+  LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` $where")->result();
+
+  $match = $this->db->query("SELECT DISTINCT `sfa_matchplayed`.`match` FROM  `sfa_matchplayed` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student`
+  LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_student`.`id`=$studentid ")->result();
+  $matchid1 = array();
+  foreach ($match as  $value) {
+  // array_push($matchid,$value->match);
+$query1['against2']=$this->db->query("SELECT DISTINCT `sfa_school`.`name` FROM  `sfa_matchplayed` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student`
+LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_student`.`id` !=$studentid AND  `sfa_matchplayed`.`match` =$value->match")->result();
+
+
+  $q="SELECT DISTINCT  year(`sfa_match`.`matchdate`) AS 'year',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory', `sfa_matchplayed`.`timeformat` AS 'against',GROUP_CONCAT(DISTINCT `sfa_matchplayed`.`reason` SEPARATOR '-') AS 'score',`sfa_matchplayed`.`result`,`sfa_round`.`level` AS 'round',`sfa_match`.`url` FROM `sfa_match`
+  LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student`
+  INNER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` INNER JOIN `sfa_round` ON `sfa_round`.`id`=`sfa_matchplayed`.`round` $where AND `sfa_matchplayed`.`match` = $value->match  GROUP BY `sfa_match`.`id`";
+  //echo $q;
+  $match1=$this->db->query($q)->row();
+  array_push($matchid1,$match1);
+  }
+  $query2['matches2'] = $matchid1;
+if($query2['matches2'] && sizeof($query2['matches2']) > 0 && !$query2['matches2'][0]->year )
+{
+$query2['matches2'] = array();
 }
 else
 {
-  $query['medals']=$this->db->query("SELECT  year(`sfa_match`.`matchdate`) AS 'year',`sfa_sports`.`name` AS 'sport',`sfa_agegroups`.`name` AS 'agegroup', `sfa_sportscategory`.`title` AS 'sportscategory',`sfa_matchplayed`.`medal` FROM `sfa_match`
-  LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` $where")->result();
-
+for($i=0; $i < sizeof($query2['matches2']); $i++ )
+{
+  $query2['matches2'][$i]->against = $query1['against2'][$i]->name;
+}
 }
 
 
+}
+  $query['medals']=(array_merge($query1['medals1'],$query2['medals2']));
+$query['matches']=(array_merge($query1['matches1'],$query2['matches2']));
   }
     return $query;
   }
