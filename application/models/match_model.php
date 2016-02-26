@@ -27,7 +27,7 @@ return $query;
     function exportschedulecsv()
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `sfa_match`.`id` as `matchid`,`sfa_sports`.`name` as `sports`, `sfa_sportscategory`.`title` as `sportscategory`, `sfa_agegroups`.`name` as `agegroup`, `sfa_match`.`timestamp`, `sfa_match`.`matchresult`, `sfa_match`.`name` as `courtname`, `sfa_match`.`starttime`, `sfa_match`.`endtime`, `gender`.`name` as `gender`, `sfa_match`.`matchdate`, `sfa_round`.`level` as `round`,GROUP_CONCAT(`sfa_team`.`title`) as `No of Teams`,GROUP_CONCAT(`sfa_student`.`name`) as `No of Students` FROM `sfa_match`
+		$query=$this->db->query("SELECT `sfa_match`.`id` as `matchid`,`sfa_sports`.`name` as `sports`, `sfa_sportscategory`.`title` as `sportscategory`, `sfa_agegroups`.`name` as `agegroup`, `sfa_match`.`timestamp`, `sfa_match`.`matchresult`, `sfa_match`.`name` as `courtname`, `sfa_match`.`starttime`, `sfa_match`.`endtime`, `gender`.`name` as `gender`, `sfa_match`.`matchdate`, `sfa_round`.`level` as `round`,`sfa_matchplayed`.`medal`,GROUP_CONCAT(`sfa_team`.`title`) as `No of Teams`,GROUP_CONCAT(`sfa_student`.`name`) as `No of Students` FROM `sfa_match`
 LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports`
 LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_match`.`sportscategory`
 LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_match`.`agegroup`
@@ -84,6 +84,7 @@ return $query;
             $matchdate=trim($row['matchdate']);
             $court=trim($row['court']);
             $round=trim($row['round']);
+            $medal=trim($row['medal']);
             $agegroup=trim($row['agegroup']);
             $gender=trim($row['gender']);
             $starttime=trim($row['starttime']);
@@ -183,7 +184,9 @@ return $query;
                     'match' => $id,
                      'student' =>$getid,
                      'reason' =>$team[1],
-                     'result' => $result
+                     'result' => $result,
+                     'medal' => $medal
+
                     );
                     $query=$this->db->insert( 'sfa_matchplayed', $data );
                     $matchplayedid=$this->db->insert_id();
@@ -211,7 +214,8 @@ return $query;
                     'match' => $id,
                     'team' =>$getid,
                     'reason' =>$team[1],
-                    'result' => $result
+                    'result' => $result,
+                    'medal' => $medal
                     );
                     $query=$this->db->insert( 'sfa_matchplayed', $data );
                     $matchplayedid=$this->db->insert_id();
@@ -221,8 +225,8 @@ return $query;
         }
 			return  1;
 }
-    
-    
+
+
      public function createvideobycsv($file)
 	{
         foreach ($file as $row)
@@ -230,13 +234,13 @@ return $query;
 
             $matchid=trim($row['matchid']);
             $url=trim($row['url']);
-            
+
             $data=array("url" => $url);
             $this->db->where( "id", $matchid );
             $query=$this->db->update( "sfa_match", $data );
 
          }
-          
+
 			return  1;
      }
 }
