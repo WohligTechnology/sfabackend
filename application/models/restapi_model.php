@@ -428,6 +428,7 @@ if(!empty($match))
 array_push($matchid,$match);
 }
 }
+
 $query1['matches1'] = $matchid;
 if($query1['matches1'] && empty($query1['matches1']) && !$query1['matches1'][0]->year )
 {
