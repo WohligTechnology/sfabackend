@@ -475,7 +475,7 @@ return $query;
                 'isverified' => $isverified,
                 'image' => $image,
                 'email' => $email,
-                'gender' => $gender,
+                'gender' => $genderid,
                 'age' => $calculatedage,
                 'dob' => $dob
                 );
