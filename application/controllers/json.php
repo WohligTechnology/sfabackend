@@ -1416,6 +1416,16 @@ $data["message"]=$this->restapi_model->getStatistics($schoolid,$studentid,$sport
 $this->load->view("json",$data);
  }
 
+
+  public function getplayerlist(){
+	 $schoolid=$this->input->get_post("schoolid");
+    $gender=$this->input->get_post("gender");
+    $agegroup=$this->input->get_post("agegroup");
+    $sports=$this->input->get_post("sports");
+$data["message"]=$this->restapi_model->getplayerlist($schoolid,$gender,$agegroup,$sports);
+$this->load->view("json",$data);
+ }
+
  public function getStudentProfile(){
      $id=$this->input->get_post("id");
 $data["message"]=$this->restapi_model->getStudentProfile($id);
@@ -1590,8 +1600,8 @@ $this->load->view("json",$data);
         $id=$this->input->get_post("id");
         $sport=$this->input->get_post("sport");
         $agegroup=$this->input->get_post("agegroup");
-        $category=$this->input->get_post("category");
-	   $data["message"]=$this->restapi_model->getSchoolSports($id,$sport,$agegroup,$category);
+        $gender=$this->input->get_post("gender");
+	   $data["message"]=$this->restapi_model->getSchoolSports($id,$sport,$agegroup,$gender);
         $this->load->view("json",$data);
  }
 
