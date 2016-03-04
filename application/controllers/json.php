@@ -1650,6 +1650,11 @@ $this->load->view("json",$data);
         $elements[6]->header="SchoolId";
         $elements[6]->alias="schoolid";
 
+				$elements[7]=new stdClass();
+		 	 $elements[7]->field="`sfa_student`.`image`";
+		 	 $elements[7]->sort="1";
+		 	 $elements[7]->header="Image1";
+		 	 $elements[7]->alias="image1";
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
