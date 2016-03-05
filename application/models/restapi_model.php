@@ -587,15 +587,15 @@ return  1;
          LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_student`.`agegroup`
          WHERE `sfa_student`.`id`='$id'")->row();
 
-         $query1['teamcase']=$this->db->query("SELECT DISTINCT `sfa_match`.`sports` AS `id`,`sfa_sports`.`name` FROM `sfa_teamstudents` LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_teamstudents`.team=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`id`=`sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports` WHERE `sfa_teamstudents`.`student`='$id'")->result();
-        //  print_r($query1['teamcase']);
+      //    $query1['teamcase']=$this->db->query("SELECT DISTINCT `sfa_match`.`sports` AS `id`,`sfa_sports`.`name` FROM `sfa_teamstudents` LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_teamstudents`.team=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`id`=`sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports` WHERE `sfa_teamstudents`.`student`='$id'")->result();
+      //  print_r($query1['teamcase']);
+       //
+      //    $query1['studentcase']=$this->db->query("SELECT DISTINCT `sfa_match`.`sports` AS `id`,`sfa_sports`.`name` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`id`=`sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports` WHERE `sfa_matchplayed`.`student`='$id'")->result();
+      //  print_r($query1['studentcase']);
+       //
+      //    $query['sportsparticipated']=array_merge($query1['teamcase'],$query1['studentcase']);
 
-         $query1['studentcase']=$this->db->query("SELECT DISTINCT `sfa_match`.`sports` AS `id`,`sfa_sports`.`name` FROM `sfa_matchplayed` LEFT OUTER JOIN `sfa_match` ON `sfa_match`.`id`=`sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports` WHERE `sfa_matchplayed`.`student`='$id'")->result();
-        //  print_r($query1['studentcase']);
-
-         $query['sportsparticipated']=array_merge($query1['teamcase'],$query1['studentcase']);
-
-        // $query['sportsparticipated']=$this->db->query("SELECT DISTINCT(`sfa_sports`.`id`), `sfa_sports`.`name` FROM `sfa_sports` LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`sport`=`sfa_sports`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_studentsport`.`student` WHERE `sfa_student`.`id`='$id'")->result();
+         $query['sportsparticipated']=$this->db->query("SELECT DISTINCT(`sfa_sports`.`id`), `sfa_sports`.`name` FROM `sfa_sports` LEFT OUTER JOIN `sfa_studentsport` ON `sfa_studentsport`.`sport`=`sfa_sports`.`id` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_studentsport`.`student` WHERE `sfa_student`.`id`='$id'")->result();
 
         return $query;
 }
