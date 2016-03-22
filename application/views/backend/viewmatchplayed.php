@@ -1,6 +1,6 @@
 <div class="row" style="padding:1% 0">
 <div class="col-md-12">
-<a class="btn btn-primary pull-right"  href="<?php echo site_url("site/creatematchplayed?id=").$this->input->get('id'); ?>"><i class="icon-plus"></i>Create </a> &nbsp; 
+<a class="btn btn-primary pull-right"  href="<?php echo site_url("site/creatematchplayed?id=").$this->input->get('id'); ?>"><i class="icon-plus"></i>Create </a> &nbsp;
 </div>
 </div>
 <div class="row">
@@ -38,8 +38,18 @@ function drawtable(resultrow) {
 	resultrow.result="Lost";
 	}
 	else if(resultrow.result==3){
+	resultrow.result="no show";
+	}
+	else if(resultrow.result==4){
+	resultrow.result="walkover";
+	}
+	else if(resultrow.result==5){
+	resultrow.result="bye";
+	}
+	else if(resultrow.result==6){
 	resultrow.result="Draw";
-	}else if(resultrow.result==0){
+	}
+	else if(resultrow.result==0){
 	resultrow.result="Not Yet";
 	}
 	if (resultrow.type==0){

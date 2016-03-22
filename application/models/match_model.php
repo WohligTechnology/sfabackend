@@ -175,9 +175,22 @@ return $query;
 
                         $result=2;
                     }
-                    else if($team[2] =="draw"){
+
+                    else if($team[2] =="no show"){
 
                         $result=3;
+                    }
+                    else if($team[2] =="walkover"){
+
+                        $result=4;
+                    }
+                    else if($team[2] =="bye"){
+
+                        $result=5;
+                    }
+                    else if($team[2] =="draw"){
+
+                        $result=6;
                     }
 
                      $data  = array(
