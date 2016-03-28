@@ -80,7 +80,7 @@ return $query;
 	{
         foreach ($file as $row)
         {
-
+            //  print_r($row);
             $matchdate=trim($row['matchdate']);
             $court=trim($row['court']);
             $round=trim($row['round']);
@@ -93,8 +93,10 @@ return $query;
             $sportscategory=trim($row['sportscategory']);
             $won=trim($row['won']);
             $lost=trim($row['lost']);
-//            $team1=trim($row['team1']);
+            $team1=trim($row['team1']);
              $last_key = key( array_slice( $row, -1, 1, TRUE ) );
+            //  print_r($last_key);
+            //  echo "<br/>";
             $noofcount = substr($last_key, 4);
 
 
@@ -154,19 +156,19 @@ return $query;
             // MATCH TEAM OR STUDENTS
 
 
-            for($i=1;$i<=$noofcount;$i++)
+            // for($i=1;$i<=$noofcount;$i++)
+            for($i=1;$i<=2;$i++)
             {
                 $team=trim($row["team$i"]);
+                // echo "team<br/>".$team;
                 $checkstud= substr($team, 3, 2);
                 if($checkstud != "TE")
                 {
                       // //////////////////////////// STUDENT
-
-
                     $team=explode(",",$team);
                     $getid= substr($team[0], 5, 6);
                     $getid=intval($getid);
-
+                    // echo "team ".$team;
 
                     if($team[2] =="won"){
                         $result=1;
@@ -201,12 +203,15 @@ return $query;
                      'medal' => $medal
 
                     );
+
                     $query=$this->db->insert( 'sfa_matchplayed', $data );
                     $matchplayedid=$this->db->insert_id();
                 }
                 else
                 {
                           ////////////////////////////// it is a TEAM
+
+                        
                     $team=explode(",",$team);
                     $getid= substr($team[0], 5, 6);
                     $getid=intval($getid);
@@ -218,10 +223,24 @@ return $query;
 
                         $result=2;
                     }
-                    else if($team[2] =="draw"){
+
+                    else if($team[2] =="no show"){
 
                         $result=3;
                     }
+                    else if($team[2] =="walkover"){
+
+                        $result=4;
+                    }
+                    else if($team[2] =="bye"){
+
+                        $result=5;
+                    }
+                    else if($team[2] =="draw"){
+
+                        $result=6;
+                    }
+
 
                          $data  = array(
                     'match' => $id,
