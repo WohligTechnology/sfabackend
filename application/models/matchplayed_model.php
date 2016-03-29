@@ -128,10 +128,12 @@ return $query;
 	public function getresultdropdown()
 	{
 		$type=array(
-			"0" => "Not yet",
-			"1" => "Won",
-			"2" => "Lost",
-			"3" => "Draw"
+			"1" => "Not yet",
+			"2" => "Won",
+			"3" => "Lost",
+			"4" => "No show",
+			"5" => "Walkover",
+			"6" => "Bye"
 		);
 //		foreach($query as $row)
 //		{
