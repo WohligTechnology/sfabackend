@@ -258,10 +258,16 @@ if($studentid != "") {
   }
 
 
-  public function getStatistics($schoolid,$studentid,$sportscategory){
+  public function getStatistics($schoolid,$studentid,$sportscategory,$gender,$agegroup){
       $where = "WHERE 1";
   if($sportscategory != "") {
       $where1.=" AND `sfa_match`.`sports` = $sportscategory" ;
+    }
+  if($gender != "") {
+      $where1.=" AND `sfa_match`.`gender` = $gender" ;
+    }
+  if($agegroup != "") {
+      $where1.=" AND `sfa_match`.`agegroup` = $agegroup" ;
     }
 
   if($schoolid != "") {

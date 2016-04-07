@@ -1412,7 +1412,10 @@ $this->load->view("json",$data);
 	 $schoolid=$this->input->get_post("schoolid");
 	 $studentid=$this->input->get_post("studentid");
     $sportscategory=$this->input->get_post("sportscategory");
-$data["message"]=$this->restapi_model->getStatistics($schoolid,$studentid,$sportscategory);
+    $gender=$this->input->get_post("gender");
+    $agegroup=$this->input->get_post("agegroup");
+    //$sportscategory=$this->input->get_post("sportscategory");
+$data["message"]=$this->restapi_model->getStatistics($schoolid,$studentid,$sportscategory,$gender,$agegroup);
 $this->load->view("json",$data);
  }
 
