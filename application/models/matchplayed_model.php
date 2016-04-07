@@ -131,7 +131,9 @@ return $query;
 			"0" => "Not yet",
 			"1" => "Won",
 			"2" => "Lost",
-			"3" => "Draw"
+			"3" => "No show",
+			"4" => "Walkover",
+			"5" => "Bye"
 		);
 //		foreach($query as $row)
 //		{
