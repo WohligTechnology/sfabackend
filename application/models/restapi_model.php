@@ -417,7 +417,6 @@ if (!empty($chkstudentid))
   LEFT OUTER JOIN `sfa_sports` ON `sfa_match`.`sports` = `sfa_sports`.`id` LEFT OUTER JOIN `sfa_agegroups` ON `sfa_match`.`agegroup`=`sfa_agegroups`.`id` LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_match`.`sportscategory`=`sfa_sportscategory`.`id` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student` $where $where1")->result();
 
 $match = $this->db->query("SELECT DISTINCT `match` FROM `sfa_matchplayed` WHERE `student`=$studentid ")->result();
-// echo "in student";
 $matchid = array();
 $query1['against1']= array();
 $query1['opponent1']= array();
@@ -487,12 +486,16 @@ if (!empty($chkteam))
     array_push($matchid1,$match1);
   }
 
+if(!empty($match1->matchplayedid))
+{
+
   $ag2=$this->db->query("SELECT DISTINCT `sfa_school`.`name` FROM `sfa_match` LEFT OUTER JOIN  `sfa_matchplayed` ON `sfa_match`.`id`=`sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student`
   LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_matchplayed`.`id` !=$match1->matchplayedid AND  `sfa_matchplayed`.`match` =$value->match $where1")->row();
     if(!empty($ag2))
   {
     array_push($query2['against2'],$ag2);
   }
+
 
   $oppq="SELECT  `sfa_matchplayed`.`reason` AS `score` FROM `sfa_match` LEFT OUTER JOIN  `sfa_matchplayed` ON `sfa_match`.`id`=`sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team`=`sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student`
   LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`  WHERE `sfa_matchplayed`.`id` !=$match1->matchplayedid AND  `sfa_matchplayed`.`match` =$value->match $where1";
@@ -501,7 +504,7 @@ if (!empty($chkteam))
   {
     array_push($query2['opponentscore2'],$opscore2);
   }
-
+}
   }
   $query2['matches2'] = $matchid1;
 
@@ -545,6 +548,7 @@ if(!empty($query1['matches1']) && !empty($query2['matches2']))
 {
    $query['matches']=(array_merge($query1['matches1'],$query2['matches2']));
 }
+
   }
     return $query;
   }
