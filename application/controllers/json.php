@@ -1677,7 +1677,13 @@ $this->load->view("json",$data);
 	 }
 
 	 if($studentname != "" ) {
-		 $where.="  `sfa_student`.`name` LIKE '%$studentname%' AND " ;
+
+		 $exploded = explode(' ', $studentname);
+
+		foreach ($exploded as $value) {
+			 $where.="  `sfa_student`.`name` LIKE '%$value%' AND " ;
+		}
+
 	 }
 	 else {
 		 $where.="";
