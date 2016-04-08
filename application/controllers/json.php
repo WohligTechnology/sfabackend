@@ -2019,6 +2019,12 @@ $this->load->view("json",$data);
         $data['message']=$this->restapi_model->getDrawold($sport,$sportscategory,$gender,$agegroup);
         $this->load->view("json",$data);
  }
+
+ public function drawtest()
+ {
+	 $data['message']=$this->restapi_model->drawtest();
+	 $this->load->view("json",$data);
+ }
  public function getSwimmingDraw()
  {
         $sportscategory=$this->input->get_post("sportscategory");

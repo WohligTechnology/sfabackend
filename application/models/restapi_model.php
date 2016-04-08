@@ -603,27 +603,57 @@ return  1;
         }
 		return $query;
 	}
+
+  public function drawtest()
+  {
+    $tempround = array();
+  $q="SELECT `sfa_match`.`id` AS 'matchid',`sfa_match`.`round`,`sfa_matchplayed`.`student`,`sfa_matchplayed`.`result`,`sfa_matchplayed`.`team` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed`
+ON `sfa_match`.`id`=`sfa_matchplayed`.`match` WHERE  `sfa_matchplayed`.`student`=312";
+//echo $q;
+ $round = $this->db->query($q)->result();
+// print_r($round);
+ foreach($round as $match)
+{
+  $aq="SELECT `sfa_matchplayed`.`result`,`sfa_student`.`id` as `studentid`,CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `sfastudentid`,`sfa_student`.`name` as `studentname`,`sfa_school`.`name` as `schoolname`,`sfa_team`.`id` as `teamid`,CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `teamsfaid`,`sfa_team`.`title` as `teamname`
+  FROM `sfa_match`
+  LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id`
+  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student`
+  LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team`
+  LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`
+  WHERE `sfa_match`.`id`=$match->matchid";
+  // echo $aq;
+$match->player = $this->db->query($aq)->result();
+
+}
+array_push($tempround,$round);
+ return $tempround;
+  }
+
     public function getDrawold($sport,$sportscategory,$gender,$agegroup)
     {
-        $round = $this->db->query("SELECT `id`, `sports`, `sportcategory`, `year`, `agegroup`, `level` as `roundname`, `root` FROM `sfa_round` WHERE 1")->result();
+        $round = $this->db->query("SELECT distinct `sfa_match`.`round` as `id` FROM `sfa_match` LEFT OUTER JOIN `sfa_round` ON `sfa_match`.`round`=`sfa_round`.`id` WHERE 1 AND `sfa_match`.`sports`='$sport' ORDER BY `sfa_round`.`order` asc")->result();
+        // print_r($round);
+        // $round = $this->db->query("SELECT `id`, `sports`, `sportcategory`, `year`, `agegroup`, `level` as `roundname`, `root` FROM `sfa_round` WHERE 1")->result();
         $tempround = array();
-
+// print_r($round);
         foreach($round as $rou)
         {
             $rou->match=$this->db->query("SELECT `id`, `sports`, `sportscategory`, `agegroup`, `timestamp`, `status`, `resulttimestamp`, `matchresult`, `name`, `starttime`, `endtime`, `gender`, `matchdate`, `round` FROM `sfa_match` WHERE `round`=$rou->id AND `sports`='$sport' AND `sportscategory`='$sportscategory' AND `sfa_match`.`gender`='$gender' AND `sfa_match`.`agegroup`='$agegroup'")->result();
-
-            if(count($rou->match)!=0)
+// print_r($rou->match);
+            if(!empty($rou->match))
             {
                           foreach($rou->match as $match)
                     {
-                        $match->player = $this->db->query("SELECT `sfa_matchplayed`.`result`,`sfa_student`.`id` as `studentid`,CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `sfastudentid`,`sfa_student`.`name` as `studentname`,`sfa_school`.`name` as `schoolname`,`sfa_team`.`id` as `teamid`,CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `teamsfaid`,`sfa_team`.`title` as `teamname`
-        FROM `sfa_match`
-        LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id`
-        LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student`
-        LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team`
-        LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`
-        WHERE `sfa_match`.`id`=$match->id")->result();
+                      $q="SELECT `sfa_matchplayed`.`result`,`sfa_student`.`id` as `studentid`,CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `sfastudentid`,`sfa_student`.`name` as `studentname`,`sfa_school`.`name` as `schoolname`,`sfa_team`.`id` as `teamid`,CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `teamsfaid`,`sfa_team`.`title` as `teamname`
+      FROM `sfa_match`
+      LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id`
+      LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student`
+      LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team`
+      LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`
+      WHERE `sfa_match`.`id`=$match->id";
 
+                        $match->player = $this->db->query($q)->result();
+                        // print_r($match->player);
                     }
                 array_push($tempround,$rou);
             }
@@ -635,11 +665,33 @@ return  1;
 	}
     public function getDraw($sport,$sportscategory,$gender,$agegroup)
     {
-        // $round = $this->db->query("SELECT DISTINCT `id`,  `level` AS 'roundname' FROM `sfa_round` WHERE 1")->result();
-        $round = $this->db->query("SELECT DISTINCT `sfa_match`.`id`,`sfa_match`.`sports`,`sfa_match`.`sportscategory`,`sfa_match`.`round` FROM `sfa_match`")->result();
-  return $round;
+      $round = $this->db->query("SELECT `id`, `sports`, `sportcategory`, `year`, `agegroup`, `level` as `roundname`, `root` FROM `sfa_round` WHERE 1")->result();
+      $tempround = array();
+
+      foreach($round as $rou)
+      {
+          $rou->match=$this->db->query("SELECT `id`, `sports`, `sportscategory`, `agegroup`, `timestamp`, `status`, `resulttimestamp`, `matchresult`, `name`, `starttime`, `endtime`, `gender`, `matchdate`, `round` FROM `sfa_match` WHERE `round`=$rou->id AND `sports`='$sport' AND `sportscategory`='$sportscategory' AND `sfa_match`.`gender`='$gender' AND `sfa_match`.`agegroup`='$agegroup'")->result();
+
+          if(count($rou->match)!=0)
+          {
+                        foreach($rou->match as $match)
+                  {
+                      $match->player = $this->db->query("SELECT `sfa_matchplayed`.`result`,`sfa_student`.`id` as `studentid`,CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `sfastudentid`,`sfa_student`.`name` as `studentname`,`sfa_school`.`name` as `schoolname`,`sfa_team`.`id` as `teamid`,CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `teamsfaid`,`sfa_team`.`title` as `teamname`
+      FROM `sfa_match`
+      LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id`
+      LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student`
+      LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team`
+      LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`
+      WHERE `sfa_match`.`id`=$match->id")->result();
+
+                  }
+              array_push($tempround,$rou);
+          }
+
+         }
 
 
+          return $tempround;
         }
 
 
