@@ -263,10 +263,10 @@ if($studentid != "") {
   if($sportscategory != "") {
       $where1.=" AND `sfa_match`.`sports` = $sportscategory" ;
     }
-  if($gender != "") {
+  if($gender != "" && $gender != undefined) {
       $where1.=" AND `sfa_match`.`gender` = $gender" ;
     }
-  if($agegroup != "") {
+  if($agegroup != "" && $agegroup != undefined) {
       $where1.=" AND `sfa_match`.`agegroup` = $agegroup" ;
     }
 
