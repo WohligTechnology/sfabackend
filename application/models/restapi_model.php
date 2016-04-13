@@ -608,7 +608,7 @@ return  1;
   {
     $tempround = array();
   $q="SELECT `sfa_match`.`id` AS 'matchid',`sfa_match`.`round`,`sfa_matchplayed`.`student`,`sfa_matchplayed`.`result`,`sfa_matchplayed`.`team` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed`
-ON `sfa_match`.`id`=`sfa_matchplayed`.`match` WHERE  `sfa_matchplayed`.`student`=312";
+ON `sfa_match`.`id`=`sfa_matchplayed`.`match` WHERE  `sfa_matchplayed`.`student`=5";
 //echo $q;
  $round = $this->db->query($q)->result();
 // print_r($round);
@@ -638,8 +638,9 @@ array_push($tempround,$round);
 // print_r($round);
         foreach($round as $rou)
         {
-            $rou->match=$this->db->query("SELECT `id`, `sports`, `sportscategory`, `agegroup`, `timestamp`, `status`, `resulttimestamp`, `matchresult`, `name`, `starttime`, `endtime`, `gender`, `matchdate`, `round` FROM `sfa_match` WHERE `round`=$rou->id AND `sports`='$sport' AND `sportscategory`='$sportscategory' AND `sfa_match`.`gender`='$gender' AND `sfa_match`.`agegroup`='$agegroup'")->result();
+            $rou->match=$this->db->query("SELECT `id`,`id` AS 'winner', `sports`, `sportscategory`, `agegroup`, `timestamp`, `status`, `resulttimestamp`, `matchresult`, `name`, `starttime`, `endtime`, `gender`, `matchdate`, `round` FROM `sfa_match` WHERE `round`=$rou->id AND `sports`='$sport' AND `sportscategory`='$sportscategory' AND `sfa_match`.`gender`='$gender' AND `sfa_match`.`agegroup`='$agegroup'")->result();
 // print_r($rou->match);
+
             if(!empty($rou->match))
             {
                           foreach($rou->match as $match)
@@ -653,7 +654,21 @@ array_push($tempround,$round);
       WHERE `sfa_match`.`id`=$match->id";
 
                         $match->player = $this->db->query($q)->result();
-                        // print_r($match->player);
+
+$player1 = $match->player[0]->studentid;
+$player2 = $match->player[1]->studentid;
+
+if($match->player[0]->result == 1)
+{
+  $match->winner = $player1;
+}
+else if($match->player[1]->result == 1)
+{
+  $match->winner = $player2;
+}
+
+                        //print_r($match->player);
+
                     }
                 array_push($tempround,$rou);
             }
