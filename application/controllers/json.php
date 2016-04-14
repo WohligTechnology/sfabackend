@@ -1,6 +1,16 @@
 <?php if ( ! defined("BASEPATH")) exit("No direct script access allowed");
 class Json extends CI_Controller
-{function getallbanner()
+{
+public function testarray()
+{
+$order = array('north', 'east', 'south', 'west');
+$array = array('south', 'west', 'north');
+$sorted = array_intersect($order, $array);
+print_r($sorted);
+
+}
+
+	function getallbanner()
 {
 $elements=array();
 $elements[0]=new stdClass();
