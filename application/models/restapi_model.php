@@ -604,39 +604,23 @@ return  1;
 		return $query;
 	}
 
-  public function drawtest()
+  public function draw()
   {
-    $tempround = array();
-  $q="SELECT `sfa_match`.`id` AS 'matchid',`sfa_match`.`round`,`sfa_matchplayed`.`student`,`sfa_matchplayed`.`result`,`sfa_matchplayed`.`team` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed`
-ON `sfa_match`.`id`=`sfa_matchplayed`.`match` WHERE  `sfa_matchplayed`.`student`=5";
-//echo $q;
- $round = $this->db->query($q)->result();
-// print_r($round);
- foreach($round as $match)
-{
-  $aq="SELECT `sfa_matchplayed`.`result`,`sfa_student`.`id` as `studentid`,CONCAT('SFAST',LPAD(`sfa_student`.`id`,6,0)) as `sfastudentid`,`sfa_student`.`name` as `studentname`,`sfa_school`.`name` as `schoolname`,`sfa_team`.`id` as `teamid`,CONCAT('SFATE',LPAD(`sfa_team`.`id`,6,0)) as `teamsfaid`,`sfa_team`.`title` as `teamname`
-  FROM `sfa_match`
-  LEFT OUTER JOIN `sfa_matchplayed` ON `sfa_matchplayed`.`match`=`sfa_match`.`id`
-  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`sfa_matchplayed`.`student`
-  LEFT OUTER JOIN `sfa_team` ON `sfa_team`.`id`=`sfa_matchplayed`.`team`
-  LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school`
-  WHERE `sfa_match`.`id`=$match->matchid";
-  // echo $aq;
-$match->player = $this->db->query($aq)->result();
-
+  $query = $this->db->query("SELECT `draw`.`id`, `draw`.`match_order`, `draw`.`sport`, `draw`.`sportcategory`, `draw`.`agegroup`, `draw`.`gender`,(SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`=substr(`draw`.`winner`,6, 6)) AS 'winner' , `draw`.`round`, `draw`.`score`, `draw`.`status`,
+(SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`= substr(`draw`.`player1`,6, 6)) AS 'player1',
+(SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`= substr(`draw`.`player2`,6, 6)) AS 'player2'
+FROM `draw` WHERE 1 ORDER BY `match_order`")->result();
+  return $query;
 }
-array_push($tempround,$round);
- return $tempround;
-  }
 
     public function getDrawold($sport,$sportscategory,$gender,$agegroup)
     {
-        $round = $this->db->query("SELECT distinct `sfa_match`.`round` as `id` FROM `sfa_match` LEFT OUTER JOIN `sfa_round` ON `sfa_match`.`round`=`sfa_round`.`id` WHERE 1 AND `sfa_match`.`sports`='$sport' ORDER BY `sfa_round`.`order` asc")->result();
+        $rounds = $this->db->query("SELECT distinct `sfa_match`.`round` as `id` FROM `sfa_match` LEFT OUTER JOIN `sfa_round` ON `sfa_match`.`round`=`sfa_round`.`id` WHERE 1 AND `sfa_match`.`sports`='$sport' ORDER BY `sfa_round`.`order` asc")->result();
         // print_r($round);
         // $round = $this->db->query("SELECT `id`, `sports`, `sportcategory`, `year`, `agegroup`, `level` as `roundname`, `root` FROM `sfa_round` WHERE 1")->result();
         $tempround = array();
 // print_r($round);
-        foreach($round as $rou)
+        foreach($rounds as $rou)
         {
             $rou->match=$this->db->query("SELECT `id`,`id` AS 'winner', `sports`, `sportscategory`, `agegroup`, `timestamp`, `status`, `resulttimestamp`, `matchresult`, `name`, `starttime`, `endtime`, `gender`, `matchdate`, `round` FROM `sfa_match` WHERE `round`=$rou->id AND `sports`='$sport' AND `sportscategory`='$sportscategory' AND `sfa_match`.`gender`='$gender' AND `sfa_match`.`agegroup`='$agegroup'")->result();
 // print_r($rou->match);
@@ -670,13 +654,34 @@ else if($match->player[1]->result == 1)
                         //print_r($match->player);
 
                     }
+
+              //$matchpush = $rou->match;
                 array_push($tempround,$rou);
             }
-
            }
+//            $base = array();
+// foreach($tempround[0] as $round1)
+// {
+//   echo $round1->winner;
+// array_push($base , $round1->winner);
+// }
+// // print_r($base);
+//
+// uasort($tempround[1], function($key1, $key2) use ($base) {
+//   $a1=array_search($key1, $base);
+//   $a2=array_search($key2, $base);
+// echo $key1;
+//   if ( $a1===false && $a2===false ) { return 0; }
+//   else if ( $a1===false && $a2 !== false) { return 1; }
+//   else if ( $a1!==false && $a2 === false) {return -1;}
+//
+//   if( $a1 > $a2 ) { return 1; }
+//   else if ( $a1 < $a2 ) { return -1; }
+//   else if ( $a1 == $a2 ) { return 0; }
+// });
+// var_dump($tempround[0]);
 
-
-            return $tempround;
+          return $tempround ;
 	}
     public function getDraw($sport,$sportscategory,$gender,$agegroup)
     {
