@@ -606,11 +606,28 @@ return  1;
 
   public function draw()
   {
-  $query = $this->db->query("SELECT `draw`.`id`, `draw`.`match_order`, `draw`.`sport`, `draw`.`sportcategory`, `draw`.`agegroup`, `draw`.`gender`,(SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`=substr(`draw`.`winner`,6, 6)) AS 'winner' , `draw`.`round`, `draw`.`score`, `draw`.`status`,
+
+$query = $this->db->query("SELECT `draw`.`id`, `draw`.`match_order`, `draw`.`sport`, `draw`.`sportcategory`, `draw`.`agegroup`, `draw`.`gender`,substr(`draw`.`winner`,6, 6) As 'winnerid',substr(`draw`.`player1`,6, 6) AS 'player1id',substr(`draw`.`player2`,6, 6) AS 'player2id', (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`=substr(`draw`.`winner`,6, 6)) AS 'winnername', `draw`.`round`, `draw`.`score`, `draw`.`status`,
 (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`= substr(`draw`.`player1`,6, 6)) AS 'player1',
 (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`= substr(`draw`.`player2`,6, 6)) AS 'player2'
 FROM `draw` WHERE 1 ORDER BY `match_order`")->result();
-  return $query;
+
+foreach($query as $match)
+{
+if(!empty($match->winnerid))
+{
+$match->winnerschool = $this->db->query("SELECT `sfa_school`.`name` AS 'winnerschool' FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` WHERE `sfa_student`.`id`=$match->winnerid")->row()->winnerschool;
+}
+if(!empty($match->player1id))
+{
+  $match->player1school = $this->db->query("SELECT `sfa_school`.`name` AS 'player1school' FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` WHERE `sfa_student`.`id`=$match->player1id")->row()->player1school;
+}
+if(!empty($match->player2id))
+{
+  $match->player2school = $this->db->query("SELECT `sfa_school`.`name` AS 'player2school' FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` WHERE `sfa_student`.`id`=$match->player2id")->row()->player2school;
+}
+}
+return $query;
 }
 
     public function getDrawold($sport,$sportscategory,$gender,$agegroup)
