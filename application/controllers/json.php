@@ -2030,6 +2030,16 @@ $this->load->view("json",$data);
         $this->load->view("json",$data);
  }
 
+ public function getdropdowns()
+ {
+ 	$sport=$this->input->get_post("sport");
+	 $sportscategory=$this->input->get_post("sportscategory");
+	 $gender=$this->input->get_post("gender");
+	 $agegroup=$this->input->get_post("agegroup");
+	 $data['message']=$this->restapi_model->getdropdowns($sport,$sportscategory,$gender,$agegroup);
+	 $this->load->view("json",$data);
+ }
+
  public function drawtest()
  {
 	 $data['message']=$this->restapi_model->drawtest();

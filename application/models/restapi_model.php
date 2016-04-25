@@ -604,6 +604,27 @@ return  1;
 		return $query;
 	}
 
+  public function getdropdowns($sport,$sportscategory,$gender,$agegroup)
+  {
+    $where = "WHERE 1 ";
+    if($sport != "") {
+      $where.=" AND `sport` = '$sport'" ;
+    }
+
+  if($sportscategory != "") {
+    $where.=" AND `sportcategory` = '$sportscategory'" ;
+  }
+  if($gender != "") {
+    $where.=" AND `gender` = '$gender'" ;
+  }
+  if($agegroup != "") {
+    $where.=" AND `agegroup` = '$agegroup'" ;
+  }
+
+$query = $this->db->query("SELECT DISTINCT `sport`, `sportcategory`, `agegroup`, `gender` FROM `draw` $where")->result();
+return $query;
+  }
+
   public function draw($sport,$sportscategory,$gender,$agegroup)
   {
 $query = $this->db->query("SELECT `draw`.`id`, `draw`.`match_order`, `draw`.`sport`, `draw`.`sportcategory`, `draw`.`agegroup`, `draw`.`gender`,substr(`draw`.`winner`,6, 6) As 'winnerid',substr(`draw`.`player1`,6, 6) AS 'player1id',substr(`draw`.`player2`,6, 6) AS 'player2id', (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`=substr(`draw`.`winner`,6, 6)) AS 'winnername', `draw`.`round`, `draw`.`score`, `draw`.`status`,
