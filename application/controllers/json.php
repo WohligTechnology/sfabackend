@@ -2022,10 +2022,10 @@ $this->load->view("json",$data);
  }
  public function getDraw()
  {
-        // $sport=$this->input->get_post("sport");
-        // $sportscategory=$this->input->get_post("sportscategory");
-        // $gender=$this->input->get_post("gender");
-        // $agegroup=$this->input->get_post("agegroup");
+        $sport=$this->input->get_post("sport");
+        $sportscategory=$this->input->get_post("sportscategory");
+        $gender=$this->input->get_post("gender");
+        $agegroup=$this->input->get_post("agegroup");
         $data['message']=$this->restapi_model->draw($sport,$sportscategory,$gender,$agegroup);
         $this->load->view("json",$data);
  }

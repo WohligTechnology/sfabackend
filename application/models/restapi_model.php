@@ -604,13 +604,12 @@ return  1;
 		return $query;
 	}
 
-  public function draw()
+  public function draw($sport,$sportscategory,$gender,$agegroup)
   {
-
 $query = $this->db->query("SELECT `draw`.`id`, `draw`.`match_order`, `draw`.`sport`, `draw`.`sportcategory`, `draw`.`agegroup`, `draw`.`gender`,substr(`draw`.`winner`,6, 6) As 'winnerid',substr(`draw`.`player1`,6, 6) AS 'player1id',substr(`draw`.`player2`,6, 6) AS 'player2id', (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`=substr(`draw`.`winner`,6, 6)) AS 'winnername', `draw`.`round`, `draw`.`score`, `draw`.`status`,
 (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`= substr(`draw`.`player1`,6, 6)) AS 'player1',
 (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`= substr(`draw`.`player2`,6, 6)) AS 'player2'
-FROM `draw` WHERE 1 ORDER BY `match_order`")->result();
+FROM `draw` WHERE `sport`='$sport' AND `sportcategory`='$sportscategory' AND `agegroup`='$agegroup' AND `gender`='$gender' ORDER BY `match_order`")->result();
 
 foreach($query as $match)
 {
