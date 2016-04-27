@@ -1340,6 +1340,21 @@ $this->load->view("json",$data);
         $this->load->view("json",$data);
     }
 
+		public function preregistration()
+    {
+ $data = json_decode(file_get_contents('php://input'), true);
+		$type=$data['type'];
+		$name=$data['name'];
+		$school=$data['school'];
+		$dob=$data['dob'];
+		$email=$data['email'];
+		$contact=$data['contact'];
+		$sports=$data['sports'];
+		// print_r($data);
+		$data['message']=$this->restapi_model->preregistration($type,$name,$school,$dob,$email,$contact,$sports);
+		$this->load->view("json",$data);
+	}
+
     public function getsponsors()
     {
 	$elements=array();

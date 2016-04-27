@@ -39,6 +39,23 @@ public function getbannersliders()
             return 1;
         }
     }
+
+
+    public function preregistration($type,$name,$school,$dob,$email,$contact,$sports)
+    {
+      $query=$this->db->query("INSERT INTO `preregistration`(`type`, `name`, `school`, `dob`, `email`, `contact`, `sports`) VALUES ('$type','$name','$school','$dob','$email','$contact','$sports')");
+      $obj = new stdClass();
+      if(!empty($query))
+      {
+          $obj->value = true;
+      }
+      else
+      {
+          $obj->value = false;
+      }
+      return $obj;
+    }
+
     public function getnewsletter($email){
      $query=$this->db->query("INSERT INTO `newsletter`(`email`) VALUES ('$email')");
         $id=$this->db->insert_id();
