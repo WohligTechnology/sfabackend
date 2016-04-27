@@ -6091,6 +6091,94 @@ public function deletestudent1()
 }
 
 
+function viewpreregistration()
+{
+$access = array("1");
+$this->checkaccess($access);
+$data['page']='viewpreregistration';
+		$data['base_url'] = site_url("site/viewpreregistrationjson");
+
+$data['title']='View Preregistration';
+$this->load->view('template',$data);
+}
+function viewpreregistrationjson()
+{
+$access = array("1");
+$this->checkaccess($access);
+
+
+		$elements=array();
+		$elements[0]=new stdClass();
+		$elements[0]->field="`preregistration`.`id`";
+		$elements[0]->sort="1";
+		$elements[0]->header="ID";
+		$elements[0]->alias="id";
+
+
+		$elements[1]=new stdClass();
+		$elements[1]->field="`preregistration`.`type`";
+		$elements[1]->sort="1";
+		$elements[1]->header="Type";
+		$elements[1]->alias="type";
+
+		$elements[2]=new stdClass();
+		$elements[2]->field="`preregistration`.`name`";
+		$elements[2]->sort="1";
+		$elements[2]->header="Name";
+		$elements[2]->alias="name";
+
+		$elements[3]=new stdClass();
+		$elements[3]->field="`preregistration`.`school`";
+		$elements[3]->sort="1";
+		$elements[3]->header="School";
+		$elements[3]->alias="school";
+
+		$elements[4]=new stdClass();
+		$elements[4]->field="`preregistration`.`dob`";
+		$elements[4]->sort="1";
+		$elements[4]->header="DOB";
+		$elements[4]->alias="dob";
+
+		$elements[5]=new stdClass();
+		$elements[5]->field="`preregistration`.`email`";
+		$elements[5]->sort="1";
+		$elements[5]->header="Email";
+		$elements[5]->alias="email";
+
+		$elements[6]=new stdClass();
+		$elements[6]->field="`preregistration`.`contact`";
+		$elements[6]->sort="1";
+		$elements[6]->header="Contact";
+		$elements[6]->alias="contact";
+
+		$elements[7]=new stdClass();
+		$elements[7]->field="`preregistration`.`sports`";
+		$elements[7]->sort="1";
+		$elements[7]->header="Sports";
+		$elements[7]->alias="sports";
+
+
+		$search=$this->input->get_post("search");
+		$pageno=$this->input->get_post("pageno");
+		$orderby=$this->input->get_post("orderby");
+		$orderorder=$this->input->get_post("orderorder");
+		$maxrow=$this->input->get_post("maxrow");
+		if($maxrow=="")
+		{
+				$maxrow=20;
+		}
+
+		if($orderby=="")
+		{
+				$orderby="id";
+				$orderorder="ASC";
+		}
+
+		$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `preregistration`");
+
+$this->load->view("json",$data);
+}
+
 
 }
 ?>
