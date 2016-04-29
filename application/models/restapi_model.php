@@ -43,6 +43,8 @@ public function getbannersliders()
 
     public function preregistration($type,$name,$school,$dob,$email,$contact,$sports)
     {
+      if(!empty(email))
+      {
       $query=$this->db->query("INSERT INTO `preregistration`(`type`, `name`, `school`, `dob`, `email`, `contact`, `sports`) VALUES ('$type','$name','$school','$dob','$email','$contact','$sports')");
       $obj = new stdClass();
       if(!empty($query))
@@ -54,6 +56,7 @@ public function getbannersliders()
           $obj->value = false;
       }
       return $obj;
+      }
     }
 
     public function getnewsletter($email){
@@ -642,8 +645,12 @@ $query = $this->db->query("SELECT DISTINCT `sport`, `sportcategory`, `agegroup`,
 return $query;
   }
 
+
   public function draw($sport,$sportscategory,$gender,$agegroup)
   {
+
+    $where = " WHERE 1";
+
 $query = $this->db->query("SELECT `draw`.`id`, `draw`.`match_order`, `draw`.`sport`, `draw`.`sportcategory`, `draw`.`agegroup`, `draw`.`gender`,substr(`draw`.`winner`,6, 6) As 'winnerid',substr(`draw`.`player1`,6, 6) AS 'player1id',substr(`draw`.`player2`,6, 6) AS 'player2id', (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`=substr(`draw`.`winner`,6, 6)) AS 'winnername', `draw`.`round`, `draw`.`score`, `draw`.`status`,
 (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`= substr(`draw`.`player1`,6, 6)) AS 'player1',
 (SELECT `sfa_student`.`name` FROM `sfa_student` WHERE `sfa_student`.`id`= substr(`draw`.`player2`,6, 6)) AS 'player2'
@@ -651,17 +658,30 @@ FROM `draw` WHERE `sport`='$sport' AND `sportcategory`='$sportscategory' AND `ag
 
 foreach($query as $match)
 {
+  if($sport == "basketball")
+  {
+    $where1 = " AND `sfa_teamstudents`.`team`=$match->winnerid";
+    $where2 = " AND `sfa_teamstudents`.`team`=$match->player1id";
+    $where3 = " AND `sfa_teamstudents`.`team`=$match->player2id";
+  }
+  else
+  {
+    $where1 = " AND `sfa_student`.`id`=$match->winnerid";
+    $where2 = " AND `sfa_student`.`id`=$match->player1id";
+    $where3 = " AND `sfa_student`.`id`=$match->player2id";
+  }
 if(!empty($match->winnerid))
 {
-$match->winnerschool = $this->db->query("SELECT `sfa_school`.`name` AS 'winnerschool' FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` WHERE `sfa_student`.`id`=$match->winnerid")->row()->winnerschool;
+$match->winnerschool = $this->db->query("SELECT `sfa_school`.`name` AS 'winnerschool' FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`student` = `sfa_student`.`id` $where $where1")->row()->winnerschool;
 }
 if(!empty($match->player1id))
 {
-  $match->player1school = $this->db->query("SELECT `sfa_school`.`name` AS 'player1school' FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` WHERE `sfa_student`.`id`=$match->player1id")->row()->player1school;
+
+  $match->player1school = $this->db->query("SELECT `sfa_school`.`name` AS 'player1school' FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`student` = `sfa_student`.`id` $where $where2")->row()->player1school;
 }
 if(!empty($match->player2id))
 {
-  $match->player2school = $this->db->query("SELECT `sfa_school`.`name` AS 'player2school' FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` WHERE `sfa_student`.`id`=$match->player2id")->row()->player2school;
+  $match->player2school = $this->db->query("SELECT `sfa_school`.`name` AS 'player2school' FROM `sfa_student` LEFT OUTER JOIN `sfa_school` ON `sfa_student`.`school` = `sfa_school`.`id` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`student` = `sfa_student`.`id` $where $where3")->row()->player2school;
 }
 }
 return $query;
