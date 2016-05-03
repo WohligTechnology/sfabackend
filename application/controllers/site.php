@@ -3868,6 +3868,78 @@ function viewmatchjson()
 	$this->load->view("json",$data);
 }
 
+public function viewdraw()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="viewdraw";
+	$data["base_url"]=site_url("site/viewdrawjson");
+	$data["title"]="View Draw";
+	$this->load->view("template",$data);
+}
+function viewdrawjson()
+{
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`draw`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+	$elements[1]=new stdClass();
+	$elements[1]->field="`draw`.`sport`";
+	$elements[1]->sort="1";
+	$elements[1]->header="sport";
+	$elements[1]->alias="sport";
+	$elements[2]=new stdClass();
+	$elements[2]->field="`draw`.`sportcategory`";
+	$elements[2]->sort="1";
+	$elements[2]->header="sportcategory";
+	$elements[2]->alias="sportcategory";
+	$elements[3]=new stdClass();
+	$elements[3]->field="`draw`.`agegroup`";
+	$elements[3]->sort="1";
+	$elements[3]->header="agegroup";
+	$elements[3]->alias="agegroup";
+	$elements[4]=new stdClass();
+	$elements[4]->field="`draw`.`gender`";
+	$elements[4]->sort="1";
+	$elements[4]->header="gender";
+	$elements[4]->alias="gender";
+	$elements[5]=new stdClass();
+	$elements[5]->field="`draw`.`winner`";
+	$elements[5]->sort="1";
+	$elements[5]->header="winner";
+	$elements[5]->alias="winner";
+	$elements[6]=new stdClass();
+	$elements[6]->field="`draw`.`round`";
+	$elements[6]->sort="1";
+	$elements[6]->header="round";
+	$elements[6]->alias="round";
+	// $elements[7]=new stdClass();
+	// $elements[7]->field="`draw`.`winner`";
+	// $elements[7]->sort="1";
+	// $elements[7]->header="ID";
+	// $elements[7]->alias="id";
+
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+			if($maxrow=="")
+		{
+			$maxrow=20;
+		}
+			if($orderby=="")
+		{
+			$orderby="id";
+			$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `draw`");
+	$this->load->view("json",$data);
+}
+
+
 public function creatematch()
 {
 	$access=array("1");
@@ -5628,6 +5700,45 @@ public function getSportCategoryBySport() {
 		$data['alertsuccess']="match Uploaded Successfully.";
 
         $data['redirect']="site/viewmatch";
+        $this->load->view("redirect",$data);
+    }
+
+
+
+		function uploaddrawcsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data[ 'page' ] = 'uploaddraw';
+		$data[ 'title' ] = 'Upload Draw';
+		$this->load->view( 'template', $data );
+	}
+    function uploaddrawcsvsubmit()
+	{
+		$access = array("1");
+$this->checkaccess($access);
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = '*';
+		$this->load->library('upload', $config);
+		$filename="file";
+		$file="";
+		if (  $this->upload->do_upload($filename))
+		{
+				$uploaddata = $this->upload->data();
+				$file=$uploaddata['file_name'];
+				$filepath=$uploaddata['file_path'];
+		}
+		$fullfilepath=$filepath."".$file;
+		$file = $this->csvreader->parse_file($fullfilepath);
+        $id1=$this->match_model->createbycsvdraw($file);
+//        echo $id1;
+
+        if($id1==0)
+        $data['alerterror']="New match could not be Uploaded.";
+		else
+		$data['alertsuccess']="match Uploaded Successfully.";
+
+        $data['redirect']="site/viewdraw";
         $this->load->view("redirect",$data);
     }
     function uploadvideocsvsubmit()

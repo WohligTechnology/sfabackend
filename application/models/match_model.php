@@ -76,6 +76,51 @@ return $query;
 
 		return $match;
 	}
+
+
+  public function createbycsvdraw($file)
+ {
+
+     foreach ($file as $row)
+     {
+
+          // print_r($row);
+         $match_order=trim($row['match_order']);
+         $sport=trim($row['sport']);
+         $sportcategory=trim($row['sportcategory']);
+         $agegroup=trim($row['agegroup']);
+         $gender=trim($row['gender']);
+         $winner=trim($row['winner']);
+         $round=trim($row['round']);
+         $score=trim($row['score']);
+         $player1=trim($row['player1']);
+         $player2=trim($row['player2']);
+         $status=trim($row['status']);
+         $link=trim($row['link']);
+
+
+ $data  = array(
+   'match_order' => $match_order,
+   'sport' => $sport,
+   'sportcategory' => $sportcategory,
+   'agegroup' => $agegroup,
+   'gender' => $gender,
+   'winner' => $winner,
+   'round' => $round,
+   'score' => $score,
+   'player1' => $player1,
+   'player2' => $player2,
+   'status' => $status,
+   'link' => $link,
+
+ );
+ $query=$this->db->insert( 'draw', $data );
+ $id=$this->db->insert_id();
+ }
+ 	return  1;
+ }
+
+
      public function createbycsv($file)
 	{
         foreach ($file as $row)
@@ -211,7 +256,7 @@ return $query;
                 {
                           ////////////////////////////// it is a TEAM
 
-                        
+
                     $team=explode(",",$team);
                     $getid= substr($team[0], 5, 6);
                     $getid=intval($getid);
