@@ -43,7 +43,7 @@ public function getbannersliders()
 
     public function preregistration($type,$name,$school,$dob,$email,$contact,$sports)
     {
-      if(!empty(email))
+      if(!empty($email))
       {
       $query=$this->db->query("INSERT INTO `preregistration`(`type`, `name`, `school`, `dob`, `email`, `contact`, `sports`) VALUES ('$type','$name','$school','$dob','$email','$contact','$sports')");
       $obj = new stdClass();
