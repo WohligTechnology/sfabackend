@@ -23,8 +23,8 @@ match Details
 <th data-field="gender">gender</th>
 <th data-field="winner">winner</th>
 <th data-field="round">round</th>
-
-<th data-field="action">Action</th>
+<!--
+<th data-field="action">Action</th> -->
 
 <!--
 <th data-field="resulttimestamp">Result timestamp</th>
@@ -40,7 +40,7 @@ match Details
 </section>
 <script>
 function drawtable(resultrow) {
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.sport + "</td><td>" + resultrow.sportcategory + "</td><td>" + resultrow.agegroup + "</td><td>" + resultrow.gender + "</td><td>" + resultrow.round + "</td><td>" + resultrow.winner + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editmatch?id=');?>"+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' onclick=\"return confirm('Are you sure you want to delete?');\" href='<?php echo site_url('site/deletematch?id='); ?>"+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.sport + "</td><td>" + resultrow.sportcategory + "</td><td>" + resultrow.agegroup + "</td><td>" + resultrow.gender + "</td><td>" + resultrow.round + "</td><td>" + resultrow.winner + "</td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>
