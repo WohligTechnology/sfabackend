@@ -23,6 +23,8 @@ match Details
 <th data-field="gender">gender</th>
 <th data-field="winner">winner</th>
 <th data-field="round">round</th>
+<th data-field="player1">player1</th>
+<th data-field="player2">player2</th>
 <!--
 <th data-field="action">Action</th> -->
 
@@ -40,7 +42,7 @@ match Details
 </section>
 <script>
 function drawtable(resultrow) {
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.sport + "</td><td>" + resultrow.sportcategory + "</td><td>" + resultrow.agegroup + "</td><td>" + resultrow.gender + "</td><td>" + resultrow.round + "</td><td>" + resultrow.winner + "</td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.sport + "</td><td>" + resultrow.sportcategory + "</td><td>" + resultrow.agegroup + "</td><td>" + resultrow.gender + "</td><td>" + resultrow.round + "</td><td>" + resultrow.winner + "</td><td>" + resultrow.player1 + "</td><td>" + resultrow.player2 + "</td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

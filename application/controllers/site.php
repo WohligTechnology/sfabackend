@@ -3915,6 +3915,16 @@ function viewdrawjson()
 	$elements[6]->sort="1";
 	$elements[6]->header="round";
 	$elements[6]->alias="round";
+	$elements[7]=new stdClass();
+	$elements[7]->field="`draw`.`player1`";
+	$elements[7]->sort="1";
+	$elements[7]->header="player1";
+	$elements[7]->alias="player1";
+	$elements[8]=new stdClass();
+	$elements[8]->field="`draw`.`player2`";
+	$elements[8]->sort="1";
+	$elements[8]->header="player2";
+	$elements[8]->alias="player2";
 	// $elements[7]=new stdClass();
 	// $elements[7]->field="`draw`.`winner`";
 	// $elements[7]->sort="1";
