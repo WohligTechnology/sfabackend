@@ -658,7 +658,7 @@ FROM `draw` WHERE `sport`='$sport' AND `sportcategory`='$sportscategory' AND `ag
 
 foreach($query as $match)
 {
-  if($sport == "basketball")
+  if($sport == "basketball" OR $sport == "volleyball" OR $sport == "handball" )
   {
     $where1 = " AND `sfa_teamstudents`.`team`=$match->winnerid";
     $where2 = " AND `sfa_teamstudents`.`team`=$match->player1id";
