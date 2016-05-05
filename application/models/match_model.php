@@ -27,7 +27,7 @@ return $query;
     function exportschedulecsv()
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `sfa_match`.`id` as `matchid`,`sfa_sports`.`name` as `sports`, `sfa_sportscategory`.`title` as `sportscategory`, `sfa_agegroups`.`name` as `agegroup`, `sfa_match`.`timestamp`, `sfa_match`.`matchresult`, `sfa_match`.`name` as `courtname`, `sfa_match`.`starttime`, `sfa_match`.`endtime`, `gender`.`name` as `gender`, `sfa_match`.`matchdate`, `sfa_round`.`level` as `round`,`sfa_matchplayed`.`medal`,GROUP_CONCAT(`sfa_team`.`title`) as `No of Teams`,GROUP_CONCAT(`sfa_student`.`name`) as `No of Students` FROM `sfa_match`
+		$query=$this->db->query("SELECT `sfa_match`.`id` as `matchid`,`sfa_sports`.`name` as `sports`, `sfa_sportscategory`.`title` as `sportscategory`, `sfa_agegroups`.`name` as `agegroup`, `sfa_match`.`timestamp`, `sfa_match`.`matchresult`, `sfa_match`.`name` as `courtname`, `sfa_match`.`starttime`, `sfa_match`.`endtime`, `gender`.`name` as `gender`, `sfa_match`.`matchdate`, `sfa_round`.`level` as `round`,`sfa_matchplayed`.`medal`,GROUP_CONCAT(`sfa_team`.`title`) as `No of Teams`,GROUP_CONCAT(`sfa_student`.`name`) as `No of Students` , `sfa_match`.`url` as 'url', `sfa_match`.`images` as 'images' FROM `sfa_match`
 LEFT OUTER JOIN `sfa_sports` ON `sfa_sports`.`id`=`sfa_match`.`sports`
 LEFT OUTER JOIN `sfa_sportscategory` ON `sfa_sportscategory`.`id`=`sfa_match`.`sportscategory`
 LEFT OUTER JOIN `sfa_agegroups` ON `sfa_agegroups`.`id`=`sfa_match`.`agegroup`
@@ -125,7 +125,7 @@ return $query;
 	{
         foreach ($file as $row)
         {
-            //  print_r($row);
+            print_r($row);
             $matchdate=trim($row['matchdate']);
             $court=trim($row['court']);
             $round=trim($row['round']);
@@ -139,6 +139,8 @@ return $query;
             $won=trim($row['won']);
             $lost=trim($row['lost']);
             $team1=trim($row['team1']);
+            $url=trim($row['url']);
+            $images=$row['images'];
              $last_key = key( array_slice( $row, -1, 1, TRUE ) );
             //  print_r($last_key);
             //  echo "<br/>";
@@ -173,10 +175,13 @@ return $query;
 			'endtime' => $endtime,
 			'sports' => $sportsid,
 			'sportscategory' => $sportscategoryid,
+			'url' => $url,
+			'images' => $images,
 			'status' => 1
 		);
+    print_r($data);
 		$query=$this->db->insert( 'sfa_match', $data );
-		$id=$this->db->insert_id();
+    $id=$this->db->insert_id();
 
           $query5=$this->db->query("SELECT `id` FROM `sfa_round` WHERE `level` LIKE '$round'")->row();
             $roundid=$query5->id;
