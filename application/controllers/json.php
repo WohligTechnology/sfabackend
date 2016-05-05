@@ -1438,6 +1438,15 @@ $data["message"]=$this->restapi_model->getschoolgallery($schoolid,$studentid,$ye
 $this->load->view("json",$data);
  }
 
+ public function getschoolimagegallery(){
+ 		$schoolid=$this->input->get_post("schoolid");
+ 		$studentid=$this->input->get_post("studentid");
+ 	 $year=$this->input->get_post("year");
+ 	 $agegroup=$this->input->get_post("agegroup");
+ 	 $sportscategory=$this->input->get_post("sportscategory");
+ $data["message"]=$this->restapi_model->getschoolimagegallery($schoolid,$studentid,$year,$agegroup,$sportscategory);
+ $this->load->view("json",$data);
+ }
  public function getStatistics(){
 	 $schoolid=$this->input->get_post("schoolid");
 	 $studentid=$this->input->get_post("studentid");

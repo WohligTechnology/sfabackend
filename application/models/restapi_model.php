@@ -226,9 +226,6 @@ INNER JOIN `sfa_sports` ON `sfa_sports`.`id` = `sfa_studentsport`.`sport`  $wher
 
 	public function getschoolgallery($schoolid,$studentid,$year,$agegroup,$sportscategory){
     	$where = "WHERE 1";
-
-
-
     if($year != "") {
       $where.=" AND year(`sfa_match`.`matchdate`) IN ($year) " ;
     }
@@ -250,6 +247,32 @@ if($studentid != "") {
   $where.=" AND `sfa_student`.`id` = $studentid" ;
   $query=$this->db->query("SELECT DISTINCT `sfa_match`.`url` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student` $where")->result();
 }
+    return $query;
+  }
+
+  public function getschoolimagegallery($schoolid,$studentid,$year,$agegroup,$sportscategory){
+      $where = "WHERE 1";
+    if($year != "") {
+      $where.=" AND year(`sfa_match`.`matchdate`) IN ($year) " ;
+    }
+
+    if($agegroup != "") {
+      $where.=" AND `sfa_match`.`agegroup` IN ($agegroup)" ;
+    }
+
+    if($sportscategory != "") {
+      $where.=" AND `sfa_match`.`sports` = $sportscategory" ;
+    }
+
+  if($schoolid != "") {
+  $where.=" AND `sfa_school`.`id` = $schoolid" ;
+  $query=$this->db->query("SELECT DISTINCT `sfa_match`.`images` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match` LEFT OUTER JOIN `sfa_teamstudents` ON `sfa_teamstudents`.`team` = `sfa_matchplayed`.`team` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_teamstudents`.`student` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`sfa_student`.`school` $where")->result();
+  }
+
+  if($studentid != "") {
+  $where.=" AND `sfa_student`.`id` = $studentid" ;
+  $query=$this->db->query("SELECT DISTINCT `sfa_match`.`images` FROM `sfa_match` LEFT OUTER JOIN `sfa_matchplayed` ON  `sfa_match`.`id` = `sfa_matchplayed`.`match`  LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id` = `sfa_matchplayed`.`student` $where")->result();
+  }
     return $query;
   }
 

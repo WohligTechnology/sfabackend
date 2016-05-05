@@ -1,12 +1,12 @@
 <div class="row" style="padding:1% 0">
 <div class="col-md-12">
-<a class="btn btn-primary pull-right"  href="<?php echo site_url("site/creatematch"); ?>"><i class="icon-plus"></i>Create </a> &nbsp; 
+<a class="btn btn-primary pull-right"  href="<?php echo site_url("site/creatematch"); ?>"><i class="icon-plus"></i>Create </a> &nbsp;
 </div>
     <div class="col-md-2">
-		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadmatchcsv'); ?>"><i class="icon-trash"></i>Upload CSV</a> &nbsp; 
+		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadmatchcsv'); ?>"><i class="icon-trash"></i>Upload CSV</a> &nbsp;
 	</div>
 	<div class="col-md-2">
-		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadvideocsv'); ?>"><i class="icon-trash"></i>Upload Video CSV</a> &nbsp; 
+		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadvideocsv'); ?>"><i class="icon-trash"></i>Upload Video CSV</a> &nbsp;
 	</div>
 	    <div><a class="btn btn-primary" href="<?php echo site_url('site/exportschedulecsv'); ?>"target="_blank"><i class="icon-plus"></i>Export to CSV </a></div>
 </div>
