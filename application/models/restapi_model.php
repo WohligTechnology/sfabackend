@@ -837,6 +837,40 @@ else if($match->player[1]->result == 1)
         return $query;
         }
 
+        public function getMedalsTally($schoolid,$sport,$gender,$agegroup)
+        {
+        $where = "where 1";
+        if($sport != "") {
+          $sportname = $this->db->query("SELECT * FROM `sfa_sports` WHERE `id`=$sport")->row();
+          if($sportname->name == "table tennis")
+          {
+              $where.=" AND `sport` = 'tabletennis'" ;
+          }
+          else {
+            $where.=" AND `sport` = '$sportname->name'" ;
+          }
+        }
+        if($gender != "") {
+          if($gender== 1)
+          {
+            $where.=" AND `gender` = 'male'" ;
+          }
+          else  {
+              $where.=" AND `gender` = 'female'" ;
+          }
+
+        }
+        if($agegroup != "") {
+          $agegroupname = $this->db->query("SELECT * FROM `sfa_agegroups` WHERE `id`=$agegroup")->row();
+          $where.=" AND `agegroup` = '$agegroupname->name'" ;
+        }
+        if($schoolid != "") {
+          $where.=" AND `schoolid` = '$schoolid'" ;
+        }
+        $query = $this->db->query("SELECT * FROM `medalstally` $where")->result();
+        return $query;
+        }
+
 
     public function getSwimmingDraw($sportscategory,$gender,$agegroup,$sports)
     {
