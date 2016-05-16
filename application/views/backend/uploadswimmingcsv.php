@@ -10,14 +10,14 @@
     <div class="col-lg-12">
         <section class="panel">
             <header class="panel-heading">
-                Upload Match CSV
+                Upload Swimming CSV
             </header>
             <div class="panel-body">
-                <form class="form-horizontal tasi-form" method="post" action="<?php echo site_url('site/uploadmatchcsvsubmit');?>" enctype="multipart/form-data">
+                <form class="form-horizontal tasi-form" method="post" action="<?php echo site_url('site/uploadswimmingcsvsubmit');?>" enctype="multipart/form-data">
 
 
                     <div class=" form-group">
-                        <label class="col-sm-2 control-label" for="normal-field">Match CSV File</label>
+                        <label class="col-sm-2 control-label" for="normal-field">Swimming Match CSV File</label>
                         <div class="col-sm-4">
                             <input type="file" id="normal-field" class="form-control" name="file">
                         </div>

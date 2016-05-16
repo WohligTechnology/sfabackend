@@ -41,11 +41,11 @@ public function getbannersliders()
     }
 
 
-    public function preregistration($type,$name,$school,$dob,$email,$contact,$sports)
+    public function preregistration($type,$name,$school,$address,$dob,$email,$contact,$sports)
     {
       if(!empty($email))
       {
-      $query=$this->db->query("INSERT INTO `preregistration`(`type`, `name`, `school`, `dob`, `email`, `contact`, `sports`) VALUES ('$type','$name','$school','$dob','$email','$contact','$sports')");
+      $query=$this->db->query("INSERT INTO `preregistration`(`type`, `name`, `school`,`address`,`dob`, `email`, `contact`, `sports`) VALUES ('$type','$name','$school','$address','$dob','$email','$contact','$sports')");
       $obj = new stdClass();
       if(!empty($query))
       {
@@ -833,7 +833,7 @@ else if($match->player[1]->result == 1)
           $where.=" AND `swimming`.`student` = '$studentid'" ;
         }
 
-        $query = $this->db->query("SELECT `swimming`.`id`, `swimming`.`lane`, `sfa_student`.`name` AS 'Student Name', `sfa_school`.`name` AS 'School Name', `swimming`.`position`, `swimming`.`heat`, `swimming`.`timing`, `swimming`.`agegroup`, `swimming`.`gender` FROM `swimming` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`swimming`.`school` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`swimming`.`student` $where")->result();
+        $query = $this->db->query("SELECT `swimming`.`id`, `swimming`.`year`, `swimming`.`lane`, `sfa_student`.`name` AS 'studentname', `sfa_school`.`name` AS 'schoolname', `swimming`.`position`, `swimming`.`heat`, `swimming`.`timing`, `swimming`.`agegroup`, `swimming`.`gender`,`swimming`.`category`,`swimming`.`link` FROM `swimming` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`swimming`.`school` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`swimming`.`student` $where")->result();
         return $query;
         }
 

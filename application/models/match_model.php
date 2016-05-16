@@ -121,6 +121,42 @@ return $query;
  }
 
 
+ public function createbycsvswimming($file)
+{
+    foreach ($file as $row)
+    {
+         // print_r($row);
+        $year=trim($row['year']);
+        $lane=trim($row['lane']);
+        $category=trim($row['category']);
+        $student=trim($row['student']);
+        $school=trim($row['school']);
+        $position=trim($row['position']);
+        $heat=trim($row['heat']);
+        $timing=trim($row['timing']);
+        $agegroup=trim($row['agegroup']);
+        $gender=trim($row['gender']);
+        $link=trim($row['link']);
+
+$data  = array(
+  'year' => $year,
+  'lane' => $lane,
+  'category' => $category,
+  'student' => $student,
+  'school' => $school,
+  'position' => $position,
+  'heat' => $heat,
+  'timing' => $timing,
+  'agegroup' => $agegroup,
+  'gender' => $gender,
+  'link' => $link,
+);
+$query=$this->db->insert( 'swimming', $data );
+$id=$this->db->insert_id();
+}
+ return  1;
+}
+
      public function createbycsv($file)
 	{
         foreach ($file as $row)

@@ -1346,6 +1346,7 @@ $this->load->view("json",$data);
 		$type=$data['type'];
 		$name=$data['name'];
 		$school=$data['school'];
+		$address=$data['address'];
 		$dob=$data['dob'];
 		$email=$data['email'];
 		$contact=$data['contact'];
@@ -1356,7 +1357,7 @@ $this->load->view("json",$data);
 			$this->restapi_model->getnewsletter($email);
 		}
 		// print_r($data);
-		$data['message']=$this->restapi_model->preregistration($type,$name,$school,$dob,$email,$contact,$sports);
+		$data['message']=$this->restapi_model->preregistration($type,$name,$school,$address,$dob,$email,$contact,$sports);
 		$this->load->view("json",$data);
 	}
 
