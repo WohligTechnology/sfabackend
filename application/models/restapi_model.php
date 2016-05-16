@@ -816,6 +816,27 @@ else if($match->player[1]->result == 1)
           return $tempround;
         }
 
+        public function getSwimmingMatch($schoolid,$studentid,$agegroup,$gender)
+        {
+        $where = "where 1";
+        if($gender != "") {
+          $where.=" AND `swimming`.`gender` = '$gender'" ;
+        }
+        if($agegroup != "") {
+          $agegroupname = $this->db->query("SELECT * FROM `sfa_agegroups` WHERE `id`=$agegroup")->row();
+          $where.=" AND `swimming`.`agegroup` = '$agegroupname->name'" ;
+        }
+        if($schoolid != "") {
+          $where.=" AND `swimming`.`school` = '$schoolid'" ;
+        }
+        if($studentid != "") {
+          $where.=" AND `swimming`.`student` = '$studentid'" ;
+        }
+
+        $query = $this->db->query("SELECT `swimming`.`id`, `swimming`.`lane`, `sfa_student`.`name` AS 'Student Name', `sfa_school`.`name` AS 'School Name', `swimming`.`position`, `swimming`.`heat`, `swimming`.`timing`, `swimming`.`agegroup`, `swimming`.`gender` FROM `swimming` LEFT OUTER JOIN `sfa_school` ON `sfa_school`.`id`=`swimming`.`school` LEFT OUTER JOIN `sfa_student` ON `sfa_student`.`id`=`swimming`.`student` $where")->result();
+        return $query;
+        }
+
 
     public function getSwimmingDraw($sportscategory,$gender,$agegroup,$sports)
     {

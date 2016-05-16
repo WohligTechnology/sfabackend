@@ -139,6 +139,8 @@ return $query;
             $won=trim($row['won']);
             $lost=trim($row['lost']);
             $team1=trim($row['team1']);
+            $url=trim($row['url']);
+            $images=trim($row['images']);
              $last_key = key( array_slice( $row, -1, 1, TRUE ) );
             //  print_r($last_key);
             //  echo "<br/>";
@@ -172,6 +174,8 @@ return $query;
 			'starttime' => $starttime,
 			'endtime' => $endtime,
 			'sports' => $sportsid,
+			'url' => $url,
+			'images' => $images,
 			'sportscategory' => $sportscategoryid,
 			'status' => 1
 		);

@@ -2083,6 +2083,15 @@ $this->load->view("json",$data);
         $data['message']=$this->restapi_model->getSwimmingDraw($sportscategory,$gender,$agegroup,$sports);
         $this->load->view("json",$data);
  }
+ public function getSwimmingMatch()
+ {
+        $schoolid=$this->input->get_post("schoolid");
+        $studentid=$this->input->get_post("studentid");
+        $gender=$this->input->get_post("gender");
+        $agegroup=$this->input->get_post("agegroup");
+        $data['message']=$this->restapi_model->getSwimmingMatch($schoolid,$studentid,$agegroup,$gender);
+        $this->load->view("json",$data);
+ }
 public function getScore()
 {
         $sport=$this->input->get_post("sport");
