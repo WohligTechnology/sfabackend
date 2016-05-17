@@ -1,7 +1,7 @@
 <div class=" row" style="padding:1% 0;">
 
     <div class="col-md-3">
-        <a class="btn btn-default" href="<?php echo base_url('uploads/newexcelformatch.csv'); ?>"><i class="icon-download"></i>&nbsp;Download CSV Format</a> &nbsp;
+        <a class="btn btn-default" href="<?php echo site_url('site/exportswimmingcsv'); ?>" target="_blank"><i class="icon-download"></i>&nbsp;Download CSV Format</a> &nbsp;
     </div>
 
     <div class="col-md-9">
@@ -14,7 +14,7 @@ function myFunction() {
     var x;
     if (confirm("Are you sure you want to delete?") == true) {
         location.href="<?php echo site_url('site/deleteswimmingdata'); ?>";
-    } 
+    }
 }
 </script>
 </div>

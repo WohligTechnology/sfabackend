@@ -24,6 +24,47 @@ $this->db->where("id",$id);
 $query=$this->db->get("sfa_match")->row();
 return $query;
 }
+
+function exportswimmingcsv()
+{
+$this->load->dbutil();
+$query=$this->db->query("SELECT `year`, `lane`, `category`, `student`, `school`, `position`, `heat`, `timing`, `agegroup`, `gender`, `link` FROM `swimming`");
+
+   $content= $this->dbutil->csv_from_result($query);
+    //$data = 'Some file data';
+$timestamp=new DateTime();
+    $timestamp=$timestamp->format('Y-m-d_H.i.s');
+    if ( ! write_file("./uploads/swimmingfile_$timestamp.csv", $content))
+    {
+         echo 'Unable to write the file';
+    }
+    else
+    {
+        redirect(base_url("uploads/swimmingfile_$timestamp.csv"), 'refresh');
+         echo 'File written!';
+    }
+}
+function exportmedalstallycsv()
+{
+$this->load->dbutil();
+$query=$this->db->query("SELECT `year`, `schoolid`, `sport`, `sportcategory`, `agegroup`, `gender`, `gold`, `silver`, `bronze` FROM `medalstally`");
+
+   $content= $this->dbutil->csv_from_result($query);
+    //$data = 'Some file data';
+$timestamp=new DateTime();
+    $timestamp=$timestamp->format('Y-m-d_H.i.s');
+    if ( ! write_file("./uploads/medalstallyfile_$timestamp.csv", $content))
+    {
+         echo 'Unable to write the file';
+    }
+    else
+    {
+        redirect(base_url("uploads/medalstallyfile_$timestamp.csv"), 'refresh');
+         echo 'File written!';
+    }
+}
+
+
     function exportschedulecsv()
 	{
 		$this->load->dbutil();

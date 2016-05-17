@@ -894,6 +894,11 @@ public function deleteswimmingdata()
   $query = $this->db->query("TRUNCATE TABLE `swimming`");
   return $query;
 }
+public function deletemedalstallydata()
+{
+  $query = $this->db->query("TRUNCATE TABLE `medalstally`");
+  return $query;
+}
 
 }
 ?>

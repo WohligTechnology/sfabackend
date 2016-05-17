@@ -5787,7 +5787,14 @@ $this->checkaccess($access);
         $data['redirect']="site/viewmatch";
         $this->load->view("redirect",$data);
     }
-
+		public function exportswimmingcsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->match_model->exportswimmingcsv();
+		$data['redirect']="site/viewmatch";
+		$this->load->view("redirect",$data);
+	}
 		function deleteswimmingdata()
 		{
 			$this->restapi_model->deleteswimmingdata();
@@ -5834,6 +5841,24 @@ $this->checkaccess($access);
         $data['redirect']="site/viewmatch";
         $this->load->view("redirect",$data);
     }
+
+		public function exportmedalstallycsv()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->match_model->exportmedalstallycsv();
+		$data['redirect']="site/viewmatch";
+		$this->load->view("redirect",$data);
+	}
+		function deletemedalstallydata()
+		{
+			$this->restapi_model->deletemedalstallydata();
+			$data['alertsuccess']="Medals Tally Data Deleted Successfully.";
+			$data["redirect"]="site/viewmatch";
+			$this->load->view("redirect",$data);
+		}
+
+
     function uploadvideocsvsubmit()
 	{
         $access = array("1");
