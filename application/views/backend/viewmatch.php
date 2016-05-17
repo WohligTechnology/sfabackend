@@ -9,8 +9,11 @@
 		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadswimmingcsv'); ?>"><i class="icon-plus"></i>Upload Swimming CSV</a> &nbsp;
 	</div>
 	<div class="col-md-2">
-		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadvideocsv'); ?>"><i class="icon-plus"></i>Upload Video CSV</a> &nbsp;
+		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadmedalstallycsv'); ?>"><i class="icon-plus"></i>Upload Medals CSV</a> &nbsp;
 	</div>
+	<!-- <div class="col-md-2">
+		<a class="btn btn-secondary"  href="<?php echo site_url('site/uploadvideocsv'); ?>"><i class="icon-plus"></i>Upload Video CSV</a> &nbsp;
+	</div> -->
 	    <div><a class="btn btn-primary" href="<?php echo site_url('site/exportschedulecsv'); ?>"target="_blank"><i class="icon-plus"></i>Export to CSV </a></div>
 </div>
 <div class="row">

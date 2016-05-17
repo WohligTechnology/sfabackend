@@ -156,6 +156,37 @@ $id=$this->db->insert_id();
 }
  return  1;
 }
+ public function createbycsvmedalstally($file)
+{
+    foreach ($file as $row)
+    {
+         // print_r($row);
+        $year=trim($row['year']);
+        $schoolid=trim($row['schoolid']);
+        $sport=trim($row['sport']);
+        $sportcategory=trim($row['sportcategory']);
+        $agegroup=trim($row['agegroup']);
+        $gender=trim($row['gender']);
+        $gold=trim($row['gold']);
+        $silver=trim($row['silver']);
+        $bronze=trim($row['bronze']);
+
+$data  = array(
+  'year' => $year,
+  'schoolid' => $schoolid,
+  'sport' => $sport,
+  'sportcategory' => $sportcategory,
+  'agegroup' => $agegroup,
+  'gender' => $gender,
+  'gold' => $gold,
+  'silver' => $silver,
+  'bronze' => $bronze
+);
+$query=$this->db->insert( 'medalstally', $data );
+$id=$this->db->insert_id();
+}
+ return  1;
+}
 
      public function createbycsv($file)
 	{
