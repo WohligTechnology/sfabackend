@@ -1,11 +1,23 @@
-<!-- <div class=" row" style="padding:1% 0;">
-    <div class="col-md-9">
-        <div class=" pull-right col-md-1 createbtn"><a href="<?php echo site_url('site/viewmatch'); ?>" class="btn btn-primary pull-right"><i class="icon-long-arrow-left"></i>&nbsp;Back</a> </div>
-    </div>
+<div class=" row" style="padding:1% 0;">
+
     <div class="col-md-3">
-        <a class="btn btn-default" href="<?php echo base_url('uploads/newexcelformatch.csv'); ?>"><i class="icon-upload"></i>Download CSV Format</a> &nbsp;
+        <a class="btn btn-default" href="<?php echo base_url('uploads/newexcelformatch.csv'); ?>"><i class="icon-download"></i>&nbsp;Download CSV Format</a> &nbsp;
     </div>
-</div> -->
+
+    <div class="col-md-9">
+        <div class=" pull-right col-md-1 createbtn"><a onclick="myFunction()" class="btn btn-primary pull-right"><i class="icon-trash"></i>&nbsp;Delete Swimming Data</a> </div>
+
+    </div>
+
+    <script>
+function myFunction() {
+    var x;
+    if (confirm("Are you sure you want to delete?") == true) {
+        location.href="<?php echo site_url('site/deleteswimmingdata'); ?>";
+    } 
+}
+</script>
+</div>
 <div class="row">
     <div class="col-lg-12">
         <section class="panel">

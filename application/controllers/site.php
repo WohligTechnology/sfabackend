@@ -5787,6 +5787,16 @@ $this->checkaccess($access);
         $data['redirect']="site/viewmatch";
         $this->load->view("redirect",$data);
     }
+
+		function deleteswimmingdata()
+		{
+			$this->restapi_model->deleteswimmingdata();
+			$data['alertsuccess']="Swimming Data Deleted Successfully.";
+			$data["redirect"]="site/viewmatch";
+			$this->load->view("redirect",$data);
+		}
+
+
 		function uploadmedalstallycsv()
 	{
 		$access = array("1");
@@ -5795,6 +5805,7 @@ $this->checkaccess($access);
 		$data[ 'title' ] = 'Upload Medals Tally';
 		$this->load->view( 'template', $data );
 	}
+
     function uploadmedalstallycsvsubmit()
 	{
 		$access = array("1");

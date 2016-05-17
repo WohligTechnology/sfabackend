@@ -889,6 +889,11 @@ else if($match->player[1]->result == 1)
         return $round;
 	}
 
+public function deleteswimmingdata()
+{
+  $query = $this->db->query("TRUNCATE TABLE `swimming`");
+  return $query;
+}
 
 }
 ?>
