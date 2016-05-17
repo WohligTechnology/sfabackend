@@ -11,6 +11,7 @@
                         <th data-field="id">Id</th>
                         <th data-field="type">Type</th>
                         <th data-field="name">Name</th>
+                        <th data-field="address">address</th>
                         <th data-field="school">School</th>
                         <th data-field="dob">DOB</th>
                         <th data-field="email">Email</th>
@@ -29,7 +30,7 @@
 		<script>
             function drawtable(resultrow) {
 
-                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.type + "</td><td>" + resultrow.name + "</td><td>" + resultrow.school + "</td><td>" + resultrow.dob + "</td><td>" + resultrow.email + "</td><td>" + resultrow.contact + "</td><td>" + resultrow.sports + "</td><tr>";
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.type + "</td><td>" + resultrow.name + "</td><td>" + resultrow.address + "</td><td>" + resultrow.school + "</td><td>" + resultrow.dob + "</td><td>" + resultrow.email + "</td><td>" + resultrow.contact + "</td><td>" + resultrow.sports + "</td><tr>";
             }
             generatejquery('<?php echo $base_url;?>');
         </script>

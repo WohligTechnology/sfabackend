@@ -6385,6 +6385,11 @@ $this->checkaccess($access);
 		$elements[7]->sort="1";
 		$elements[7]->header="Sports";
 		$elements[7]->alias="sports";
+		$elements[8]=new stdClass();
+		$elements[8]->field="`preregistration`.`address`";
+		$elements[8]->sort="1";
+		$elements[8]->header="address";
+		$elements[8]->alias="address";
 
 
 		$search=$this->input->get_post("search");
