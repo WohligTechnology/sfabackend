@@ -6151,6 +6151,7 @@ public function createstudentsubmit1()
 			$phone=$this->input->get_post("phone");
 			$emergencycontact=$this->input->get_post("emergencycontact");
 			$dob=$this->input->get_post("dob");
+			$isverified=$this->input->get_post("isverified");
 				$config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
 						$this->load->library('upload', $config);
@@ -6185,7 +6186,7 @@ public function createstudentsubmit1()
 							}
 
 						}
-			if($this->student_model->create($name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)==0)
+			if($this->student_model->create($name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob,$isverified)==0)
 			$data["alerterror"]="New student could not be created.";
 			else
 			$data["alertsuccess"]="student created Successfully.";
@@ -6261,6 +6262,8 @@ public function editstudentsubmit1()
 			$phone=$this->input->get_post("phone");
 			$emergencycontact=$this->input->get_post("emergencycontact");
 			$dob=$this->input->get_post("dob");
+			$isverified=$this->input->get_post("isverified");
+
 				 $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
 						$this->load->library('upload', $config);
@@ -6302,7 +6305,7 @@ public function editstudentsubmit1()
 						   // print_r($image);
 							$image=$image->image;
 						}
-			if($this->student_model->edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob)==0)
+			if($this->student_model->edit($id,$name,$school,$email,$image,$location,$address,$content,$sports,$sportscategory,$agegroup,$gender,$isparticipant,$age,$phone,$emergencycontact,$dob,$isverified)==0)
 			$data["alerterror"]="New student could not be Updated.";
 			else
 			$data["alertsuccess"]="student Updated Successfully.";
