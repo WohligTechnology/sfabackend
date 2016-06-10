@@ -13,7 +13,7 @@ public function create($match,$type,$order,$team,$student,$result,$medal,$round,
     $getothersportid=$getothersport->sports;
     if($swimmingid==$getothersportid){
         echo "in swim";
-        $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"medal" => $medal,"round" => $round,"reason" => $totalmilliseconds,"timeformat" => $propertimeformat);
+        $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"medal" => $medal,"round" => $round,"reason" => $reason,"timeformat" => $propertimeformat);
 $query=$this->db->insert( "sfa_matchplayed", $data );
 $id=$this->db->insert_id();
     }
@@ -44,7 +44,7 @@ public function edit($id,$match,$type,$order,$team,$student,$result,$medal,$roun
 {
     $totalmilliseconds=$minute*60000 +$second*1000 +$millisecond*1;
     $propertimeformat=$minute.":".$second.":".$millisecond;
-    $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"medal" => $medal,"round" => $round,"reason" => $totalmilliseconds,"timeformat" => $propertimeformat);
+    $data=array("match" => $match,"type" => $type,"order" => $order,"team" => $team,"student" => $student,"result" => $result,"medal" => $medal,"round" => $round,"reason" => $reason,"timeformat" => $propertimeformat);
     $this->db->where( "id", $id );
     $query=$this->db->update( "sfa_matchplayed", $data );
 
