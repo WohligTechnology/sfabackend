@@ -28,7 +28,7 @@ return $query;
 function exportswimmingcsv()
 {
 $this->load->dbutil();
-$query=$this->db->query("SELECT `year`, `lane`, `category`, `student`, `school`, `position`, `heat`, `timing`, `agegroup`, `gender`, `link` FROM `swimming`");
+$query=$this->db->query("SELECT `id` AS 'matchid',`year`, `lane`, `category`, `student`, `school`, `position`, `heat`, `timing`, `agegroup`, `gender`, `link` FROM `swimming`");
 
    $content= $this->dbutil->csv_from_result($query);
     //$data = 'Some file data';
